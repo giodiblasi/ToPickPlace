@@ -1,0 +1,56 @@
+@page "/conf"
+@using api.Pages
+@model ConfigurationModel
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Genetic Algorithm Configuration</h1>
+<form method="post">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    <label for="PopulationSize">Population Size</label>
+                </td>
+                <td>
+                    <input type="number" name="PopulationSize" value="@Model.configuration.PopulationSize">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="EliteSize">Elite Size</label>
+                </td>
+                <td>
+                    <input type="number" name="EliteSize" value="@Model.configuration.EliteSize">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="MaxGenerations">Max Generations</label>
+                </td>
+                <td>
+                    <input type="number" name="MaxGenerations" value="@Model.configuration.MaxGenerations">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="MutationProbability">Mutation Probability</label>
+                </td>
+                <td>
+                    <input type="number" name="MutationProbability" value="@Model.configuration.MutationProbability">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="SolutionPrecision">Solution Precision</label>
+                </td>
+                <td>
+                    <input type="number" name="SolutionPrecision" value="@Model.configuration.SolutionPrecision">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type = "submit" value="Set">
+</form>
