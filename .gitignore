@@ -59,3 +59,10 @@ typings/
 
 # next.js build output
 .next
+
+#.net files
+bin/
+obj/
+
+#Mac Files
+.DS_Store
