@@ -1,0 +1,4 @@
+# use latest image of Mongo
+#mount ../store volume as folder for data
+
+docker run -p 27017:27017 -v $PWD/../store:/data/db mongo 
