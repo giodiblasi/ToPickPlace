@@ -34,5 +34,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+
+		<dependency>
+            <groupId>seatassigner</groupId>
+            <artifactId>seatassignercore</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+		
 	</dependencies>
 </project>
