@@ -1,6 +1,9 @@
 #database data
 store/
 
+#private info
+keys/
+
 # Logs
 logs
 *.log
