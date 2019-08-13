@@ -14,7 +14,11 @@ public class ContainerConfiguration {
 
     @Bean
     public IRepository<Event> firestoreEventRepo() throws IOException {
-        return new FireStoreRepository<>("http://localhost:8888/", "Events", Event.class);
+        return new FireStoreRepository<>(
+            "http://localhost:8080/",
+            System.getenv("FIRESTORE_KEY_PATH"),
+            "Events",
+            Event.class);
     }
  
    

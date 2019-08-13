@@ -1,6 +1,8 @@
 package topickplace.infrastructure.repositories;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +17,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
+
 import org.springframework.scheduling.annotation.Async;
 
 import io.vavr.control.Either;
@@ -27,12 +30,14 @@ public  class  FireStoreRepository<T> implements IRepository<T>{
     CollectionReference collection;
 
     public FireStoreRepository(String connString,
-                       String collectionName,
-                       Class<T> typeClass) throws IOException{
-        
+                            String credentialPath, 
+                            String collectionName,
+                            Class<T> typeClass) throws IOException{
+        System.out.println("-----PATH----- "+credentialPath);
+                        
         this.typeClass = typeClass;
-        
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault();
+        InputStream serviceAccount = new FileInputStream(credentialPath);
+        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
             .setCredentials(credentials)
             .setDatabaseUrl(connString)
