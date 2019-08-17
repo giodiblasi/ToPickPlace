@@ -2,8 +2,6 @@ package topickplace.webapi.controllers;
 
 import java.util.concurrent.Future;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -44,7 +42,7 @@ public class EventController{
     }
 
     @Async()
-    @RequestMapping(value="/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Future<Event> GetEvent(@PathVariable("id") String id){
         return getEvent
             .Execute(id)
