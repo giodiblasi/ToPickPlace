@@ -2,9 +2,11 @@ package topickplace.infrastructure.firebase;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -18,9 +20,9 @@ import topickplace.infrastructure.repositories.IRepository;
 public class FirestoreRepoConverter<T> implements IRepository<T>{
     
     private static final String ID_FIELD_NAME = "id";
-    private FireStoreRepository innerRepo;
-    private Class<T> classType;
-    Supplier<Class<? extends Map>> mapClassType;
+    private final FireStoreRepository innerRepo;
+    private final Class<T> classType;
+    private final Supplier<Class<? extends Map>> mapClassType;
 
     private Supplier<Class<? extends Map>> mapClassGenerator(){
         Map<String,Object> instanceForClass = new HashMap<String,Object>();
@@ -33,6 +35,39 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         mapClassType = mapClassGenerator();
     }
 
+    @Override
+    public CompletableFuture<Either<String, T>> Save(T data) {
+        return innerRepo
+            .Save(ToDAO(data))
+            .thenApply(result->result.map(dao->FromDAO(dao)));
+    }
+
+    @Override
+	public CompletableFuture<Either<String, T>> GetById(String id) {
+        return innerRepo
+        .GetById(id)
+        .thenApply(result->result.map(dao->FromDAO(dao)));
+    }
+    
+    @Override
+	public CompletableFuture<Either<String, String>> RemoveById(String id) {
+        return innerRepo.RemoveById(id);
+    }
+    
+    @Override
+	public CompletableFuture<Either<String, List<T>>> GetAll(String... fields) {
+        return innerRepo
+        .GetAll(fields)
+        .thenApply(result-> result.map(items->FromDAO(items)));
+    }
+
+    @Override
+	public CompletableFuture<Either<String, List<T>>> GetAll() {
+        return innerRepo
+        .GetAll()
+        .thenApply(result-> result.map(items->FromDAO(items)));
+    }
+    
     private  Map<String,Object> ToDAO(T data){
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> docMap = mapper.convertValue(data, mapClassType.get());
@@ -49,17 +84,11 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         return data;
     }
 
-    @Override
-    public CompletableFuture<Either<String, T>> Save(T data) {
-        return innerRepo
-            .Save(ToDAO(data))
-            .thenApply(result->result.map(dao->FromDAO(dao)));
+    private List<T> FromDAO(List<DocumentSnapshot> documents){
+        return documents
+            .stream()
+            .map(item->FromDAO(item))
+            .collect(Collectors.toList());
     }
 
-    @Override
-	public CompletableFuture<Either<String, T>> GetById(String id) {
-        return innerRepo
-        .GetById(id)
-        .thenApply(result->result.map(dao->FromDAO(dao)));
-	}
 }

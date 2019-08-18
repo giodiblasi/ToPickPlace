@@ -1,5 +1,6 @@
 package topickplace.webapi.controllers;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import topickplace.core.models.Event;
+import topickplace.core.models.EventSummary;
 import topickplace.core.services.event.CreateEvent;
 import topickplace.core.services.event.GetEvent;
 
@@ -49,5 +51,25 @@ public class EventController{
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
+    }
+
+    @Async()
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    public Future<Event> RemoveEvent(@PathVariable("id") String id){
+        return getEvent
+            .Execute(id)
+            .thenApply(
+                result->result.getOrElseThrow(
+                    message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
+    }
+
+    @Async()
+    @RequestMapping(value="/summary", method = RequestMethod.GET)
+    public Future<List<EventSummary>> GetSummary(){
+        return getEvent
+            .GetSummary()
+            .thenApply(
+                result->result.getOrElseThrow(
+                    message->new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, message)));
     }
 }
