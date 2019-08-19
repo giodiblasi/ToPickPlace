@@ -6,21 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
-import topickplace.core.models.Event;
 import topickplace.core.repositories.IEventRepository;
 
 @Service
-public class CreateEvent {
+public class RemoveEvent {
+    
     @Autowired
     private final IEventRepository eventRepository;
 
-    public CreateEvent(IEventRepository eventRepository){
+    public RemoveEvent(IEventRepository eventRepository){
         this.eventRepository = eventRepository;
     }
-    public CompletableFuture<Either<String,Event>> Execute(String eventName){
-        Event event = new Event();
-        event.setName(eventName);
-        return eventRepository.CreateEvent(event);
+    
+    public CompletableFuture<Either<String,String>> Execute(String id){
+         return eventRepository.RemoveEvent(id);
     }
 
 }
