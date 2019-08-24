@@ -1,6 +1,6 @@
+
 package topickplace.core.services.topic;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +11,16 @@ import topickplace.core.models.Topic;
 import topickplace.core.repositories.ITopicRepository;
 
 @Service
-public class GetTopic {
+public class CreateTopic {
     @Autowired
     private final ITopicRepository topicRepository;
 
-    public GetTopic(ITopicRepository topicRepository){
+    public CreateTopic(ITopicRepository topicRepository){
         this.topicRepository = topicRepository;
     }
     
-    public CompletableFuture<List<Topic>> GetAll(String eventId){
+    public CompletableFuture<Either<String,Topic>> Create(String eventId, Topic topic){
         return topicRepository
-        .GetTopics(eventId);
-    };
-
-    public CompletableFuture<Either<String,Topic>> GetTopicById(String eventId, String topicId){
-        return topicRepository
-        .GetTopic(eventId, topicId);
+        .CreateTopic(eventId, topic);
     };
 }
