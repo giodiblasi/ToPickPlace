@@ -1,4 +1,4 @@
-package topickplace.infrastructure.repositories;
+package topickplace.infrastructure.firebase;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

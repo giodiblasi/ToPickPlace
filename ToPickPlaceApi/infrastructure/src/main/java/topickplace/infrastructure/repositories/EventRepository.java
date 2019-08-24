@@ -12,6 +12,7 @@ import io.vavr.control.Either;
 import topickplace.core.models.Event;
 import topickplace.core.repositories.IEventRepository;
 import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
+import topickplace.infrastructure.firebase.IRepository;
 
 @Service
 public class EventRepository implements IEventRepository{

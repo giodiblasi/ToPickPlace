@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.DocumentSnapshot;
 
 import io.vavr.control.Either;
-import topickplace.infrastructure.repositories.IRepository;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class FirestoreRepoConverter<T> implements IRepository<T>{

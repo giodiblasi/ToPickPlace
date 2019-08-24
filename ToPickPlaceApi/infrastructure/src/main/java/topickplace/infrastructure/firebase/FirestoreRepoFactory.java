@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import topickplace.infrastructure.repositories.IRepository;
-
 @Component
 @Scope("prototype")
 public class FirestoreRepoFactory implements IFirestoreRepoFactory{

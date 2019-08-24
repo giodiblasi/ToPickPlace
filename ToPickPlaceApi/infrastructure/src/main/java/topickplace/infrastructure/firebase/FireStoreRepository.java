@@ -18,8 +18,7 @@ import io.vavr.control.Either;
 import topickplace.infrastructure.firebase.Firebase;
 
 public  class  FireStoreRepository{
-    
-    
+
     CollectionReference collection;
     
     public FireStoreRepository(Firebase firebase, 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import topickplace.core.models.Topic;
 import topickplace.core.repositories.ITopicRepository;
 import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
+import topickplace.infrastructure.firebase.IRepository;
 
 @Service
 public class TopicRepository implements ITopicRepository {
