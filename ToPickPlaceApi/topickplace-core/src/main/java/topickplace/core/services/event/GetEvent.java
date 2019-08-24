@@ -21,7 +21,7 @@ public class GetEvent {
         this.eventRepository = eventRepository;
     }
     
-    public CompletableFuture<Either<String,Event>> Execute(String id){
+    public CompletableFuture<Either<String,Event>> GetEventById(String id){
          return eventRepository
          .GetEvent(id);
     }

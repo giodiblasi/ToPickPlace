@@ -47,7 +47,7 @@ public class EventController{
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Future<Event> GetEvent(@PathVariable("id") String id){
         return getEvent
-            .Execute(id)
+            .GetEventById(id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
@@ -57,7 +57,7 @@ public class EventController{
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public Future<Event> RemoveEvent(@PathVariable("id") String id){
         return getEvent
-            .Execute(id)
+            .GetEventById(id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
