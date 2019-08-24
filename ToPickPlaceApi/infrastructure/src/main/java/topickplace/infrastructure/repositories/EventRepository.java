@@ -3,21 +3,27 @@ package topickplace.infrastructure.repositories;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
 import topickplace.core.models.Event;
 import topickplace.core.repositories.IEventRepository;
+import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
 
 @Service
 public class EventRepository implements IEventRepository{
 
     @Autowired
-    private final IRepository<Event> repository;
+    private IFirestoreRepoFactory firestoreRepoFactory;
 
-    public EventRepository(IRepository<Event> repository){
-        this.repository = repository;
+    private IRepository<Event> repository;
+
+    @PostConstruct
+    public void Init(){
+        repository = firestoreRepoFactory.GetRepo(Event.class, "Events"); 
     }
 
     public CompletableFuture<Either<String,Event>> CreateEvent(Event event) {
@@ -39,7 +45,4 @@ public class EventRepository implements IEventRepository{
     public CompletableFuture<Either<String,List<Event>>> GetAll(String... fields) {
         return repository.GetAll(fields);
     }
-
-
-
 }

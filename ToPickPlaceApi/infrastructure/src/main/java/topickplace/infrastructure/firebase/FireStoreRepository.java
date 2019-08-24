@@ -1,4 +1,4 @@
-package topickplace.infrastructure.repositories;
+package topickplace.infrastructure.firebase;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 import org.springframework.scheduling.annotation.Async;
@@ -20,16 +19,17 @@ import topickplace.infrastructure.firebase.Firebase;
 
 public  class  FireStoreRepository{
     
-    private final Firestore db;
+    
     CollectionReference collection;
     
     public FireStoreRepository(Firebase firebase, 
                               String collectionName) throws IOException{
-        
-        db=firebase.GetFirestore();
-        collection = db.collection(collectionName);
+        collection = firebase.GetFirestore().collection(collectionName);
     }
 
+    public FireStoreRepository(CollectionReference collection){
+        this.collection = collection;
+    }
     @Async
     public  CompletableFuture<Either<String,DocumentSnapshot>> Save(Map<String,Object> data){ 
         return CompletableFuture.supplyAsync(() -> {    

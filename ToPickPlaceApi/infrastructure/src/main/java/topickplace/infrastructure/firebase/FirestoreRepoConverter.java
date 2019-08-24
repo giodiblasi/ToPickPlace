@@ -1,6 +1,5 @@
 package topickplace.infrastructure.firebase;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +10,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.DocumentSnapshot;
 
-
 import io.vavr.control.Either;
-import topickplace.infrastructure.repositories.FireStoreRepository;
 import topickplace.infrastructure.repositories.IRepository;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -29,8 +26,8 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         return ()->instanceForClass.getClass();
     }
 
-    public FirestoreRepoConverter(Class<T> classType, Firebase firebase, String collectioName) throws IOException{
-        this.innerRepo = new FireStoreRepository(firebase, collectioName);
+    public FirestoreRepoConverter(Class<T> classType, FireStoreRepository repo){
+        innerRepo = repo;
         this.classType = classType;
         mapClassType = mapClassGenerator();
     }
@@ -68,7 +65,7 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         .thenApply(result-> result.map(items->FromDAO(items)));
     }
     
-    private  Map<String,Object> ToDAO(T data){
+    public  Map<String,Object> ToDAO(T data){
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> docMap = mapper.convertValue(data, mapClassType.get());
 
@@ -76,7 +73,7 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         return docMap;
     }
 
-    private T FromDAO(DocumentSnapshot document){
+    public T FromDAO(DocumentSnapshot document){
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> docMap = document.getData();
         docMap.put(ID_FIELD_NAME, document.getId());
@@ -84,7 +81,7 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
         return data;
     }
 
-    private List<T> FromDAO(List<DocumentSnapshot> documents){
+    public List<T> FromDAO(List<DocumentSnapshot> documents){
         return documents
             .stream()
             .map(item->FromDAO(item))
