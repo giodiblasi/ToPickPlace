@@ -29,6 +29,7 @@ public  class  FireStoreRepository{
     public FireStoreRepository(CollectionReference collection){
         this.collection = collection;
     }
+    
     @Async
     public  CompletableFuture<Either<String,DocumentSnapshot>> Save(Map<String,Object> data){ 
         return CompletableFuture.supplyAsync(() -> {    

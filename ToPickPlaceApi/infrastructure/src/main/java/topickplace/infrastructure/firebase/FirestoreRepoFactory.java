@@ -1,5 +1,7 @@
 package topickplace.infrastructure.firebase;
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import com.google.cloud.firestore.DocumentReference;
@@ -9,15 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import topickplace.core.models.Event;
+import topickplace.core.models.Topic;
+
 @Component
 @Scope("prototype")
 public class FirestoreRepoFactory implements IFirestoreRepoFactory{
     private DocumentReference document;
     private Boolean isSubRepo;
 
-    @Autowired
-    private Firebase firebase;
+    private final Map<Class<?>, String> collectionMap = Map.of(
+        Event.class, "Events",
+        Topic.class, "Topics"
+    );
 
+    @Autowired private Firebase firebase;
     private Firestore firestore;
     
     private FirestoreRepoFactory(Firestore firestore, DocumentReference collectionRef, Boolean isSubRepo){
@@ -26,9 +34,7 @@ public class FirestoreRepoFactory implements IFirestoreRepoFactory{
         this.firestore = firestore;
     }
 
-    public FirestoreRepoFactory(){
-
-    }
+    public FirestoreRepoFactory(){}
 
     @PostConstruct
     public void Init(){
@@ -36,18 +42,18 @@ public class FirestoreRepoFactory implements IFirestoreRepoFactory{
         this.isSubRepo = false;
     }
 
-
-    public  FirestoreRepoFactory FromDocument(String collection, String documentId){
+    public  FirestoreRepoFactory FromDocument(Class<?> classType, String documentId){
+        var collection = collectionMap.get(classType);
         var doc = isSubRepo
             ? document.collection(collection).document(documentId)
             : firestore.collection(collection).document(documentId);
-    
         return new FirestoreRepoFactory(this.firestore, doc, true);
     }
 
 
 
-    public <T> IRepository<T> GetRepo(Class<T> classType, String collection){
+    public <T> IRepository<T> GetRepo(Class<T> classType){
+        var collection = collectionMap.get(classType);
         var repo = isSubRepo
             ? new FireStoreRepository(document.collection(collection))
             : new FireStoreRepository(firestore.collection(collection));
