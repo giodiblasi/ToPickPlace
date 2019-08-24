@@ -24,7 +24,7 @@ public class EventRepository implements IEventRepository{
 
     @PostConstruct
     public void Init(){
-        repository = firestoreRepoFactory.GetRepo(Event.class, "Events"); 
+        repository = firestoreRepoFactory.GetRepo(Event.class); 
     }
 
     public CompletableFuture<Either<String,Event>> CreateEvent(Event event) {

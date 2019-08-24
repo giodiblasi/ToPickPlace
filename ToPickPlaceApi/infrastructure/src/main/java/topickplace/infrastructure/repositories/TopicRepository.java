@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
+import topickplace.core.models.Event;
 import topickplace.core.models.Topic;
 import topickplace.core.repositories.ITopicRepository;
 import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
@@ -21,7 +22,9 @@ public class TopicRepository implements ITopicRepository {
 
     @Override
     public CompletableFuture<List<Topic>> GetTopics(String eventID) {
-        return GetRepo(eventID).GetAll().thenApply(result -> result.getOrElse(new LinkedList<Topic>()));
+        return GetRepo(eventID)
+                .GetAll()
+                .thenApply(result -> result.getOrElse(new LinkedList<Topic>()));
     }
 
     @Override
@@ -40,7 +43,8 @@ public class TopicRepository implements ITopicRepository {
     }
 
     private IRepository<Topic> GetRepo(String eventId) {
-        return repoFactory.FromDocument("Events", eventId).GetRepo(Topic.class, "Topics");
+        return repoFactory
+            .FromDocument(Event.class, eventId)
+            .GetRepo(Topic.class);
     }
-
 }
