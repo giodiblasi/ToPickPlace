@@ -16,22 +16,23 @@ import topickplace.core.models.Event;
 import topickplace.core.models.EventSummary;
 import topickplace.core.services.event.CreateEvent;
 import topickplace.core.services.event.GetEvent;
+import topickplace.core.services.event.RemoveEvent;
 
 @RestController
 @RequestMapping("/event")
 public class EventController{
     
-    @Autowired
-    private final CreateEvent createEvent;
+    @Autowired private final CreateEvent createEvent;
+    @Autowired private final GetEvent getEvent;
+    @Autowired private final RemoveEvent removeEvent;
 
-    @Autowired
-    private final GetEvent getEvent;
 
-    public EventController(
-            CreateEvent createEvent,
-            GetEvent getEvent){
+    public EventController(CreateEvent createEvent,
+                            GetEvent getEvent,
+                            RemoveEvent removeEvent) {
         this.createEvent = createEvent;
         this.getEvent = getEvent;
+        this.removeEvent = removeEvent;
     }
 
     @Async()
@@ -55,9 +56,9 @@ public class EventController{
 
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public Future<Event> RemoveEvent(@PathVariable("id") String id){
-        return getEvent
-            .GetEventById(id)
+    public Future<String> RemoveEvent(@PathVariable("id") String id){
+        return removeEvent
+            .Execute(id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
