@@ -10,3 +10,9 @@ The user should be able to:
 2. register attendees
 3. select the topics in which they are interested
 4. obtain the best seat assignment topic-based to increase the communication between attendees.
+
+## Project Components
+The project is consists of three main components
+- [ ] ToPickPlaceGUI: Single Page Application
+- [ ] ToPickPlaceAPI: WebAPI to handle the events
+- [x] ToPickPlace Planner: a service to to assign seats based on a genetic algorithm
