@@ -7,3 +7,18 @@ The service is based on a genetic algorithm.
 ## Technologies
 - C# (dotnet core)
 - Genetic Algorithm
+
+## Tests
+to run tests type:
+```
+> dotnet test
+```
+## Run :running:
+```
+> cd Api/
+> dotnet run
+```
+
+A swagger documention page will be available at http://localhost:5000/swagger
+
+If you prefer run the application using docker, you can build an image using the Dockerfile
