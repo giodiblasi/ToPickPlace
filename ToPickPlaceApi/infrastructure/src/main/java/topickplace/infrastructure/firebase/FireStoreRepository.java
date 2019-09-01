@@ -55,7 +55,7 @@ public  class  FireStoreRepository{
             }
         });
     }
-
+    
     @Async
     public CompletableFuture<Either<String, String>> RemoveById(String id) {
         return CompletableFuture.supplyAsync(() -> {
