@@ -1,13 +1,24 @@
 package topickplace.core.models;
 
-public class Event{
+import java.util.List;
+
+public class Event {
     private String Name;
     private String Id;
     private String Location;
     private String Notes;
+    private List<Attendee> attendees;
 
     public String getName() {
         return Name;
+    }
+
+    public List<Attendee> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(List<Attendee> attendees) {
+        this.attendees = attendees;
     }
 
     public String getLocation() {

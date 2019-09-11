@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import topickplace.core.models.Attendee;
 import topickplace.core.models.Event;
 import topickplace.core.models.Topic;
 
@@ -71,6 +72,19 @@ public class FirestoreRepoIntegrationTests {
         Assert.assertTrue(topic.isRight());
         Assert.assertEquals("topicDesc", topic.get().getDescription());
         Assert.assertEquals("topicId", topic.get().getId());
+    }
+
+    @Test
+    public void GetAttendeeOfSpecifiedEvent() throws InterruptedException, ExecutionException{
+        SetupAttendeeDocument("eventId", "attendeeId", WithExisitingAttendee("attendeeId", "John"));
+        var attendee = firestoreRepoFactory
+            .FromDocument(Event.class, "eventId")
+            .GetRepo(Attendee.class).GetById("attendeeId")
+            .get();
+        
+        Assert.assertTrue(attendee.isRight());
+        Assert.assertEquals("John", attendee.get().getName());
+        Assert.assertEquals("attendeeId", attendee.get().getId());
     }
 
     @Test
@@ -130,6 +144,14 @@ public class FirestoreRepoIntegrationTests {
     private DocumentSnapshot WithExisitingTopic(String id, String description) {
         DocumentSnapshot entry = Mockito.mock(DocumentSnapshot.class);
         when(entry.getData()).thenReturn(new HashMap<String, Object>(Map.of("description", description)));
+        when(entry.getId()).thenReturn(id);
+        when(entry.exists()).thenReturn(true);
+        return entry;
+    }
+
+    private DocumentSnapshot WithExisitingAttendee(String id, String name) {
+        DocumentSnapshot entry = Mockito.mock(DocumentSnapshot.class);
+        when(entry.getData()).thenReturn(new HashMap<String, Object>(Map.of("name", name)));
         when(entry.getId()).thenReturn(id);
         when(entry.exists()).thenReturn(true);
         return entry;
