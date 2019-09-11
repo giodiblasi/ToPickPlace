@@ -33,7 +33,6 @@ public class FirestoreRepoFactory implements IFirestoreRepoFactory{
         this.getCollectionReference = collectionPath->documentRef.collection(collectionPath);
     }
 
-
     public FirestoreRepoFactory(){}
 
     @PostConstruct
