@@ -22,6 +22,7 @@ import topickplace.core.services.event.CreateEvent;
 import topickplace.core.services.event.GetEvent;
 import topickplace.core.services.event.RemoveEvent;
 import topickplace.core.validators.EventValidator;
+import topickplace.core.services.event.UpdateEvent;;
 
 @RestController
 @RequestMapping("/event")
@@ -30,6 +31,7 @@ public class EventController{
     @Autowired private final CreateEvent createEvent;
     @Autowired private final GetEvent getEvent;
     @Autowired private final RemoveEvent removeEvent;
+    @Autowired private final UpdateEvent updateEvent;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -38,10 +40,12 @@ public class EventController{
     
     public EventController(CreateEvent createEvent,
                             GetEvent getEvent,
-                            RemoveEvent removeEvent) {
+                            RemoveEvent removeEvent,
+                            UpdateEvent updateEvent) {
         this.createEvent = createEvent;
         this.getEvent = getEvent;
         this.removeEvent = removeEvent;
+        this.updateEvent=updateEvent;
     }
 
     @Async()
@@ -68,6 +72,16 @@ public class EventController{
     public Future<String> RemoveEvent(@PathVariable("id") String id){
         return removeEvent
             .Execute(id)
+            .thenApply(
+                result->result.getOrElseThrow(
+                    message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
+    }
+
+    @Async()
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    public Future<String> UpdateEvent(@PathVariable("id") String id, Event event){
+        return updateEvent
+            .Execute(id, event)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
