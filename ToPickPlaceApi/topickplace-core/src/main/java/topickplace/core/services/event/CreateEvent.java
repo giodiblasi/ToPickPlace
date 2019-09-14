@@ -17,9 +17,7 @@ public class CreateEvent {
     public CreateEvent(IEventRepository eventRepository){
         this.eventRepository = eventRepository;
     }
-    public CompletableFuture<Either<String,Event>> Execute(String eventName){
-        Event event = new Event();
-        event.setName(eventName);
+    public CompletableFuture<Either<String,Event>> Execute(Event event){
         return eventRepository.CreateEvent(event);
     }
 
