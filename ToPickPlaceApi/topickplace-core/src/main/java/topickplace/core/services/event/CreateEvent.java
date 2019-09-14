@@ -17,13 +17,8 @@ public class CreateEvent {
     public CreateEvent(IEventRepository eventRepository){
         this.eventRepository = eventRepository;
     }
-
     public CompletableFuture<Either<String,Event>> Execute(Event event){
-        return EventValidator
-        .Validate(event)
-        .map(validEvent-> eventRepository.CreateEvent(validEvent))
-        .orElse( -> ""/*Joins messages*/);
-        
+        return eventRepository.CreateEvent(event);
     }
 
 }

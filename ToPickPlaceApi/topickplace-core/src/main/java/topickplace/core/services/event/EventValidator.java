@@ -1,25 +1,27 @@
 package topickplace.core.services.event;
 
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
 
-import io.vavr.control.Either;
 import topickplace.core.models.Event;
 
-public class EventValidator{
-    public static Either<List<String>, Event> Validate(Event event){
-        var eventMap  =event.getEventMap();
-        var messages = eventMap
+public class EventValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return Event.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Event event = (Event) target;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field.required");
+        var eventMap = event.getEventMap();
+        eventMap
             .getAvailableSeats()
             .stream()
-            .filter(seat->seat.getRow() >= eventMap.getHeigth() || 
-                          seat.getColumn() >= eventMap.getWidth())
-            .map(seat-> MessageFormat.format("Not valid position ({0},{1}", seat.getRow(), seat.getColumn()))
-            .collect(Collectors.toList());
-
-        return messages.isEmpty() 
-            ? Either.right(event)
-            : Either.left(messages);
+            .filter(seat -> seat.getRow() >= eventMap.getHeigth() ||
+                        seat.getColumn() >= eventMap.getWidth())
+            .forEach(seat -> errors.rejectValue("eventMap.availableSeats", "not.valid.seat.position"));
     }
 }
