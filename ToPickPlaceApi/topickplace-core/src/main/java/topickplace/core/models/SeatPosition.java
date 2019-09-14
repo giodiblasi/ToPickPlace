@@ -6,6 +6,11 @@ public class SeatPosition{
 
     public SeatPosition(){}
 
+    public SeatPosition(Integer row, Integer column){
+        this.row =row;
+        this.column = column;
+    }
+
     public Integer getRow() {
         return row;
     }

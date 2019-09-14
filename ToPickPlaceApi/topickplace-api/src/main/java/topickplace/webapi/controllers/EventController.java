@@ -19,9 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 import topickplace.core.models.Event;
 import topickplace.core.models.EventSummary;
 import topickplace.core.services.event.CreateEvent;
-import topickplace.core.services.event.EventValidator;
 import topickplace.core.services.event.GetEvent;
 import topickplace.core.services.event.RemoveEvent;
+import topickplace.core.validators.EventValidator;
 
 @RestController
 @RequestMapping("/event")
