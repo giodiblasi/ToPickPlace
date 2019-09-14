@@ -8,9 +8,18 @@ public class Event {
     private String Location;
     private String Notes;
     private List<Attendee> attendees;
+    private EventMap eventMap;
 
     public String getName() {
         return Name;
+    }
+
+    public EventMap getEventMap() {
+        return eventMap;
+    }
+
+    public void setEventMap(EventMap eventMap) {
+        this.eventMap = eventMap;
     }
 
     public List<Attendee> getAttendees() {
