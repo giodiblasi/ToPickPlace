@@ -11,4 +11,5 @@ public interface IRepository<T> {
     CompletableFuture<Either<String, String>> RemoveById(String id);
     CompletableFuture<Either<String, List<T>>> GetAll(String... fields);
     CompletableFuture<Either<String, List<T>>> GetAll();
+    CompletableFuture<Either<String, String>> Update(String id, T data);
 }

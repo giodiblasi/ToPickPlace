@@ -12,5 +12,5 @@ public interface IEventRepository{
     CompletableFuture<Either<String,String>> RemoveEvent(String id);
     CompletableFuture<Either<String,List<Event>>> GetAll();
     CompletableFuture<Either<String,List<Event>>> GetAll(String... fields);
-
+    CompletableFuture<Either<String,String>> UpdateEvent(String id, Event event);
 }

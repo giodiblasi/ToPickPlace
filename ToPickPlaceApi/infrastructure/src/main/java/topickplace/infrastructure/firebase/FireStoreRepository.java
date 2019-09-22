@@ -97,4 +97,16 @@ public  class  FireStoreRepository{
             .collect(Collectors.toList());
     }
 
+    @Async
+    public CompletableFuture<Either<String, String>> Update(String id, Map<String,Object> data) {
+        return CompletableFuture.supplyAsync(() -> {
+            try{
+                collection.document(id).update(data);
+                return Either.right(id);
+            }catch(Exception ex){
+                return Either.left(ex.getMessage());
+            }
+        });
+    }
+
 }

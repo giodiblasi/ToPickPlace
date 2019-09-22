@@ -46,4 +46,9 @@ public class EventRepository implements IEventRepository{
     public CompletableFuture<Either<String,List<Event>>> GetAll(String... fields) {
         return repository.GetAll(fields);
     }
+
+    @Override
+    public CompletableFuture<Either<String, String>> UpdateEvent(String id, Event event) {
+        return repository.Update(id, event);
+    }
 }
