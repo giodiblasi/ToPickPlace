@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.Repositories;
@@ -7,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers
 {
     [Route("api/configuration")]
-    [ApiController]
-    public class ConfigurationController : ControllerBase
+    public class ConfigurationController : Controller
     {
         private IConfigurationRepository configurationRepository;
 
@@ -18,14 +16,16 @@ namespace api.Controllers
 
         [Route("/")]
         [HttpGet]
-        public async Task<ActionResult<Configuration>> GetConfiguration() =>
-                await configurationRepository.GetConfiguration();
+        public async Task<IActionResult> Index(){
+               var configuration = await configurationRepository.GetConfiguration();
+               return View(configuration);
+        }
 
         [Route("/")]
         [HttpPost]
-        public async  Task<ActionResult> SaveConfiguration(Configuration configuration){
+        public async  Task<IActionResult> Index(Configuration configuration){
             await configurationRepository.SaveConfiguration(configuration);
-            return Ok();
+            return await Index();
         }
 
     }

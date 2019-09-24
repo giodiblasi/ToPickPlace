@@ -1,0 +1,2 @@
+export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/../../keys/ToPickPlace.firestore.json
+dotnet run --project ../Api/
