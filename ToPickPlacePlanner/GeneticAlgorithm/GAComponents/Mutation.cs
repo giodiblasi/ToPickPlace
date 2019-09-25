@@ -5,7 +5,7 @@ using System.Linq;
 namespace GeneticAlgorithm.GAComponents{
     public interface IMutator<T>
     {
-        IEnumerable<T[]> Mutate(IEnumerable<T[]> indivudual, decimal mutationProbability);
+        IEnumerable<T[]> Mutate(IEnumerable<T[]> indivudual, double mutationProbability);
     }
 
     public class Mutator<T> : IMutator<T>
@@ -18,7 +18,7 @@ namespace GeneticAlgorithm.GAComponents{
             random = new Random();
         }
         
-        public IEnumerable<T[]> Mutate(IEnumerable<T[]> individuals, decimal mutationProbability)
+        public IEnumerable<T[]> Mutate(IEnumerable<T[]> individuals, double mutationProbability)
         {
             var individualSize = individuals.First().Count();
             var mutated = new List<T[]>(individuals);
@@ -40,7 +40,7 @@ namespace GeneticAlgorithm.GAComponents{
             individual[indexToExchange.Item2] = gene;
         }
 
-        private void DoWithProbabiility(decimal probability, Action onSuccess, Action onFail){
+        private void DoWithProbabiility(double probability, Action onSuccess, Action onFail){
             var value = random.Next(1, 100);
             if(value < probability * 100) onSuccess();
             else onFail();

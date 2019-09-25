@@ -8,9 +8,9 @@ namespace Infrastructure.Repositories{
             return new Configuration(){
                 EliteSize = (int) (long)map["eliteSize"],
                 MaxGenerations = (int) (long)map["maxGenerations"],
-                MutationProbability = (decimal) map["mutationProbability"],
+                MutationProbability = (double)  map["mutationProbability"],
                 PopulationSize = (int) (long)map["populationSize"],
-                SolutionPrecision = (float) (double)map["solutionPrecision"],
+                SolutionPrecision = (double) map["solutionPrecision"],
             };
         }
 

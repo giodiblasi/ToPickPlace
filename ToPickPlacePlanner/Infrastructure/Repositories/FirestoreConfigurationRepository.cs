@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.Repositories;
@@ -28,6 +29,7 @@ namespace Infrastructure.Repositories{
 
         public Task SaveConfiguration(Configuration configuration)
         {
+            Console.WriteLine(configuration.SolutionPrecision);
             return configurations
             .Document("factory")
             .SetAsync(configurationConverter.ToFirestore(configuration));

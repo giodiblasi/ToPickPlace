@@ -14,7 +14,7 @@ namespace GeneticAlgorithm
         private readonly IPopulationCreator<T> populationCreator;
         private int populationSize;
         private int maxGenerations;
-        private decimal mutationProbability;
+        private double mutationProbability;
         private int eliteSize;
         private double solutionPrecision;
         private readonly Func<T[], int> fitnessFunction;
@@ -24,7 +24,7 @@ namespace GeneticAlgorithm
             ICrossOver<T> crossOver,
             IPopulationCreator<T> populationCreator,
             int populationSize,
-            decimal mutationProbability,
+            double mutationProbability,
             int maxGenerations,
             int eliteSize,
             double solutionPrecision,

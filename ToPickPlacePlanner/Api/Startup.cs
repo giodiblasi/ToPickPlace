@@ -26,7 +26,7 @@ namespace api
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument();
             services.AddSingleton<IFindSolution, FindSolution>();
-            services.AddSingleton<IConfigurationRepository, InMemoryConfigurationRepository>();
+            services.AddSingleton<IConfigurationRepository, FirestoreConfigurationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
