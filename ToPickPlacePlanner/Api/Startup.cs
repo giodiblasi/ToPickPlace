@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using System.Globalization;
+using Domain.Repositories;
 using Domain.UseCases;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +22,10 @@ namespace api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options=>{
+                 options.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument();
             services.AddSingleton<IFindSolution, FindSolution>();
             services.AddSingleton<IConfigurationRepository, InMemoryConfigurationRepository>();
@@ -41,9 +45,17 @@ namespace api
                 app.UseHttpsRedirection();
             }
 
+            SetupCulture();
+
             app.UseOpenApi();
             app.UseSwaggerUi3();
             app.UseMvc();
+        }
+
+        private void SetupCulture(){
+            var cultureInfo = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
         }
     }
 }

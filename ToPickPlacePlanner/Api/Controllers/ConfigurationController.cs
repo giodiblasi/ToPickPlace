@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.Repositories;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -17,8 +19,8 @@ namespace api.Controllers
         [Route("/")]
         [HttpGet]
         public async Task<IActionResult> Index(){
-               var configuration = await configurationRepository.GetConfiguration();
-               return View(configuration);
+            var configuration = await configurationRepository.GetConfiguration();
+            return View(configuration);
         }
 
         [Route("/")]
