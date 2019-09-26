@@ -1,33 +1,55 @@
-using System;
 using System.Threading.Tasks;
+using api.ViewModels;
 using Domain.Models;
 using Domain.Repositories;
-using Microsoft.AspNetCore.Localization;
+using Domain.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/configuration")]
+    [Route("configuration")]
     public class ConfigurationController : Controller
     {
         private IConfigurationRepository configurationRepository;
+        private IRestoreConfiguration restoreConfiguration;
 
-        public ConfigurationController(IConfigurationRepository repo){
+        public ConfigurationController(IConfigurationRepository repo,
+                                      IRestoreConfiguration restoreConfiguration){
             configurationRepository = repo;
+            this.restoreConfiguration = restoreConfiguration;
         }
 
-        [Route("/")]
+        
         [HttpGet]
         public async Task<IActionResult> Index(){
             var configuration = await configurationRepository.GetConfiguration();
-            return View(configuration);
+
+            return View(new ConfigurationViewModel(){
+                Configuration = configuration
+            });
         }
 
-        [Route("/")]
+        
         [HttpPost]
         public async  Task<IActionResult> Index(Configuration configuration){
             await configurationRepository.SaveConfiguration(configuration);
-            return await Index();
+            var savedConfiguration = await configurationRepository.GetConfiguration();
+
+            return View(new ConfigurationViewModel(){
+                Configuration = savedConfiguration,
+                Message = "Configuration saved",
+            });
+        }
+
+        [Route("restore")]
+        [HttpPost]
+        public async Task<IActionResult> RestoreConfiguration(){
+            await restoreConfiguration.Restore();
+            var configuration = await configurationRepository.GetConfiguration();
+            return View("Index", new ConfigurationViewModel(){
+                Configuration = configuration,
+                Message = "Settings Restored to default"
+            });
         }
 
     }

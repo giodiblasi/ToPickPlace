@@ -26,6 +26,7 @@ namespace api
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument();
             services.AddSingleton<IFindSolution, FindSolution>();
+            services.AddSingleton<IRestoreConfiguration, RestoreConfiguration>();
             services.AddSingleton<IConfigurationRepository, FirestoreConfigurationRepository>();
         }
 

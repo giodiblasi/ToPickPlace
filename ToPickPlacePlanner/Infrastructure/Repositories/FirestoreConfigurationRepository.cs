@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories{
 
         public Task SaveConfiguration(Configuration configuration)
         {
-            Console.WriteLine(configuration.SolutionPrecision);
+            Console.WriteLine(configuration.EliteSize);
             return configurations
             .Document("factory")
             .SetAsync(configurationConverter.ToFirestore(configuration));
