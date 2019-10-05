@@ -17,13 +17,14 @@ const mapDispatchToProps = (dispatch: Dispatch<CounterActionTypes>)=>({
 });
 
 const Counter: NextPage<{
-  incrementCounter: Function,
-  decrementCounter: Function,
+  incrementCounter: (quantity:number)=>void,
+  decrementCounter: (quantity:number)=>void,
   counter: CounterState
  }> = ({ incrementCounter, decrementCounter, counter}) => (
   <div>
     <p>Hello world! - counter: {counter.clicks}</p>
-    <TestButton text="Hit" increment = {()=>incrementCounter(2)} ></TestButton>
+    <TestButton text="+2" increment = {()=>incrementCounter(2)} ></TestButton>
+    <TestButton text="-2" increment = {()=>decrementCounter(2)} ></TestButton>
   </div>
 );
 
