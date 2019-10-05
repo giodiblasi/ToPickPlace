@@ -8,7 +8,7 @@ namespace Infrastructure.Repositories{
         public  InMemoryConfigurationRepository(){
             configuration = new Configuration{
                 EliteSize = 100,
-                MutationProbability = 20,
+                MutationProbability = 1,
                 PopulationSize = 5000,
                 MaxGenerations = 1000,
                 SolutionPrecision = 1

@@ -6,7 +6,7 @@ namespace  GeneticAlgorithm
     public class GeneticAlgorithmFactory<T>
     {
         private int PopulationSize = 50;
-        private decimal MutationProbability = 0.5M;
+        private double MutationProbability = 0.5f;
         private int eliteSize = 5;
         private double solutionPrecision = 0.05;
 
@@ -30,7 +30,7 @@ namespace  GeneticAlgorithm
         public GeneticAlgorithmFactory<T> WithMaxGenerations(int maxGenerations) => 
             CloneAndUpdate(factory=>factory.maxGenerations = maxGenerations);
             
-        public GeneticAlgorithmFactory<T> WithMutationProbability(decimal mutationProbability) => 
+        public GeneticAlgorithmFactory<T> WithMutationProbability(double mutationProbability) => 
             CloneAndUpdate(factory=>factory.MutationProbability = mutationProbability);
 
         public GeneticAlgorithmFactory<T> WithEliteSize(int eliteSize) => 
