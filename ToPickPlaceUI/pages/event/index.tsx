@@ -2,27 +2,28 @@ import { NextPage, NextPageContext } from 'next';
 import { AppState } from '../../store'
 import { loadEvents } from '../../store/events/actions';
 import { EventsActionTypes, EventsState } from '../../store/events/types';
-import { Dispatch } from 'redux';
+import { Dispatch, Store } from 'redux';
 import {connect} from 'react-redux';
 import { Component } from 'react';
+import {NextPageContextWithStore} from '../../utils/nextTypes';
 
 const mapStateToProps = (state: AppState) => ({
   counter: state.counter,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<EventsActionTypes>)=>({
-  loadEvents: () => dispatch(loadEvents())
+  loadEvents: () => {console.log('dispatch'); dispatch(loadEvents())}
 });
 
 type Props = {
-  events: EventsState
+  events: EventsState,
+  loadEvents: typeof loadEvents
 }
 
-
 class Events extends Component<Props> {
-   //@ts-ignore
-  static getInitialProps = async ({ store, query }: NextPageContext) => {
-    console.log(store)
+
+  static getInitialProps = async ({ store, query }: NextPageContextWithStore) => {
+    store.dispatch(loadEvents());
     return {
      events:{
        availableEvents: []
@@ -31,24 +32,14 @@ class Events extends Component<Props> {
   }
 
   render() {
-    const { events } = this.props
-    return (<div>Yeah</div>)
+    const { events, loadEvents } = this.props;
+    console.log(events);
+    
+    return (<div>
+      {events.availableEvents.map(e=>e.description).join("-")}
+      <button onClick={()=>{console.log('event'); loadEvents();}}></button>
+      </div>)
     
   }
 }
-
-
-// const Events: NextPage<{
-//     events: EventsState
-//  }> = ({events}) => (
-//      <div></div>
-//   );
-
-
-// Events.getInitialProps = async ({ store }) => {
-//     store.dispatch(loadEvents());
-//     return {
-//         events:[]
-//     }
-// }
 export default connect(mapStateToProps, mapDispatchToProps)(Events);
