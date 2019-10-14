@@ -9,10 +9,11 @@ import {NextPageContextWithStore} from '../../utils/nextTypes';
 
 const mapStateToProps = (state: AppState) => ({
   counter: state.counter,
+  events:state.events
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<EventsActionTypes>)=>({
-  loadEvents: () => {console.log('dispatch'); dispatch(loadEvents())}
+  loadEvents: () => {dispatch(loadEvents())}
 });
 
 type Props = {
@@ -33,11 +34,11 @@ class Events extends Component<Props> {
 
   render() {
     const { events, loadEvents } = this.props;
-    console.log(events);
     
-    return (<div>
-      {events.availableEvents.map(e=>e.description).join("-")}
-      <button onClick={()=>{console.log('event'); loadEvents();}}></button>
+    return (
+      <div>
+        {events.availableEvents.map(e=>e.description).join("-")}
+        <button onClick={loadEvents}>Click Me</button>
       </div>)
     
   }
