@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.19.1",
     "next": "9.0.7",
     "next-redux-wrapper": "^4.0.1",
     "react": "16.10.2",

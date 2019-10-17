@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from "@blueprintjs/core";
 
 type Props = {
     title: string
@@ -10,6 +11,7 @@ const SelectionList: React.FunctionComponent<Props> = ({title, children}) => {
             <div>
                 {children}
             </div>
+            <Button intent="success" text="button content" />
             <style jsx>{`
                 .listTitle{
                     background: aqua;
