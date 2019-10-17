@@ -33,7 +33,8 @@ class Events extends Component<Props> {
     store.dispatch(loadEvents());
     return {
      events:{
-       availableEvents: []
+       availableEvents: [],
+       selectedEvent: {}
      }
     }
   }

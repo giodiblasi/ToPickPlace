@@ -10,6 +10,11 @@ const SelectionList: React.FunctionComponent<Props> = ({title, children}) => {
             <div>
                 {children}
             </div>
+            <style jsx>{`
+                .listTitle{
+                    background: aqua;
+                }
+            `}</style>
         </div>
     
     );
