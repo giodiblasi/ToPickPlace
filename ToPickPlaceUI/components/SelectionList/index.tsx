@@ -11,7 +11,6 @@ const SelectionList: React.FunctionComponent<Props> = ({title, children}) => {
             <div>
                 {children}
             </div>
-            <Button intent="success" text="button content" />
             <style jsx>{`
                 .listTitle{
                     background: aqua;
