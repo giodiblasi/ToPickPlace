@@ -1,15 +1,16 @@
 import { NextPage, NextPageContext } from 'next';
 import { AppState } from '../../store'
 import { loadEvents, selectEvent} from '../../store/events/actions';
-import { EventsActionTypes, EventsState } from '../../store/events/types';
-import { Dispatch, Store } from 'redux';
+import { EventsActionTypes, EventsState, EventSummary } from '../../store/events/types';
+import { Dispatch } from 'redux';
 import {connect} from 'react-redux';
 import { Component } from 'react';
 import {NextPageContextWithStore} from '../../utils/nextTypes';
 import SelectionList from '../../components/SelectionList';
 import EventSummaryBox from '../../components/EventSummaryBox';
-import {EVENTS,printLabel } from '../../labels/events';
-import { eventNames } from 'cluster';
+import {EVENTS,printLabel,APP_TITLE } from '../../labels/events';
+import {styleLayout as layoutStyle, MIDDLE_COLUMN, SIDE_COLUMN} from './layoutStyle';
+import { Navbar, Alignment, Button, Label } from '@blueprintjs/core';
 
 const mapStateToProps = (state: AppState) => ({
   counter: state.counter,
@@ -38,21 +39,35 @@ class Events extends Component<Props> {
      }
     }
   }
-
+  renderEvent = (event:EventSummary, {handleClick}) => (
+    <EventSummaryBox event={event} onSelect={handleClick}></EventSummaryBox>
+  )
   render() {
     const { events, selectEvent } = this.props;
     
     return (
       <div>
-        <SelectionList title={printLabel(EVENTS)}>
-          {events.availableEvents
-          .map(event=>
-            (<EventSummaryBox 
-                key={event.id}
-                event={event}
-                onSelect={selectEvent}/>))}
-        </SelectionList>
-        <div>Selection: {events.selectedEvent.description} </div>
+        <Navbar>
+        <Navbar.Group align={Alignment.LEFT}>
+            <Navbar.Heading>{printLabel(APP_TITLE)}</Navbar.Heading>
+            <Navbar.Divider/>
+            <SelectionList
+              onSelect={selectEvent}
+              eventsSummary={events.availableEvents}
+              renderEvent={this.renderEvent}>
+                <Button text={events.selectedEvent.description || 'Select an event'} rightIcon="double-caret-vertical" />
+            </SelectionList>
+            <Button className="bp3-minimal" icon="home" text="Home" />
+            <Button className="bp3-minimal" icon="document" text="Files" />
+        </Navbar.Group>
+      </Navbar>
+        <div className={SIDE_COLUMN}>
+          
+        </div>
+        <div className={MIDDLE_COLUMN}>
+          Selection: {events.selectedEvent.description}
+        </div>
+        <style jsx>{layoutStyle}</style>
       </div>)
     
   }
