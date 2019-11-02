@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { EventSummary } from '../../store/events/types';
+import { MouseEventHandler } from 'react';
 
 type Props = {
     event: EventSummary,
-    onSelect: (eventId:string)=>void
+    onClick: MouseEventHandler<HTMLElement>
 }
-const EventSummaryBox: React.FunctionComponent<Props> = ({event, onSelect}) => {
+const EventSummaryBox: React.FunctionComponent<Props> = ({event, onClick}) => {
     return (
         <div>
-            <div onClick={()=>onSelect(event.id)}>{event.description}</div>
+            <div onClick={onClick}>{event.description}</div>
         </div>
     
     );
