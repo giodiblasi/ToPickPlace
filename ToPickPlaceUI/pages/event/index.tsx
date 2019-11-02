@@ -10,6 +10,7 @@ import EventSummaryBox from '../../components/EventSummaryBox';
 import {printLabel,APP_TITLE } from '../../labels/events';
 import {styleLayout as layoutStyle, MIDDLE_COLUMN, SIDE_COLUMN} from '../../style/layoutStyle';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
+import { IItemRendererProps } from '@blueprintjs/select';
 
 const mapStateToProps = (state: AppState) => ({
   counter: state.counter,
@@ -38,8 +39,8 @@ class Events extends Component<Props> {
      }
     }
   }
-  renderEvent = (event:EventSummary) => (
-    <EventSummaryBox key={event.id} event={event} onSelect={this.props.selectEvent}></EventSummaryBox>
+  renderEvent = (event:EventSummary, {handleClick}: IItemRendererProps) => (
+    <EventSummaryBox key={event.id} event={event} onClick={handleClick}></EventSummaryBox>
   )
   render() {
     const { events, selectEvent } = this.props;
