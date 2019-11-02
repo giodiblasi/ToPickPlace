@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css'
 
-const layoutStyle =  css.layout`
+const layoutStyle =  css.global`
 .column {
   float: left;
   adding: 10px;

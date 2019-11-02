@@ -10,10 +10,10 @@ const mockedEvents = [{
 }]
 
 const getEventById = (id:string):Event => {
-  var eventSummay = mockedEvents.find(e=>e.id===id);
+  var eventSummary = mockedEvents.find(e=>e.id===id) || {id:'', description:''};
   return {
-    id: eventSummay.id,
-    description: eventSummay.description
+    id: eventSummary.id,
+    description: eventSummary.description
     
   }
 }
