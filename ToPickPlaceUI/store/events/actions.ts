@@ -1,27 +1,32 @@
-import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes, Event } from './types'
+import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes, Event, EventSummary } from './types'
 
-const mockedEvents = [{
+const mockedEvents: Array<Event> = [{
   id:"1",
-  description: "My Conference" 
+  description: "My Conference",
+  attendees: [
+    {name: 'Will'},
+    {name: 'Maggie'}
+  ]
+  
 },
 {
   id:"2",
-  description: "My Birthday" 
+  description: "My Birthday",
+  attendees: [
+    {name: 'Susie'},
+    {name: 'Peter'}
+  ]
 }]
 
 const getEventById = (id:string):Event => {
-  var eventSummary = mockedEvents.find(e=>e.id===id) || {id:'', description:''};
-  return {
-    id: eventSummary.id,
-    description: eventSummary.description
-    
-  }
+  var eventSummary = mockedEvents.find(e=>e.id===id) || {id:'', description:'', attendees:[]};
+  return eventSummary;
 }
 
 export function loadEvents(): EventsActionTypes {
   return {
     type: LOAD_AVAILABLE_EVENTS,
-    payload: mockedEvents
+    payload: mockedEvents.map((e:Event): EventSummary=>({id: e.id, description: e.description}))
   }
 }
 

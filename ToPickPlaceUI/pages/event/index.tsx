@@ -11,6 +11,7 @@ import {printLabel,APP_TITLE } from '../../labels/events';
 import {styleLayout as layoutStyle, MIDDLE_COLUMN, SIDE_COLUMN} from '../../style/layoutStyle';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 import { IItemRendererProps } from '@blueprintjs/select';
+import EventContainer from '../../components/Event/EventContainer';
 
 const mapStateToProps = (state: AppState) => ({
   counter: state.counter,
@@ -65,7 +66,7 @@ class Events extends Component<Props> {
           
         </div>
         <div className={MIDDLE_COLUMN}>
-          Selection: {events.selectedEvent.description}
+          <EventContainer/>
         </div>
         <style jsx>{layoutStyle}</style>
       </div>)
