@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Select, ItemRenderer } from "@blueprintjs/select";
+import { Select, ItemRenderer, ItemListPredicate } from "@blueprintjs/select";
 import { EventSummary } from '../../store/events/types';
 
 const EventSelect = Select.ofType<EventSummary>();
@@ -9,6 +9,10 @@ type Props = {
     onSelect: (eventId:string)=>void,
     renderEvent: ItemRenderer<EventSummary>
 }
+
+const filterEvents:ItemListPredicate<EventSummary> =
+    (query, events) => events.filter(event => event.description.toLowerCase().includes(query.toLowerCase()));
+
 const SelectionList: React.FunctionComponent<Props> = ({
     onSelect,
     children,
@@ -18,7 +22,8 @@ const SelectionList: React.FunctionComponent<Props> = ({
         <EventSelect
             items={eventsSummary}
             itemRenderer={renderEvent}
-            filterable={false}
+            filterable={true}
+            itemListPredicate={filterEvents}
             onItemSelect={(item)=>onSelect(item.id)}>
                {children}
     </EventSelect>

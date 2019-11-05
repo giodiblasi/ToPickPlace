@@ -58,8 +58,6 @@ class Events extends Component<Props> {
               renderEvent={this.renderEvent}>
                 <Button text={events.selectedEvent.description || 'Select an event'} rightIcon="double-caret-vertical" />
             </SelectionList>
-            <Button className="bp3-minimal" icon="home" text="Home" />
-            <Button className="bp3-minimal" icon="document" text="Files" />
         </Navbar.Group>
       </Navbar>
         <div className={SIDE_COLUMN}>
