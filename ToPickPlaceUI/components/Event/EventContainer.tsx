@@ -6,7 +6,7 @@ import { SIDE_COLUMN, MIDDLE_COLUMN, styleLayout } from "../../style/layoutStyle
 
 type Props = {
     currentEvent: Event
-}
+} 
 
 class EventContainer extends Component<Props>{
     render(){
