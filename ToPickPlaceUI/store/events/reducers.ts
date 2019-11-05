@@ -9,7 +9,8 @@ import {
     availableEvents: [],
     selectedEvent: {
       id:"",
-      description:""
+      description:"",
+      attendees:[]
 
     }
   }
