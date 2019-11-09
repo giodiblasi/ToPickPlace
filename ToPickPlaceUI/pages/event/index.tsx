@@ -13,7 +13,6 @@ import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
 
 const mapStateToProps = (state: AppState) => ({
-  counter: state.counter,
   events:state.events
 });
 
