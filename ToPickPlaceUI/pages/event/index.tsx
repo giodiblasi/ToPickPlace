@@ -1,6 +1,5 @@
 import { AppState } from '../../store'
-import { loadEvents, selectEvent} from '../../store/events/actions';
-import { EventsActionTypes, EventsState, EventSummary } from '../../store/events/types';
+import { loadEvents, selectEvent} from '../../store/actions/events';
 import { Dispatch } from 'redux';
 import {connect} from 'react-redux';
 import { Component } from 'react';
@@ -11,6 +10,9 @@ import {printLabel,APP_TITLE } from '../../labels/events';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
+import { EventsActionTypes } from '../../store/actions/events/interfaces';
+import { EventsState } from '../../store/reducers/events/types';
+import { EventSummary } from '../../store/types/events';
 
 const mapStateToProps = (state: AppState) => ({
   events:state.events

@@ -1,4 +1,5 @@
-import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes, Event, EventSummary } from './types'
+import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes} from './interfaces';
+import { EventSummary, Event } from '../../types/events';
 
 const mockedEvents: Array<Event> = [{
   id:"1",

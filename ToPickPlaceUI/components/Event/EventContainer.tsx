@@ -1,8 +1,9 @@
 import { AppState } from "../../store";
 import React, { Dispatch, Component } from "react";
-import { EventsActionTypes, Event } from "../../store/events/types";
 import {connect} from 'react-redux';
 import {MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout} from './eventContainerLayout';
+import { EventsActionTypes } from "../../store/actions/events/interfaces";
+import { Event } from "../../store/types/events";
 
 type Props = {
     currentEvent: Event
