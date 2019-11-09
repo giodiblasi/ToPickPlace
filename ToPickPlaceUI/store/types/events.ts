@@ -6,7 +6,6 @@ export interface EventSummary{
 export interface Event{
     id: string,
     description:string,
-    attendees: Array<Attendee>
 }
 
 export interface Attendee{

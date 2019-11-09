@@ -1,5 +1,5 @@
 import { AttendeesState } from "./types"
-import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
+import { EventsActionTypes, LOAD_ATTENDEES } from "../../actions/events/interfaces"
 
 const initialState: AttendeesState = {
     availables:[]
@@ -10,8 +10,8 @@ const initialState: AttendeesState = {
     action: EventsActionTypes
   ): AttendeesState {
     switch (action.type) {
-      case SELECT_EVENT:     
-        return {...state, availables: action.payload.attendees}
+      case LOAD_ATTENDEES:     
+        return {...state, availables: action.payload}
       default:
         return state
     }
