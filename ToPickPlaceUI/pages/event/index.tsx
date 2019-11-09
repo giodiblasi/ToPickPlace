@@ -8,7 +8,6 @@ import {NextPageContextWithStore} from '../../utils/nextTypes';
 import SelectionList from '../../components/SelectionList';
 import EventSummaryBox from '../../components/EventSummaryBox';
 import {printLabel,APP_TITLE } from '../../labels/events';
-import {styleLayout as layoutStyle, MIDDLE_COLUMN, SIDE_COLUMN} from '../../style/layoutStyle';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
@@ -60,14 +59,10 @@ class Events extends Component<Props> {
             </SelectionList>
         </Navbar.Group>
       </Navbar>
-        <div className={SIDE_COLUMN}>
-          
-        </div>
-        <div className={MIDDLE_COLUMN}>
-          <EventContainer/>
-        </div>
-        <style jsx>{layoutStyle}</style>
-      </div>)
+      <div>
+        <EventContainer/>
+      </div>
+    </div>)
     
   }
 }
