@@ -19,7 +19,7 @@ class EventContainer extends Component<Props>{
                     </div>
                     <div className={SIDE_AREA}>
                         <h3>attendees</h3>
-                        {attendees.map(attendee=>(<div>{attendee.name}</div>))}
+                        {attendees.map((attendee,index)=>(<div key={`attendee${index}`}>{attendee.name}</div>))}
                     </div>
                     <div className={BOTTOM_AREA}>
                         <p>List</p>

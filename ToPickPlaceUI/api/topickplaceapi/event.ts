@@ -18,8 +18,8 @@ const mockedEvents: Array<EventApiModel> = [{
     ]
   }]
 
-export const fetchSummaries = (): Array<EventSummaryApiModel> => {
-    return mockedEvents.map(({id, description})=>({id, description}))
+export const fetchSummaries = (): Promise<Array<EventSummaryApiModel>> => {
+    return Promise.resolve(mockedEvents.map(({id, description})=>({id, description})));
 }
 
-export const fetchEvent = (id: string): EventApiModel|undefined =>  mockedEvents.find(e=>e.id===id);
+export const fetchEvent = (id: string): Promise<EventApiModel | undefined> => Promise.resolve(mockedEvents.find(e=>e.id===id));

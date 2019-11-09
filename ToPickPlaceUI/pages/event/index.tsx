@@ -19,7 +19,9 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<EventsActionTypes>)=>({
+  //@ts-ignore
   loadEvents: () => dispatch(loadEvents()),
+  //@ts-ignore
   selectEvent: (eventId:string) => dispatch(selectEvent(eventId))
 });
 
@@ -32,6 +34,7 @@ type Props = {
 class Events extends Component<Props> {
 
   static getInitialProps = async ({ store }: NextPageContextWithStore) => {
+    //@ts-ignore
     store.dispatch(loadEvents());
     return {
      events:{
