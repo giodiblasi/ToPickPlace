@@ -4,15 +4,15 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'react';
 import { AppState } from '../..';
 
-export const loadEvents: ThunkAction<void, AppState, null, EventsActionTypes> = () => async (dispatch: Dispatch<EventsActionTypes>) => {
+export const loadEvents = () => async (dispatch: Dispatch<EventsActionTypes>) => {
   const events =  await fetchSummaries();
-  dispatch({
-    type: LOAD_AVAILABLE_EVENTS,
+  return dispatch({
+    type: 'LOAD_AVAILABLE_EVENTS',
     payload: events.map(e => ({id: e.id, description: e.description}))
   });
 }
 
-export const selectEvent = (eventId: string): ThunkAction<void, AppState, null, EventsActionTypes> => async (dispatch: Dispatch<EventsActionTypes>)  =>{
+export const selectEvent = (eventId: string) => async (dispatch: Dispatch<EventsActionTypes>)  =>{
   const event = await fetchEvent(eventId) || {id: '', description: '', attendees:[]};
   return Promise.all([
     dispatch({

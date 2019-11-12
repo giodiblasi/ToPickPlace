@@ -1,6 +1,5 @@
 import { AppState } from '../../store'
 import { loadEvents, selectEvent} from '../../store/actions/events';
-import { Dispatch } from 'redux';
 import {connect} from 'react-redux';
 import { Component } from 'react';
 import {NextPageContextWithStore} from '../../utils/nextTypes';
@@ -10,7 +9,6 @@ import {printLabel,APP_TITLE } from '../../labels/events';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
-import { EventsActionTypes } from '../../store/actions/events/interfaces';
 import { EventsState } from '../../store/reducers/events/types';
 import { EventSummary } from '../../store/types/events';
 
@@ -18,11 +16,9 @@ const mapStateToProps = (state: AppState) => ({
   events:state.events
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<EventsActionTypes>)=>({
-  //@ts-ignore
-  loadEvents: () => dispatch(loadEvents()),
-  //@ts-ignore
-  selectEvent: (eventId:string) => dispatch(selectEvent(eventId))
+const mapDispatchToProps = (dispatch: Function) =>({
+  loadEvents:  () => dispatch(loadEvents()),
+  selectEvent: (eventId: string) => dispatch(selectEvent(eventId))
 });
 
 type Props = {
@@ -34,7 +30,6 @@ type Props = {
 class Events extends Component<Props> {
 
   static getInitialProps = async ({ store }: NextPageContextWithStore) => {
-    //@ts-ignore
     store.dispatch(loadEvents());
     return {
      events:{
