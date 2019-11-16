@@ -1,8 +1,6 @@
 import { Attendee } from "../../types/events";
+import { SelectableList } from "../../../utils/typeUtils";
 
-export interface AttendeesState {
-    availables: Array<Attendee>,
-    selected?: Attendee
-}
+export type AttendeesState  = SelectableList<Attendee>;
 
 

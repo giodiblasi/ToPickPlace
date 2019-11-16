@@ -1,8 +1,6 @@
 import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes} from './interfaces';
 import { fetchEvent, fetchSummaries } from '../../../api/topickplaceapi';
-import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'react';
-import { AppState } from '../..';
 
 export const loadEvents = () => async (dispatch: Dispatch<EventsActionTypes>) => {
   const events =  await fetchSummaries();
@@ -13,7 +11,7 @@ export const loadEvents = () => async (dispatch: Dispatch<EventsActionTypes>) =>
 }
 
 export const selectEvent = (eventId: string) => async (dispatch: Dispatch<EventsActionTypes>)  =>{
-  const event = await fetchEvent(eventId) || {id: '', description: '', attendees:[]};
+  const event = await fetchEvent(eventId) || {id: '', description: '', attendees:[], topics:[]};
   return dispatch({
       type: SELECT_EVENT,
       payload: event

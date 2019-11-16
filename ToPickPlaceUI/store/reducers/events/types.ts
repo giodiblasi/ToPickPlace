@@ -4,5 +4,3 @@ export interface EventsState {
     availableEvents: Array<EventSummary>,
     selectedEvent: Event
 }
-
-

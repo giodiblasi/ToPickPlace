@@ -6,9 +6,17 @@ export interface EventSummaryApiModel{
 export interface EventApiModel{
     id: string,
     description:string,
-    attendees: Array<AttendeeApiModel>
+    attendees: Array<AttendeeApiModel>,
+    topics: Array<TopicApiModel>
 }
 
 export interface AttendeeApiModel{
-    name: string
+    name: string,
+    topics: Array<string>
+}
+
+export interface TopicApiModel{
+    id: string,
+    description: string,
+    weight: number
 }
