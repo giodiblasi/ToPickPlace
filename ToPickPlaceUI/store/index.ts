@@ -7,6 +7,4 @@ export const rootReducer = combineReducers({
   events: EventsReducer,
   attendees: AttendeesReducer,
   topics: TopicsReducer
-})
-
-export type AppState = ReturnType<typeof rootReducer>
+});

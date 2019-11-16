@@ -1,4 +1,4 @@
-import { AttendeesState } from "./types"
+import { AttendeesState } from "../../types"
 import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
 
 const initialState: AttendeesState = {

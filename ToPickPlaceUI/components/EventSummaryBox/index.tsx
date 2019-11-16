@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MouseEventHandler } from 'react';
-import { EventSummary } from '../../store/types/events';
+import { EventSummary } from '../../store/types';
 
 type Props = {
     event: EventSummary,
