@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Select, ItemRenderer, ItemListPredicate } from "@blueprintjs/select";
-import { EventSummary } from '../../store/types/events';
+import { EventSummary } from '../../store/types';
 
 const EventSelect = Select.ofType<EventSummary>();
 

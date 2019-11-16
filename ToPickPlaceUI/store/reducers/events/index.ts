@@ -1,4 +1,4 @@
-import { EventsState } from "./types"
+import { EventsState } from "../../types"
 import { EventsActionTypes, LOAD_AVAILABLE_EVENTS, SELECT_EVENT } from "../../actions/events/interfaces"
 
 const initialState: EventsState = {

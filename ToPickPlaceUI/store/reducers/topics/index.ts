@@ -1,4 +1,4 @@
-import { TopicsState } from "./types"
+import { TopicsState } from "../../types";
 import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
 
 const initialState: TopicsState = {
