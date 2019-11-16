@@ -1,26 +1,24 @@
 import { AppState } from '../../store'
-import { loadEvents, selectEvent} from '../../store/events/actions';
-import { EventsActionTypes, EventsState, EventSummary } from '../../store/events/types';
-import { Dispatch } from 'redux';
+import { loadEvents, selectEvent} from '../../store/actions/events';
 import {connect} from 'react-redux';
 import { Component } from 'react';
 import {NextPageContextWithStore} from '../../utils/nextTypes';
 import SelectionList from '../../components/SelectionList';
 import EventSummaryBox from '../../components/EventSummaryBox';
 import {printLabel,APP_TITLE } from '../../labels/events';
-import {styleLayout as layoutStyle, MIDDLE_COLUMN, SIDE_COLUMN} from '../../style/layoutStyle';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
+import { EventsState } from '../../store/reducers/events/types';
+import { EventSummary } from '../../store/types/events';
 
 const mapStateToProps = (state: AppState) => ({
-  counter: state.counter,
   events:state.events
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<EventsActionTypes>)=>({
-  loadEvents: () => dispatch(loadEvents()),
-  selectEvent: (eventId:string) => dispatch(selectEvent(eventId))
+const mapDispatchToProps = (dispatch: Function) =>({
+  loadEvents:  () => dispatch(loadEvents()),
+  selectEvent: (eventId: string) => dispatch(selectEvent(eventId))
 });
 
 type Props = {
@@ -60,14 +58,10 @@ class Events extends Component<Props> {
             </SelectionList>
         </Navbar.Group>
       </Navbar>
-        <div className={SIDE_COLUMN}>
-          
-        </div>
-        <div className={MIDDLE_COLUMN}>
-          <EventContainer/>
-        </div>
-        <style jsx>{layoutStyle}</style>
-      </div>)
+      <div>
+        <EventContainer/>
+      </div>
+    </div>)
     
   }
 }

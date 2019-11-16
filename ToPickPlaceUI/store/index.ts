@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
-
-import { CounterReducer } from './counter/reducers'
-import { EventsReducer } from './events/reducers'
+import { EventsReducer } from './reducers/events'
+import { AttendeesReducer } from './reducers/attendees';
+import { TopicsReducer } from './reducers/topics';
 
 export const rootReducer = combineReducers({
-  counter: CounterReducer,
-  events: EventsReducer
+  events: EventsReducer,
+  attendees: AttendeesReducer,
+  topics: TopicsReducer
 })
 
 export type AppState = ReturnType<typeof rootReducer>
