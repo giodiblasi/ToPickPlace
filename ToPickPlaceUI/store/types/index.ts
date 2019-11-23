@@ -11,7 +11,11 @@ export interface Event{
 }
 
 export interface Attendee{
+    id:string
     name: string
+    surname: string,
+    bio?:string,
+    topics?:Array<string>
 }
 
 export interface Topic{

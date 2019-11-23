@@ -11,8 +11,11 @@ export interface EventApiModel{
 }
 
 export interface AttendeeApiModel{
+    id: string,
     name: string,
-    topics: Array<string>
+    surname:string,
+    topics: Array<string>,
+    bio?:string
 }
 
 export interface TopicApiModel{
