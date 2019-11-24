@@ -4,7 +4,7 @@ export const SELECT_ATTENDEE = 'SELECT_ATTENDEE';
 
 export type selectAttendeeAction = {
     type: typeof SELECT_ATTENDEE,
-    payload: Attendee
+    payload: string
 };
 
 export type AttendeesActionTypes =  selectAttendeeAction;

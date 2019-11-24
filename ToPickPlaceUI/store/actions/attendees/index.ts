@@ -12,6 +12,6 @@ const defaultAttendee: Attendee = {
 export const selectAttendee = (id:string) => async (dispatch: Dispatch<AttendeesActionTypes>, getState: ()=>AppState) => {
   return dispatch({
     type:SELECT_ATTENDEE,
-    payload: getState().attendees.availables.find(attendee=>attendee.id === id) || defaultAttendee
+    payload: id
   });
 }

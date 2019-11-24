@@ -3,7 +3,8 @@ import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces
 import { SELECT_ATTENDEE, AttendeesActionTypes } from "../../actions/attendees/interfaces"
 
 const initialState: AttendeesState = {
-    availables:[]
+    availables:[],
+    selected:undefined
 }
   
   export function AttendeesReducer(
@@ -14,7 +15,6 @@ const initialState: AttendeesState = {
       case SELECT_EVENT:    
         return {...state, availables: action.payload.attendees, selected: undefined}
       case SELECT_ATTENDEE:
-        console.log(action)
         return {...state, selected: action.payload}
       default:
         return state

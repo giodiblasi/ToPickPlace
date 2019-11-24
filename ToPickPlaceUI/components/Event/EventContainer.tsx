@@ -1,10 +1,10 @@
-import React, { Dispatch, Component } from "react";
+import React, { Component } from "react";
 import {connect} from 'react-redux';
 import {MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout} from './eventContainerLayout';
-import { EventsActionTypes } from "../../store/actions/events/interfaces";
 import { Event, Attendee, Topic, AppState } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee } from "../../store/actions/attendees";
+import { getAttendeeByid } from "../../store/selectors/selectAttendee";
 
 type Props = {
     currentEvent: Event,
@@ -23,7 +23,7 @@ class EventContainer extends Component<Props>{
                     </div>
                     <div className={SIDE_AREA}>
                         <h3>attendees</h3>
-                        {attendees.map((attendee,index)=>(<button key={`attendee${index}`} onClick={()=>{console.log('click');selectAttendee(attendee.id)}}>{attendee.name}</button>))}
+                        {attendees.map((attendee,index)=>(<button key={`attendee${index}`} onClick={()=>selectAttendee(attendee.id)}>{attendee.name}</button>))}
                         {selectedAttendee ? <AttendeeDetails attendee={selectedAttendee}/> : null}
                     </div>
                     <div className={BOTTOM_AREA}>
@@ -39,11 +39,11 @@ const mapStateToProps = (state: AppState) => ({
     currentEvent: state.events.selectedEvent,
     attendees: state.attendees.availables,
     topics: state.topics.availables,
-    selectedAttendee: state.attendees.selected
+    selectedAttendee: getAttendeeByid(state)
 });
   
 const mapDispatchToProps = (dispatch: Function)=>({
-    selectAttendee: (id:string)=>{console.log('dispatch'); return dispatch(selectAttendee(id))}
+    selectAttendee: (id:string)=>dispatch(selectAttendee(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventContainer);
