@@ -1,6 +1,9 @@
-import {Attendee, AppState} from '../types';
+import {Attendee, AppState, Topic} from '../types';
+import { SelectableList } from '../../utils/typeUtils';
 
-export const getAttendeeByid = (state:AppState): Attendee|undefined => 
-    state.attendees.selected ?
-        state.attendees.availables.find(attendee=>attendee.id === state.attendees.selected)
-        : undefined;
+const getFromSelectable = <T extends {id: U},U>(list: SelectableList<T,U>):T | undefined =>
+    list.availables.find(item=>item.id === list.selectedId)
+
+export const getSelectedAttendee = (state:AppState): Attendee | undefined => getFromSelectable(state.attendees);
+
+export const getSelectedTopic = (state:AppState): Topic | undefined => getFromSelectable(state.topics);
