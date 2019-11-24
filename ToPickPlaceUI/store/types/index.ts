@@ -11,7 +11,11 @@ export interface Event{
 }
 
 export interface Attendee{
+    id:string
     name: string
+    surname: string,
+    bio?:string,
+    topics?:Array<string>
 }
 
 export interface Topic{
@@ -26,7 +30,10 @@ export interface EventsState {
 }
 
 export type TopicsState = SelectableList<Topic>;
-export type AttendeesState  = SelectableList<Attendee>;
+export type AttendeesState  = {
+    availables: Array<Attendee>,
+    selected?: string
+};
 
 export type AppState = {
     events: EventsState,

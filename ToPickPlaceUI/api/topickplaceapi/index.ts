@@ -4,8 +4,8 @@ const mockedEvents: Array<EventApiModel> = [{
     id:"1",
     description: "My Conference",
     attendees: [
-      {name: 'Will', topics:['1','2']},
-      {name: 'Maggie', topics:['2','3']}
+      {id: '1',name: 'Will', topics:['1','2'], surname: 'Doe', bio: 'He was born in USA'},
+      {id: '2',name: 'Maggie', topics:['2','3'], surname: 'Doe', bio: 'He was born in USA'}
     ],
     topics:[{
       id: '1',
@@ -27,8 +27,8 @@ const mockedEvents: Array<EventApiModel> = [{
     id:"2",
     description: "My Birthday",
     attendees: [
-      {name: 'Susie', topics:['1','2']},
-      {name: 'Peter', topics:['2','3']}
+      {id: '1',name: 'Susie', topics:['1','2'], surname: 'Doe', bio: 'He was born in USA'},
+      {id: '2',name: 'Peter', topics:['2','3'], surname: 'Doe', bio: 'He was born in USA'}
     ],
     topics:[{
       id: '1',
