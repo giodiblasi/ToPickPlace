@@ -29,11 +29,9 @@ export interface EventsState {
     selectedEvent: Event
 }
 
-export type TopicsState = SelectableList<Topic>;
-export type AttendeesState  = {
-    availables: Array<Attendee>,
-    selected?: string
-};
+
+export type TopicsState = SelectableList<Topic, string>;
+export type AttendeesState  = SelectableList<Attendee, string>;
 
 export type AppState = {
     events: EventsState,
