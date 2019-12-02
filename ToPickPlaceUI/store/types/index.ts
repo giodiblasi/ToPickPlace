@@ -33,8 +33,19 @@ export interface EventsState {
 export type TopicsState = SelectableList<Topic, string>;
 export type AttendeesState  = SelectableList<Attendee, string>;
 
+export enum MODALS{
+    NEW_ATTENDEE,
+    NEW_TOPIC
+}
+
+export type ModalState = {
+    opened: boolean,
+    type?: MODALS
+}
+
 export type AppState = {
     events: EventsState,
     attendees: AttendeesState,
-    topics: TopicsState
+    topics: TopicsState,
+    modal: ModalState
 }

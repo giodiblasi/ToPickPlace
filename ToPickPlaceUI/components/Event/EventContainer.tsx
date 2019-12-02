@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux';
-import {MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout} from './eventContainerLayout';
-import { Event, Attendee, Topic, AppState } from "../../store/types";
+import { connect } from 'react-redux';
+import { MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout } from './eventContainerLayout';
+import { Event, Attendee, Topic, AppState, MODALS, ModalState } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
-import { selectAttendee } from "../../store/actions/attendees";
-import { getSelectedAttendee, getSelectedTopic} from "../../store/selectors/selectAttendee";
+import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
+import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
 import { selectTopic } from "../../store/actions/topics";
+import Modal from "../../Modal";
+import { cancelOperation } from "../../store/actions/modal";
+
 
 type Props = {
     currentEvent: Event,
@@ -14,28 +17,39 @@ type Props = {
     selectedAttendee?: Attendee,
     selectAttendee: typeof selectAttendee,
     selectTopic: typeof selectTopic,
-    selectedTopic?: Topic
-} 
+    selectedTopic?: Topic,
+    modalState: ModalState,
+    openNewAttendee: typeof openNewAttendeeForm,
+    cancelOperation: typeof cancelOperation
+}
 
 class EventContainer extends Component<Props>{
-    render(){
-        const {currentEvent, attendees, topics, selectedAttendee, selectAttendee, selectedTopic, selectTopic} = this.props;
-        return <div className="grid-container">    
-                    <div className={MAIN_AREA}>
-                        <h3>Current Event: {currentEvent.description}</h3>
-                    </div>
-                    <div className={SIDE_AREA}>
-                        <h3>attendees</h3>
-                        {attendees.map((attendee,index)=>(<button key={`attendee${index}`} onClick={()=>selectAttendee(attendee.id)}>{attendee.name}</button>))}
-                        {selectedAttendee ? <AttendeeDetails attendee={selectedAttendee}/> : null}
-                    </div>
-                    <div className={BOTTOM_AREA}>
-                        <h3>Topics</h3>
-                        {topics.map((topic,index)=>(<button key={`topic${index}`} onClick={()=>selectTopic(topic.id)}>{topic.description}</button>))}
-                        {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
-                    </div>
-                    <style jsx>{eventContainerLayout}</style>
-                </div>
+    render() {
+        const { currentEvent, attendees, topics,
+            selectedAttendee, selectAttendee,
+            selectedTopic, selectTopic,
+            openNewAttendee, cancelOperation, modalState } = this.props;
+        return <div className="grid-container">
+            <Modal type={MODALS.NEW_ATTENDEE} isOpened={modalState.opened} openedModal={modalState.type}>
+                new Attendee
+                <button onClick ={ ()=>cancelOperation()}>Cancel</button>
+            </Modal>
+            <div className={MAIN_AREA}>
+                <h3>Current Event: {currentEvent.description}</h3>
+            </div>
+            <div className={SIDE_AREA}>
+                <h3>attendees</h3>
+                <button onClick={()=>openNewAttendee()}>Add Attendee</button>
+                {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
+                {selectedAttendee ? <AttendeeDetails attendee={selectedAttendee} /> : null}
+            </div>
+            <div className={BOTTOM_AREA}>
+                <h3>Topics</h3>
+                {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.description}</button>))}
+                {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
+            </div>
+            <style jsx>{eventContainerLayout}</style>
+        </div>
     }
 }
 
@@ -44,12 +58,15 @@ const mapStateToProps = (state: AppState) => ({
     attendees: state.attendees.availables,
     topics: state.topics.availables,
     selectedAttendee: getSelectedAttendee(state),
-    selectedTopic: getSelectedTopic(state)
+    selectedTopic: getSelectedTopic(state),
+    modalState: state.modal
 });
-  
-const mapDispatchToProps = (dispatch: Function)=>({
-    selectAttendee: (id:string)=>dispatch(selectAttendee(id)),
-    selectTopic: (id:string)=>dispatch(selectTopic(id)),
+
+const mapDispatchToProps = (dispatch: Function) => ({
+    selectAttendee: (id: string) => dispatch(selectAttendee(id)),
+    selectTopic: (id: string) => dispatch(selectTopic(id)),
+    openNewAttendee: ()=>dispatch(openNewAttendeeForm()),
+    cancelOperation: ()=>dispatch(cancelOperation())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventContainer);
