@@ -5,7 +5,7 @@ import { Event, Attendee, Topic, AppState, MODALS, ModalState } from "../../stor
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
-import { selectTopic } from "../../store/actions/topics";
+import { selectTopic, openNewTopicForm } from "../../store/actions/topics";
 import Modal from "../../Modal";
 import { cancelOperation } from "../../store/actions/modal";
 
@@ -20,6 +20,7 @@ type Props = {
     selectedTopic?: Topic,
     modalState: ModalState,
     openNewAttendee: typeof openNewAttendeeForm,
+    openNewTopic: typeof openNewTopicForm,
     cancelOperation: typeof cancelOperation
 }
 
@@ -28,23 +29,34 @@ class EventContainer extends Component<Props>{
         const { currentEvent, attendees, topics,
             selectedAttendee, selectAttendee,
             selectedTopic, selectTopic,
-            openNewAttendee, cancelOperation, modalState } = this.props;
+            openNewAttendee, cancelOperation, modalState, openNewTopic } = this.props;
         return <div className="grid-container">
-            <Modal type={MODALS.NEW_ATTENDEE} isOpened={modalState.opened} openedModal={modalState.type}>
+            <Modal
+                cancelOperation={() => cancelOperation()}
+                submitOperation={() => { }}
+                submitLabel="Save Attendee"
+                isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}>
                 new Attendee
-                <button onClick ={ ()=>cancelOperation()}>Cancel</button>
+            </Modal>
+            <Modal
+                cancelOperation={() => cancelOperation()}
+                submitOperation={() => { }}
+                submitLabel="Save Topic"
+                isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}>
+                New Topic
             </Modal>
             <div className={MAIN_AREA}>
                 <h3>Current Event: {currentEvent.description}</h3>
             </div>
             <div className={SIDE_AREA}>
                 <h3>attendees</h3>
-                <button onClick={()=>openNewAttendee()}>Add Attendee</button>
+                <button onClick={() => openNewAttendee()}>Add Attendee</button>
                 {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
                 {selectedAttendee ? <AttendeeDetails attendee={selectedAttendee} /> : null}
             </div>
             <div className={BOTTOM_AREA}>
                 <h3>Topics</h3>
+                <button onClick={() => openNewTopic()}>Add Topic</button>
                 {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.description}</button>))}
                 {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
             </div>
@@ -65,8 +77,10 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: Function) => ({
     selectAttendee: (id: string) => dispatch(selectAttendee(id)),
     selectTopic: (id: string) => dispatch(selectTopic(id)),
-    openNewAttendee: ()=>dispatch(openNewAttendeeForm()),
-    cancelOperation: ()=>dispatch(cancelOperation())
+    openNewAttendee: () => dispatch(openNewAttendeeForm()),
+    cancelOperation: () => dispatch(cancelOperation()),
+    openNewTopic: () => dispatch(openNewTopicForm()),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventContainer);

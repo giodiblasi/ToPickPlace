@@ -1,17 +1,22 @@
 import React from "react";
-import { MODALS } from "../store/types";
 import { Dialog } from "@blueprintjs/core";
 
 type Props = {
-    type: MODALS,
     isOpened: boolean,
-    openedModal?: MODALS
+    cancelOperation: ()=>void,
+    submitOperation: ()=>void,
+    submitLabel: String
 }
+
 export default class Modal extends React.Component<Props>{
-    render(){
-        const {type, isOpened, openedModal} = this.props;
-        return isOpened && type == openedModal
-            ? <Dialog isOpen = {isOpened}>{this.props.children}</Dialog>
+    render() {
+        const { isOpened, submitLabel, cancelOperation, submitOperation } = this.props;
+        return isOpened
+            ? <Dialog isOpen={isOpened}>
+                {this.props.children}
+                <button onClick ={ ()=>submitOperation()}>{submitLabel}</button>
+                <button onClick ={ ()=>cancelOperation()}>Cancel</button>
+                </Dialog>
             : null;
     }
 }

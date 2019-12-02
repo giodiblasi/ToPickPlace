@@ -1,4 +1,4 @@
-import { TopicsActionTypes, SELECT_TOPIC} from './interfaces';
+import { TopicsActionTypes, SELECT_TOPIC, OPEN_NEW_TOPIC_FORM} from './interfaces';
 import { Dispatch } from 'react';
 import { AppState } from '../../types';
 
@@ -8,3 +8,7 @@ export const selectTopic = (id:string) => async (dispatch: Dispatch<TopicsAction
     payload: id
   });
 }
+
+export const openNewTopicForm = () => ({
+  type: OPEN_NEW_TOPIC_FORM
+})
