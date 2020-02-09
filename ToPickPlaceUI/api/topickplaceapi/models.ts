@@ -1,11 +1,13 @@
 export interface EventSummaryApiModel{
     id: string,
-    description: string
+    description: string,
+    name: string
 }
 
 export interface EventApiModel{
     id: string,
     description:string,
+    name: string
     attendees: Array<AttendeeApiModel>,
     topics: Array<TopicApiModel>
 }

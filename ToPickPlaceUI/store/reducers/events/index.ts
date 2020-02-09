@@ -5,7 +5,8 @@ const initialState: EventsState = {
     availableEvents: [],
     selectedEvent: {
       id:"",
-      description:""
+      description:"",
+      name: ""
     }
   }
   

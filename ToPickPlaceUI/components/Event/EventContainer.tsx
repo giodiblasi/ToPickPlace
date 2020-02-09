@@ -46,7 +46,7 @@ class EventContainer extends Component<Props>{
                 New Topic
             </Modal>
             <div className={MAIN_AREA}>
-                <h3>Current Event: {currentEvent.description}</h3>
+                <h3>Current Event: {currentEvent.name}</h3>
             </div>
             <div className={SIDE_AREA}>
                 <h3>attendees</h3>

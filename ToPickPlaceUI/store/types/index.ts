@@ -2,12 +2,15 @@ import { SelectableList } from "../../utils/typeUtils";
 
 export interface EventSummary{
     id: string,
-    description: string
+    description: string,
+    name:string
+
 }
 
 export interface Event{
     id: string,
     description:string,
+    name: string
 }
 
 export interface Attendee{
