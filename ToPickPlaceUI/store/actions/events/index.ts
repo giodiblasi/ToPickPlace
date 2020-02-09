@@ -12,6 +12,7 @@ export const loadEvents = () => async (dispatch: Dispatch<EventsActionTypes>) =>
 
 export const selectEvent = (eventId: string) => async (dispatch: Dispatch<EventsActionTypes>)  =>{
   const event = await fetchEvent(eventId) || {id: '', description: '', name: '', attendees:[], topics:[]};
+  console.log('event feched')
   return dispatch({
       type: SELECT_EVENT,
       payload: event
