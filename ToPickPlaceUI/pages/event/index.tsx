@@ -28,7 +28,7 @@ type Props = {
 class Events extends Component<Props> {
 
   static getInitialProps = async ({ store }: NextPageContextWithStore) => {
-    store.dispatch(loadEvents());
+    await store.dispatch(loadEvents());
     return {
      events:{
        availableEvents: [],
@@ -41,7 +41,7 @@ class Events extends Component<Props> {
   )
   render() {
     const { events, selectEvent } = this.props;
-    
+    console.log("render", events.availableEvents)
     return (
       <div>
         <Navbar>
@@ -52,7 +52,7 @@ class Events extends Component<Props> {
               onSelect={selectEvent}
               eventsSummary={events.availableEvents}
               renderEvent={this.renderEvent}>
-                <Button text={events.selectedEvent.description || 'Select an event'} rightIcon="double-caret-vertical" />
+                <Button text={events.selectedEvent.name || 'Select an event'} rightIcon="double-caret-vertical" />
             </SelectionList>
         </Navbar.Group>
       </Navbar>

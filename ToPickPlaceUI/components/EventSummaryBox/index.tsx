@@ -9,7 +9,7 @@ type Props = {
 const EventSummaryBox: React.FunctionComponent<Props> = ({event, onClick}) => {
     return (
         <div>
-            <div onClick={onClick}>{event.description}</div>
+            <div onClick={onClick}>{event.name}</div>
         </div>
     
     );

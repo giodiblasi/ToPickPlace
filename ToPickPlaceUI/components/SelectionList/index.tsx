@@ -11,7 +11,7 @@ type Props = {
 }
 
 const filterEvents:ItemListPredicate<EventSummary> =
-    (query, events) => events.filter(event => event.description.toLowerCase().includes(query.toLowerCase()));
+    (query, events) => events.filter(event => event.name.toLowerCase().includes(query.toLowerCase()));
 
 const SelectionList: React.FunctionComponent<Props> = ({
     onSelect,
