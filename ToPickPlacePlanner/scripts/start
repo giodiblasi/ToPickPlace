@@ -1,2 +1,2 @@
-export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/../../keys/ToPickPlace.firestore.json
+export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/../../keys/topickplace-firestore-client.json
 dotnet run --project ../Api/
