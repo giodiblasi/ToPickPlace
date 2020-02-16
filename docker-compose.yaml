@@ -1,0 +1,11 @@
+version: '3'
+services:
+  planner:
+    build: ./ToPickPlacePlanner
+    ports:
+      - 5000:80
+    volumes:
+      - ./keys:/keys
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /keys/topickplace-firestore-client.json
+
