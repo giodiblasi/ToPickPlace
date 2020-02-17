@@ -3,9 +3,16 @@ services:
   planner:
     build: ./ToPickPlacePlanner
     ports:
-      - 5000:80
+      - 8081:80
     volumes:
       - ./keys:/keys
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /keys/topickplace-firestore-client.json
-
+  api:
+    build: ./ToPickPlaceApi
+    ports:
+      - 8080:8080
+    volumes:
+      - ./keys:/keys
+    environment:
+      FIRESTORE_KEY_PATH: /keys/topickplace-firestore-client.json
