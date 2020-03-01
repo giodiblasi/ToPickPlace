@@ -1,0 +1,10 @@
+http:
+    routers:
+      my-router:
+        rule: "Path(`/planner`)"
+        service: planner
+    services:
+        planner:
+            loadBalancer:
+                servers:
+                    - url: "http://planner/"
