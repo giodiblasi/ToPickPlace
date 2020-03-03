@@ -1,10 +1,17 @@
 http:
     routers:
-      my-router:
-        rule: "Path(`/planner`)"
-        service: planner
+        planner-router:
+            rule: "PathPrefix(`/planner`)"
+            service: planner
+            middlewares:
+                - planner-remove-prefix
+    middlewares:
+        planner-remove-prefix:
+            stripPrefix:
+                prefixes:
+                    - "/planner"
     services:
         planner:
             loadBalancer:
                 servers:
-                    - url: "http://planner/"
+                    - url: "http://planner:80/"
