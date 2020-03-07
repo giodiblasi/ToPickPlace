@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/seats")]
+    [Route("/planner/api/seats")]
     [ApiController]
     public class SeatsController : ControllerBase
     {

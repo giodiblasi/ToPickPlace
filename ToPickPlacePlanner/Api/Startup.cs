@@ -46,8 +46,13 @@ namespace api
 
             SetupCulture();
 
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
+            app.UseOpenApi(c=>{
+                c.Path = $"/planner{c.Path}";
+            });
+            app.UseSwaggerUi3(c=>{
+                c.Path="/planner/swagger";
+                c.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUi3Route("plannerSwagger","/planner/swagger/v1/swagger.json"));
+            });
             app.UseMvc();
         }
 

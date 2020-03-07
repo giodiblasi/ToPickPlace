@@ -3,13 +3,6 @@ http:
         planner-router:
             rule: "PathPrefix(`/planner`)"
             service: planner
-            middlewares:
-                - planner-remove-prefix
-    middlewares:
-        planner-remove-prefix:
-            stripPrefix:
-                prefixes:
-                    - "/planner"
     services:
         planner:
             loadBalancer:
