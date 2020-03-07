@@ -10,4 +10,9 @@ providers:
 api:
     insecure: true
     dashboard: true
-    
+
+# Tracing definition
+#tracing:
+#    jaeger:
+#        samplingServerURL: http://jaeger:5778/sampling
+#        localAgentHostPort: jaeger:6831
