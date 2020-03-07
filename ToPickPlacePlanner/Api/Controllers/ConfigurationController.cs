@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("/planner/configuration")]
+    [Route("/configuration")]
     public class ConfigurationController : Controller
     {
         private IConfigurationRepository configurationRepository;

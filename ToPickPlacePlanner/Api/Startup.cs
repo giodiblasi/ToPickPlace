@@ -43,15 +43,15 @@ namespace api
                 //app.UseHsts();
                 //app.UseHttpsRedirection();
             }
-
+            app.UsePathBase(new Microsoft.AspNetCore.Http.PathString("/planner"));
             SetupCulture();
 
             app.UseOpenApi(c=>{
-                c.Path = $"/planner{c.Path}";
+                // c.Path = $"/planner{c.Path}";
             });
             app.UseSwaggerUi3(c=>{
-                c.Path="/planner/swagger";
-                c.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUi3Route("plannerSwagger","/planner/swagger/v1/swagger.json"));
+                // c.Path="/planner/swagger";
+                // c.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUi3Route("plannerSwagger","/planner/swagger/v1/swagger.json"));
             });
             app.UseMvc();
         }
