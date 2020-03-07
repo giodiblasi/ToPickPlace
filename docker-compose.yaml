@@ -26,6 +26,8 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firestore_psw
   api:
     build: ./ToPickPlaceApi
+    secrets:
+      - firestore_psw
     ports:
       - 8080:8080
     volumes:
