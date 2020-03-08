@@ -1,0 +1,18 @@
+## ENABLE FOR LOGGING
+#log:
+#    level: DEBUG
+#    filePath: /etc/traefik/log-file.log
+#    format: json
+
+providers:
+    file:
+        filename: /etc/traefik/router.yaml
+api:
+    insecure: true
+    dashboard: true
+
+# Tracing definition
+#tracing:
+#    jaeger:
+#        samplingServerURL: http://jaeger:5778/sampling
+#        localAgentHostPort: jaeger:6831

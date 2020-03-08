@@ -1,0 +1,17 @@
+http:
+    routers:
+        planner-router:
+            rule: "PathPrefix(`/planner`)"
+            service: planner
+        api-router:
+            rule: "PathPrefix(`/api`)"
+            service: api
+    services:
+        api:
+            loadBalancer:
+                servers:
+                    - url: "http://api:8080/"
+        planner:
+            loadBalancer:
+                servers:
+                    - url: "http://planner:80/"

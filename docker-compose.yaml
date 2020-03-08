@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.1
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik:/etc/traefik
+  planner:
+    build: ./ToPickPlacePlanner
+    secrets:
+      - firestore_psw
+    volumes:
+      - ./keys:/keys
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firestore_psw
+      PATH_PREFIX: /planner
+  api:
+    build: ./ToPickPlaceApi
+    secrets:
+      - firestore_psw
+    volumes:
+      - ./keys:/keys
+    environment:
+      FIRESTORE_KEY_PATH: /run/secrets/firestore_psw
+      PATH_PREFIX: /api
+  # jaeger:
+  #   image: jaegertracing/all-in-one:1.17
+  #   ports:
+  #     - 16686:16686
+  #   environment:
+  #     COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+secrets:
+  firestore_psw:
+    file: ./keys/topickplace-firestore-client.json
