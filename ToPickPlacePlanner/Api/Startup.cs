@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Domain.Repositories;
 using Domain.UseCases;
 using Infrastructure.Repositories;
@@ -43,16 +44,11 @@ namespace api
                 //app.UseHsts();
                 //app.UseHttpsRedirection();
             }
-            app.UsePathBase(new Microsoft.AspNetCore.Http.PathString("/planner"));
+            app.UsePathBase(new Microsoft.AspNetCore.Http.PathString(Environment.GetEnvironmentVariable("PATH_PREFIX")));
             SetupCulture();
 
-            app.UseOpenApi(c=>{
-                // c.Path = $"/planner{c.Path}";
-            });
-            app.UseSwaggerUi3(c=>{
-                // c.Path="/planner/swagger";
-                // c.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUi3Route("plannerSwagger","/planner/swagger/v1/swagger.json"));
-            });
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseMvc();
         }
 

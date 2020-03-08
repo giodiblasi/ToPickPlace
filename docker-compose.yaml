@@ -22,6 +22,7 @@ services:
       - ./keys:/keys
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firestore_psw
+      PATH_PREFIX: /planner
   api:
     build: ./ToPickPlaceApi
     secrets:
@@ -30,6 +31,7 @@ services:
       - ./keys:/keys
     environment:
       FIRESTORE_KEY_PATH: /run/secrets/firestore_psw
+      PATH_PREFIX: /api
   # jaeger:
   #   image: jaegertracing/all-in-one:1.17
   #   ports:
