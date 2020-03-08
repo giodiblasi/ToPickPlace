@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", System.getenv("PATH_REFIX"));
+		var prefix = System.getenv("PATH_REFIX");
+		if(prefix!=null && !prefix.isEmpty()){
+			System.setProperty("server.servlet.context-path", prefix);
+		}
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
