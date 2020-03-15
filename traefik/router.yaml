@@ -6,7 +6,14 @@ http:
         api-router:
             rule: "PathPrefix(`/api`)"
             service: api
+        ui-router:
+            rule: "PathPrefix(`/`)"
+            service: ui
     services:
+        ui:
+            loadBalancer:
+                servers:
+                    - url: "http://ui:3000/"
         api:
             loadBalancer:
                 servers:
@@ -15,3 +22,4 @@ http:
             loadBalancer:
                 servers:
                     - url: "http://planner:80/"
+                

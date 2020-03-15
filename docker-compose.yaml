@@ -32,6 +32,11 @@ services:
     environment:
       FIRESTORE_KEY_PATH: /run/secrets/firestore_psw
       PATH_PREFIX: /api
+  ui:
+    build: ./ToPickPlaceUi
+    environment:
+      TOPICKPLACE_API_PATH: http://api:8080
+      TOPICKPLACE_PLANNER_PATH: http://planner:80
   # jaeger:
   #   image: jaegertracing/all-in-one:1.17
   #   ports:
