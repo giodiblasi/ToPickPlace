@@ -14,6 +14,13 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik:/etc/traefik
+    environment:
+      EDGE_UI_URL: ${EDGE_UI_URL}
+      EDGE_API_URL: ${EDGE_API_URL}
+      EDGE_PLANNER_URL: ${EDGE_PLANNER_URL}
+      EDGE_PLANNER_PREFIX: ${PLANNER_PREFIX}
+      EDGE_API_PREFIX: ${API_PREFIX}
+      EDGE_UI_PREFIX: ${UI_PREFIX}
   planner:
     build: ./ToPickPlacePlanner
     secrets:
@@ -22,7 +29,7 @@ services:
       - ./keys:/keys
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firestore_psw
-      PATH_PREFIX: /planner
+      PATH_PREFIX: ${PLANNER_PREFIX}
   api:
     build: ./ToPickPlaceApi
     secrets:
@@ -31,12 +38,12 @@ services:
       - ./keys:/keys
     environment:
       FIRESTORE_KEY_PATH: /run/secrets/firestore_psw
-      PATH_PREFIX: /api
+      PATH_PREFIX: ${API_PREFIX}
   ui:
     build: ./ToPickPlaceUi
     environment:
-      TOPICKPLACE_API_PATH: http://api:8080
-      TOPICKPLACE_PLANNER_PATH: http://planner:80
+      TOPICKPLACE_API_PATH: ${INTERNAL_API_URL}
+      TOPICKPLACE_PLANNER_PATH: ${INTERNAL_PLANNER_URL}
   # jaeger:
   #   image: jaegertracing/all-in-one:1.17
   #   ports:
