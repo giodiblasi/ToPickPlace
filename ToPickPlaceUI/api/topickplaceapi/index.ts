@@ -1,7 +1,7 @@
 import { EventSummaryApiModel, EventApiModel, TopicApiModel } from "./models"
-import { TOPICKPLACE_API_URL } from '../../utils/costants';
+import { getApiUrl } from '../../utils/costants';
 import fetch from 'isomorphic-unfetch'
-
+ 
 const mockedEvents: Array<EventApiModel> = [{
   id: "0mfZrcdFNmewK6one94d",
   description: "My Conference",
@@ -53,14 +53,14 @@ const mockedEvents: Array<EventApiModel> = [{
 
 
 export const fetchSummaries = async (): Promise<Array<EventSummaryApiModel>> => {
-  const res = await fetch(`${TOPICKPLACE_API_URL}/event/summary`).then(response => response.json());
+  const res = await fetch(`${getApiUrl()}/event/summary`).then(response => response.json());
   console.log(res);
   return res;//Promise.resolve(mockedEvents.map(({id, description, name})=>({id, description, name})));
 }
 
 
 export const fetchEvent = async (id: string): Promise<EventApiModel | undefined> => {
-  return await fetch(`${TOPICKPLACE_API_URL}/event/${id}`, {
+  return await fetch(`${getApiUrl()}/event/${id}`, {
     headers: new Headers(
       {
         "Content-Type": "application/json",

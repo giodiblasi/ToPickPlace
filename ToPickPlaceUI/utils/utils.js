@@ -1,0 +1,1 @@
+export const runOnServer = () => typeof window === 'undefined';

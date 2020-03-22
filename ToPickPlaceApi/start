@@ -1,3 +1,4 @@
 FIRESTORE_KEY_PATH=$(pwd)/../keys/topickplace-firestore-client.json
+PATH_PREFIX=/api
 ./mvnw install && \
-    FIRESTORE_KEY_PATH=$FIRESTORE_KEY_PATH ./mvnw spring-boot:run -pl topickplace-api 
+    PATH_PREFIX=/api FIRESTORE_KEY_PATH=$FIRESTORE_KEY_PATH ./mvnw spring-boot:run -pl topickplace-api 

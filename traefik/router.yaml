@@ -1,17 +1,25 @@
 http:
     routers:
         planner-router:
-            rule: "PathPrefix(`/planner`)"
+            rule: "PathPrefix(`{{ env "EDGE_PLANNER_PREFIX" }}`)"
             service: planner
         api-router:
-            rule: "PathPrefix(`/api`)"
+            rule: "PathPrefix(`{{ env "EDGE_API_PREFIX" }}`)"
             service: api
+        ui-router:
+            rule: "PathPrefix(`{{ env "EDGE_UI_PREFIX" }}`)"
+            service: ui
     services:
+        ui:
+            loadBalancer:
+                servers:
+                    - url: {{ env "EDGE_UI_URL"}} #"http://ui:3000/"
         api:
             loadBalancer:
                 servers:
-                    - url: "http://api:8080/"
+                    - url: {{ env "EDGE_API_URL"}}
         planner:
             loadBalancer:
                 servers:
-                    - url: "http://planner:80/"
+                    - url: {{ env "EDGE_PLANNER_URL"}}
+                

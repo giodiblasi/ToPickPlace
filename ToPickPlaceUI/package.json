@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "TOPICKPLACE_API_PATH=http://topickplace.it TOPICKPLACE_PLANNER_PAT=http://topickplace.it next dev",
     "build": "next build",
     "start": "next start"
   },
