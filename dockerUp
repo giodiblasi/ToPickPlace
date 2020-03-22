@@ -1,0 +1,19 @@
+IP_ADDRESS=$(ifconfig en0 | grep "inet " | cut -d\  -f2)
+read -p "UI Development Mode[y/n]: " ui_development
+read -p "API Development Mode[y/n]: " api_development
+read -p "PLANNER Development Mode[y/n]: " planner_development
+PATHS=""
+if [ $ui_development = "y" ]
+then
+    PATHS="$PATHS EDGE_UI_URL=http://$IP_ADDRESS:3000/"
+fi
+if [ $api_development = "y" ]
+then
+    PATHS="$PATHS EDGE_API_URL=http://$IP_ADDRESS:8080/"
+fi
+if [ $planner_development = "y" ]
+then
+    PATHS="$PATHS EDGE_PLANNER_URL=http://$IP_ADDRESS:80/"
+fi
+echo "$PATHS docker-compose up"
+echo $(eval "$PATHS docker-compose up")
