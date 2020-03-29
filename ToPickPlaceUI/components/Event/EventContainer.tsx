@@ -8,7 +8,6 @@ import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/sel
 import { selectTopic, openNewTopicForm } from "../../store/actions/topics";
 import Modal from "../../Modal";
 import { cancelOperation } from "../../store/actions/modal";
-import { Label, Classes, TagInput } from "@blueprintjs/core";
 import NewAttendee from "../Attendees/NewAttendee";
 
 
