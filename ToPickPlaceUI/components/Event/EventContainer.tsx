@@ -8,6 +8,8 @@ import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/sel
 import { selectTopic, openNewTopicForm } from "../../store/actions/topics";
 import Modal from "../../Modal";
 import { cancelOperation } from "../../store/actions/modal";
+import { Label, Classes, TagInput } from "@blueprintjs/core";
+import NewAttendee from "../Attendees/NewAttendee";
 
 
 type Props = {
@@ -31,13 +33,7 @@ class EventContainer extends Component<Props>{
             selectedTopic, selectTopic,
             openNewAttendee, cancelOperation, modalState, openNewTopic } = this.props;
         return <div className="grid-container">
-            <Modal
-                cancelOperation={() => cancelOperation()}
-                submitOperation={() => { }}
-                submitLabel="Save Attendee"
-                isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}>
-                new Attendee
-            </Modal>
+            <NewAttendee/>
             <Modal
                 cancelOperation={() => cancelOperation()}
                 submitOperation={() => { }}

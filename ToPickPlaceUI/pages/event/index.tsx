@@ -41,7 +41,6 @@ class Events extends Component<Props> {
   )
   render() {
     const { events, selectEvent } = this.props;
-    console.log("render", events.availableEvents)
     return (
       <div>
         <Navbar>
