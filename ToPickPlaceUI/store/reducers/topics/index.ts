@@ -17,7 +17,7 @@ const initialState: TopicsState = {
                 if(topic1.weight < topic2.weight) return 1;
                 if(topic1.weight > topic2.weight) return -1;
                 return 0;
-          }),
+          }).map(t=>({...t, id:t.id ?? ''})),
           selectedId: undefined
         };
       case SELECT_TOPIC:

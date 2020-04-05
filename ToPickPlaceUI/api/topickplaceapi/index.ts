@@ -65,7 +65,6 @@ export const fetchEvent = async (id: string): Promise<EventApiModel | undefined>
 }
 
 export const saveAttendee = async (eventId: string, attendee: AttendeeApiModel): Promise<AttendeeApiModel> =>{
-    console.log('==>saving ',eventId, attendee);
     var res =  await fetch(`${getApiUrl()}/event/${eventId}/attendee`,{
       method: 'POST',
       body: JSON.stringify(attendee),
@@ -76,4 +75,17 @@ export const saveAttendee = async (eventId: string, attendee: AttendeeApiModel):
     .then(r=>r.json())
     .catch(err => console.log(err));
     return res;
+}
+
+export const saveTopic = async (eventId: string, topic: TopicApiModel): Promise<TopicApiModel> =>{
+  var res =  await fetch(`${getApiUrl()}/event/${eventId}/topic`,{
+    method: 'POST',
+    body: JSON.stringify(topic),
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(r=>r.json())
+  .catch(err => console.log(err));
+  return res;
 }
