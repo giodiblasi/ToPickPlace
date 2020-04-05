@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class AttendeeController{
 
     @Async()
     @RequestMapping(method = RequestMethod.POST)
-    public Future<Attendee> CreateTopic(@PathVariable("eventId") String eventId, Attendee attendee){
+    public Future<Attendee> CreateTopic(@PathVariable("eventId") String eventId, @RequestBody Attendee attendee){
         return attendeeRepository.CreateAttendee(eventId, attendee)
         .thenApply(
             result->result.getOrElseThrow(

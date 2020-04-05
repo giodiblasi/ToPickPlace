@@ -13,7 +13,7 @@ export interface EventApiModel{
 }
 
 export interface AttendeeApiModel{
-    id: string,
+    id?: string,
     name: string,
     surname:string,
     topics: Array<string>,

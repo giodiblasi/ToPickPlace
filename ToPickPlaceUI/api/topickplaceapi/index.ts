@@ -1,4 +1,4 @@
-import { EventSummaryApiModel, EventApiModel, TopicApiModel } from "./models"
+import { EventSummaryApiModel, EventApiModel, TopicApiModel, AttendeeApiModel } from "./models"
 import { getApiUrl } from '../../utils/costants';
 import fetch from 'isomorphic-unfetch'
  
@@ -54,22 +54,26 @@ const mockedEvents: Array<EventApiModel> = [{
 
 export const fetchSummaries = async (): Promise<Array<EventSummaryApiModel>> => {
   const res = await fetch(`${getApiUrl()}/event/summary`).then(response => response.json());
-  console.log(res);
-  return res;//Promise.resolve(mockedEvents.map(({id, description, name})=>({id, description, name})));
+  return res;
 }
 
 
 export const fetchEvent = async (id: string): Promise<EventApiModel | undefined> => {
-  return await fetch(`${getApiUrl()}/event/${id}`, {
-    headers: new Headers(
-      {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    ), method: 'GET', mode: 'no-cors'
-  })
-
+  return await fetch(`${getApiUrl()}/event/${id}`)
     .then(response => { var r = response.json(); console.log(r); return r; })
     .catch(err => console.log(err));
 }
-  //Promise.resolve(mockedEvents.find(e=>e.id===id));
+
+export const saveAttendee = async (eventId: string, attendee: AttendeeApiModel): Promise<AttendeeApiModel> =>{
+    console.log('==>saving ',eventId, attendee);
+    var res =  await fetch(`${getApiUrl()}/event/${eventId}/attendee`,{
+      method: 'POST',
+      body: JSON.stringify(attendee),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(r=>r.json())
+    .catch(err => console.log(err));
+    return res;
+}
