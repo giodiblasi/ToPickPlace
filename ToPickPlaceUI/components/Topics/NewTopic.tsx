@@ -16,15 +16,21 @@ type Props = {
 
 type NewTopicState = {
     description: string,
-    weigth: number
+    weigth: number,
+    name:string
 }
 
 class NewTopic extends Component<Props, NewTopicState>{
     constructor(props: Props){
         super(props);
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleWeigthChange = this.handleWeigthChange.bind(this);
         this.handleSumbmit = this.handleSumbmit.bind(this);
+    }
+
+    handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+        this.setState({name: event.target.value});
     }
 
     handleWeigthChange(event: ChangeEvent<HTMLInputElement>) {
@@ -35,8 +41,9 @@ class NewTopic extends Component<Props, NewTopicState>{
         this.setState({description: event.target.value});
     }
 
-    handleSumbmit(event: FormEvent<HTMLFormElement>, eventId: string){
+    handleSumbmit(saveTopic: Function, event: FormEvent<HTMLFormElement>, eventId: string){
         saveTopic(eventId, {
+            name: this.state.name,
             weight: this.state.weigth,
             description: this.state.description
         });
@@ -51,13 +58,17 @@ class NewTopic extends Component<Props, NewTopicState>{
                 submitOperation={() => { }}
                 submitLabel="Save Topic"
                 isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}>
-                <form onSubmit={(sumbitEvent)=>this.handleSumbmit(sumbitEvent, eventId)}>
+                <form onSubmit={(sumbitEvent)=>this.handleSumbmit(saveTopic, sumbitEvent, eventId)}>
                     <Label>
                         Name
+                        <input className={Classes.INPUT} onChange={this.handleNameChange}/>
+                    </Label>
+                    <Label>
+                        Description
                         <input className={Classes.INPUT} onChange={this.handleDescriptionChange}/>
                     </Label>
                     <Label>
-                        Surname
+                        Weight
                         <input className={Classes.INPUT} type="number" onChange={this.handleWeigthChange}/>
                     </Label>
                     <input type="submit" value="Submit" />

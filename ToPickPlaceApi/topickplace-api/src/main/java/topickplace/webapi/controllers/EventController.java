@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +51,7 @@ public class EventController{
 
     @Async()
     @RequestMapping(method = RequestMethod.POST)
-    public Future<Event> CreateEvent(@Valid Event event){
+    public Future<Event> CreateEvent(@Valid @RequestBody Event event){
         return createEvent.Execute(event)
         .thenApply(
             result->result.getOrElseThrow(
@@ -79,7 +80,7 @@ public class EventController{
 
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
-    public Future<String> UpdateEvent(@PathVariable("id") String id, Event event){
+    public Future<String> UpdateEvent(@PathVariable("id") String id, @RequestBody Event event){
         return updateEvent
             .Execute(id, event)
             .thenApply(
