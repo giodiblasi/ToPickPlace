@@ -6,10 +6,10 @@ import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
 import { selectTopic, openNewTopicForm } from "../../store/actions/topics";
-import Modal from "../../Modal";
 import { cancelOperation } from "../../store/actions/modal";
 import NewAttendee from "../Attendees/NewAttendee";
 import NewTopic from "../Topics/NewTopic";
+import MapBoard from "../Map/MapBoard";
 
 
 type Props = {
@@ -37,6 +37,10 @@ class EventContainer extends Component<Props>{
             <NewTopic/>
             <div className={MAIN_AREA}>
                 <h3>Current Event: {currentEvent.name}</h3>
+                {currentEvent.eventMap
+                    ?<MapBoard map={currentEvent.eventMap}/>
+                    :null
+                }
             </div>
             <div className={SIDE_AREA}>
                 <h3>attendees</h3>

@@ -6,7 +6,7 @@ const initialState: EventsState = {
     selectedEvent: {
       id:"",
       description:"",
-      name: ""
+      name: "",
     }
   }
   
