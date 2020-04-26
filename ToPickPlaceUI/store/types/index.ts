@@ -24,7 +24,8 @@ export interface Attendee{
 export interface Topic{
     id: string,
     description: string,
-    weight: number
+    weight: number,
+    name: string
 }
 
 export interface EventsState {

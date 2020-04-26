@@ -9,6 +9,7 @@ import { selectTopic, openNewTopicForm } from "../../store/actions/topics";
 import Modal from "../../Modal";
 import { cancelOperation } from "../../store/actions/modal";
 import NewAttendee from "../Attendees/NewAttendee";
+import NewTopic from "../Topics/NewTopic";
 
 
 type Props = {
@@ -33,13 +34,7 @@ class EventContainer extends Component<Props>{
             openNewAttendee, cancelOperation, modalState, openNewTopic } = this.props;
         return <div className="grid-container">
             <NewAttendee/>
-            <Modal
-                cancelOperation={() => cancelOperation()}
-                submitOperation={() => { }}
-                submitLabel="Save Topic"
-                isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}>
-                New Topic
-            </Modal>
+            <NewTopic/>
             <div className={MAIN_AREA}>
                 <h3>Current Event: {currentEvent.name}</h3>
             </div>

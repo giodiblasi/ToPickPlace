@@ -21,7 +21,8 @@ export interface AttendeeApiModel{
 }
 
 export interface TopicApiModel{
-    id: string,
+    id?: string,
     description: string,
-    weight: number
+    weight: number,
+    name: string
 }

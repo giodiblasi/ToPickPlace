@@ -1,7 +1,7 @@
 import { ModalState, MODALS } from "../../types"
 import { AttendeesActionTypes, OPEN_NEW_ATTENDEE_FORM, SAVED_ATTENDEE } from "../../actions/attendees/interfaces";
 import { ModalActionTypes, CANCEL_OPERATION } from "../../actions/modal/types";
-import { OPEN_NEW_TOPIC_FORM, TopicsActionTypes } from "../../actions/topics/interfaces";
+import { OPEN_NEW_TOPIC_FORM, TopicsActionTypes, SAVED_TOPIC } from "../../actions/topics/interfaces";
 
 const initialState: ModalState = {
   opened: false
@@ -23,6 +23,7 @@ export function ModalReducer(
         type: MODALS.NEW_TOPIC
       }
     case CANCEL_OPERATION :
+    case SAVED_TOPIC:
     case SAVED_ATTENDEE:
       return { opened: false }
     default:

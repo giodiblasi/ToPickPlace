@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class TopicController{
 
     @Async()
     @RequestMapping(method = RequestMethod.POST)
-    public Future<Topic> CreateTopic(@PathVariable("eventId") String eventId, Topic topic){
+    public Future<Topic> CreateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
         return createTopic.Create(eventId, topic)
         .thenApply(
             result->result.getOrElseThrow(
