@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { EventMap } from "../../store/types";
 import { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE } from "./mapBoardLayout";
+import { Button } from "@blueprintjs/core";
+import { SAVE_MAP, printLabel } from "../../labels/events";
 type Props = {
     map: EventMap
+    saveMap: (map: EventMap) => void
 }
 type State = {
     map: EventMap
@@ -26,10 +29,9 @@ export default class MapBoard extends Component<Props, State>{
                 columns.push((
                     <td className={currentValue == 1 ? SEAT_AVAILABLE_STYLE : SEAT_BLOCKED_STYLE}
                         key={currentIndex}
-                        onClick={() =>{
-                            map.availableSeats[currentIndex] = (currentValue==1) ? 0 : 1;
+                        onClick={() => {
+                            map.availableSeats[currentIndex] = (currentValue == 1) ? 0 : 1;
                             this.forceUpdate();
-                            console.log(currentValue)
                         }}>
                     </td>))
             }
@@ -51,6 +53,8 @@ export default class MapBoard extends Component<Props, State>{
                             {this.drawTable()}
                         </tbody>
                     </table>
+                    <Button
+                            onClick={()=>this.props.saveMap(this.state.map)}>{printLabel(SAVE_MAP)}</Button>
                     <style jsx>{mapBoardLayout}</style>
                 </div>
             )

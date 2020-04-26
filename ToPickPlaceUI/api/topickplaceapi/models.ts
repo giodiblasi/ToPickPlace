@@ -14,7 +14,7 @@ export interface EventApiModel{
     name: string
     attendees: Array<AttendeeApiModel>,
     topics: Array<TopicApiModel>,
-    eventMap: EventMapApiModel
+    eventMap?: EventMapApiModel
 }
 
 export interface AttendeeApiModel{

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout } from './eventContainerLayout';
-import { Event, Attendee, Topic, AppState, MODALS, ModalState } from "../../store/types";
+import { Event, Attendee, Topic, AppState, ModalState } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
@@ -31,14 +31,16 @@ class EventContainer extends Component<Props>{
         const { currentEvent, attendees, topics,
             selectedAttendee, selectAttendee,
             selectedTopic, selectTopic,
-            openNewAttendee, cancelOperation, modalState, openNewTopic } = this.props;
+            openNewAttendee, openNewTopic } = this.props;
         return <div className="grid-container">
             <NewAttendee/>
             <NewTopic/>
             <div className={MAIN_AREA}>
                 <h3>Current Event: {currentEvent.name}</h3>
                 {currentEvent.eventMap
-                    ?<MapBoard map={currentEvent.eventMap}/>
+                    ?<MapBoard
+                        map={currentEvent.eventMap}
+                        saveMap={(map)=>console.log(map)}/>
                     :null
                 }
             </div>

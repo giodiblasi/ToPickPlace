@@ -17,11 +17,13 @@ public class EventValidator implements Validator {
         Event event = (Event) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field.required");
         var eventMap = event.getEventMap();
+        if(eventMap.getAvailableSeats().size()!=eventMap.getHeigth()*eventMap.getWidth()){
+            errors.rejectValue("eventMap.availableSeats", "not.valid.seats.length");
+        }
         eventMap
             .getAvailableSeats()
             .stream()
-            .filter(seat -> seat.getRow() >= eventMap.getHeigth() ||
-                        seat.getColumn() >= eventMap.getWidth())
-            .forEach(seat -> errors.rejectValue("eventMap.availableSeats", "not.valid.seat.position"));
+            .filter(seat->(seat!=1 && seat!=0))
+            .forEach(seat->errors.rejectValue("eventMap.availableSeats", "not.valid.seat.position"));
     }
 }
