@@ -12,4 +12,5 @@ public interface IRepository<T> {
     CompletableFuture<Either<String, List<T>>> GetAll(String... fields);
     CompletableFuture<Either<String, List<T>>> GetAll();
     CompletableFuture<Either<String, String>> Update(String id, T data);
+    <FieldType> CompletableFuture<Either<String, String>> UpdateField(String id, String field, FieldType data);
 }

@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.Async;
 
 
 import io.vavr.control.Either;
-import topickplace.infrastructure.firebase.Firebase;
 
 public  class  FireStoreRepository{
 
@@ -102,6 +101,18 @@ public  class  FireStoreRepository{
         return CompletableFuture.supplyAsync(() -> {
             try{
                 collection.document(id).update(data);
+                return Either.right(id);
+            }catch(Exception ex){
+                return Either.left(ex.getMessage());
+            }
+        });
+    }
+
+    @Async
+    public CompletableFuture<Either<String, String>> UpdateField(String id, String field, Map<String,Object> data) {
+        return CompletableFuture.supplyAsync(() -> {
+            try{
+                collection.document(id).update(field, data);
                 return Either.right(id);
             }catch(Exception ex){
                 return Either.left(ex.getMessage());

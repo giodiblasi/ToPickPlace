@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
 import topickplace.core.models.Event;
+import topickplace.core.models.EventMap;
 import topickplace.core.repositories.IEventRepository;
 import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
 import topickplace.infrastructure.firebase.IRepository;
@@ -50,5 +51,10 @@ public class EventRepository implements IEventRepository{
     @Override
     public CompletableFuture<Either<String, String>> UpdateEvent(String id, Event event) {
         return repository.Update(id, event);
+    }
+
+    @Override
+    public CompletableFuture<Either<String, String>> UpdatEventMap(String id, EventMap map) {
+        return repository.UpdateField(id, "eventMap", map);
     }
 }
