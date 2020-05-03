@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout } from './eventContainerLayout';
-import { Event, Attendee, Topic, AppState, ModalState } from "../../store/types";
+import { Event, Attendee, Topic, AppState, ModalState, EventMap } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
@@ -10,6 +10,7 @@ import { cancelOperation } from "../../store/actions/modal";
 import NewAttendee from "../Attendees/NewAttendee";
 import NewTopic from "../Topics/NewTopic";
 import MapBoard from "../Map/MapBoard";
+import { updateEventMap } from "../../store/actions/eventMap";
 
 
 type Props = {
@@ -23,7 +24,8 @@ type Props = {
     modalState: ModalState,
     openNewAttendee: typeof openNewAttendeeForm,
     openNewTopic: typeof openNewTopicForm,
-    cancelOperation: typeof cancelOperation
+    cancelOperation: typeof cancelOperation,
+    updateEventMap: typeof updateEventMap
 }
 
 class EventContainer extends Component<Props>{
@@ -31,7 +33,7 @@ class EventContainer extends Component<Props>{
         const { currentEvent, attendees, topics,
             selectedAttendee, selectAttendee,
             selectedTopic, selectTopic,
-            openNewAttendee, openNewTopic } = this.props;
+            openNewAttendee, openNewTopic, updateEventMap } = this.props;
         return <div className="grid-container">
             <NewAttendee/>
             <NewTopic/>
@@ -40,7 +42,7 @@ class EventContainer extends Component<Props>{
                 {currentEvent.eventMap
                     ?<MapBoard
                         map={currentEvent.eventMap}
-                        saveMap={(map)=>console.log(map)}/>
+                        saveMap={(map)=>updateEventMap(currentEvent.id, map)}/>
                     :null
                 }
             </div>
@@ -76,6 +78,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
     openNewAttendee: () => dispatch(openNewAttendeeForm()),
     cancelOperation: () => dispatch(cancelOperation()),
     openNewTopic: () => dispatch(openNewTopicForm()),
+    updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map))
 
 });
 
