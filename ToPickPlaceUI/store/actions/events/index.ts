@@ -2,6 +2,7 @@ import { LOAD_AVAILABLE_EVENTS, SELECT_EVENT, EventsActionTypes} from './interfa
 import { fetchEvent, fetchSummaries } from '../../../api/topickplaceapi';
 import { Dispatch } from 'react';
 
+
 export const loadEvents = () => async (dispatch: Dispatch<EventsActionTypes>) => {
   const events =  await fetchSummaries();
   return dispatch({

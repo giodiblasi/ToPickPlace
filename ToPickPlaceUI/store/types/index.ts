@@ -7,10 +7,17 @@ export interface EventSummary{
 
 }
 
+export interface EventMap{
+    width: number,
+    heigth:number,
+    availableSeats: Array<0|1|-1>
+}
+
 export interface Event{
     id: string,
     description:string,
-    name: string
+    name: string,
+    eventMap?: EventMap
 }
 
 export interface Attendee{

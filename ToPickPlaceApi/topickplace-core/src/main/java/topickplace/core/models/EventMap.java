@@ -5,18 +5,18 @@ import java.util.List;
 public class EventMap{
     private Integer width;
     private Integer heigth;
-    private List<SeatPosition> availableSeats;
+    private List<Integer> availableSeats;
 
     public EventMap(){}
     public Integer getWidth() {
         return width;
     }
 
-    public List<SeatPosition> getAvailableSeats() {
+    public List<Integer> getAvailableSeats() {
         return availableSeats;
     }
 
-    public void setAvailableSeats(List<SeatPosition> availableSeats) {
+    public void setAvailableSeats(List<Integer> availableSeats) {
         this.availableSeats = availableSeats;
     }
 

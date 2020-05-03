@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 
 import io.vavr.control.Either;
 import topickplace.core.models.Event;
+import topickplace.core.models.EventMap;
 
 public interface IEventRepository{
     CompletableFuture<Either<String,Event>> CreateEvent(Event event);
@@ -13,4 +14,5 @@ public interface IEventRepository{
     CompletableFuture<Either<String,List<Event>>> GetAll();
     CompletableFuture<Either<String,List<Event>>> GetAll(String... fields);
     CompletableFuture<Either<String,String>> UpdateEvent(String id, Event event);
+    CompletableFuture<Either<String, String>> UpdatEventMap(String id, EventMap map);
 }
