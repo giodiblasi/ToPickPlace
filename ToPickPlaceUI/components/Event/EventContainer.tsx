@@ -50,12 +50,16 @@ class EventContainer extends Component<Props>{
                 <h3>attendees</h3>
                 <button onClick={() => openNewAttendee()}>Add Attendee</button>
                 {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
-                {selectedAttendee ? <AttendeeDetails attendee={selectedAttendee} /> : null}
+                {selectedAttendee ? <AttendeeDetails 
+                                        attendee={{
+                                            ...selectedAttendee,
+                                            topics:topics.filter(topic=>(selectedAttendee.topics||[]).includes(topic.id))}}
+                                    /> : null}
             </div>
             <div className={BOTTOM_AREA}>
                 <h3>Topics</h3>
                 <button onClick={() => openNewTopic()}>Add Topic</button>
-                {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.description}</button>))}
+                {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.name}</button>))}
                 {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
             </div>
             <style jsx>{eventContainerLayout}</style>
