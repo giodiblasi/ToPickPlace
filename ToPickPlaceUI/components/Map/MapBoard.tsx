@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { EventMap } from "../../store/types";
 import { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE } from "./mapBoardLayout";
 import { Button } from "@blueprintjs/core";
-import { SAVE_MAP, printLabel } from "../../labels/events";
+import { SAVE_MAP, printLabel, GET_SOLUTION } from "../../labels/events";
 type Props = {
     map: EventMap
-    saveMap: (map: EventMap) => void
+    saveMap: (map: EventMap) => void,
+    getSolution: () => void
 }
 type State = {
     map: EventMap
@@ -54,7 +55,11 @@ export default class MapBoard extends Component<Props, State>{
                         </tbody>
                     </table>
                     <Button
-                            onClick={()=>this.props.saveMap(this.state.map)}>{printLabel(SAVE_MAP)}</Button>
+                        onClick={() => this.props.saveMap(this.state.map)}>{printLabel(SAVE_MAP)}
+                    </Button>
+                    <Button
+                        onClick={() => this.props.getSolution()}>{printLabel(GET_SOLUTION)}
+                    </Button>
                     <style jsx>{mapBoardLayout}</style>
                 </div>
             )

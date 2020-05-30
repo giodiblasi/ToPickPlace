@@ -6,7 +6,7 @@ export interface EventSummaryApiModel{
 export interface EventMapApiModel{
     width: number,
     heigth:number,
-    availableSeats: Array<0|1|-1>
+    availableSeats: Array<0|1>
 }
 export interface EventApiModel{
     id: string,
@@ -28,6 +28,28 @@ export interface AttendeeApiModel{
 export interface TopicApiModel{
     id?: string,
     description: string,
-    weight: number,
+    weigth: number,
     name: string
+}
+
+
+export interface SolutionRequest {
+    map: {
+        rows: number,
+        cols: number,
+        map: Array<0|1>
+    },
+    attendees: Array<{
+        id: string,
+        topicIds: Array<string>
+    }>,
+    topics:Array<{
+        id: string,
+        weigth: number
+    }>
+}
+
+export interface Solution{
+    solution: Array<number>,
+    score: number
 }

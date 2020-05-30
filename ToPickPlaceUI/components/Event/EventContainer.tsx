@@ -11,6 +11,7 @@ import NewAttendee from "../Attendees/NewAttendee";
 import NewTopic from "../Topics/NewTopic";
 import MapBoard from "../Map/MapBoard";
 import { updateEventMap } from "../../store/actions/eventMap";
+import { getSolution } from "../../store/actions/solution";
 
 
 type Props = {
@@ -25,7 +26,8 @@ type Props = {
     openNewAttendee: typeof openNewAttendeeForm,
     openNewTopic: typeof openNewTopicForm,
     cancelOperation: typeof cancelOperation,
-    updateEventMap: typeof updateEventMap
+    updateEventMap: typeof updateEventMap,
+    getSolution: typeof getSolution
 }
 
 class EventContainer extends Component<Props>{
@@ -33,28 +35,30 @@ class EventContainer extends Component<Props>{
         const { currentEvent, attendees, topics,
             selectedAttendee, selectAttendee,
             selectedTopic, selectTopic,
-            openNewAttendee, openNewTopic, updateEventMap } = this.props;
+            openNewAttendee, openNewTopic, updateEventMap, getSolution } = this.props;
         return <div className="grid-container">
-            <NewAttendee/>
-            <NewTopic/>
+            <NewAttendee />
+            <NewTopic />
             <div className={MAIN_AREA}>
                 <h3>Current Event: {currentEvent.name}</h3>
                 {currentEvent.eventMap
-                    ?<MapBoard
+                    ? <MapBoard
                         map={currentEvent.eventMap}
-                        saveMap={(map)=>updateEventMap(currentEvent.id, map)}/>
-                    :null
+                        saveMap={(map) => updateEventMap(currentEvent.id, map)}
+                        getSolution={() => getSolution()} />
+                    : null
                 }
             </div>
             <div className={SIDE_AREA}>
                 <h3>attendees</h3>
                 <button onClick={() => openNewAttendee()}>Add Attendee</button>
                 {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
-                {selectedAttendee ? <AttendeeDetails 
-                                        attendee={{
-                                            ...selectedAttendee,
-                                            topics:topics.filter(topic=>(selectedAttendee.topics||[]).includes(topic.id))}}
-                                    /> : null}
+                {selectedAttendee ? <AttendeeDetails
+                    attendee={{
+                        ...selectedAttendee,
+                        topics: topics.filter(topic => (selectedAttendee.topics || []).includes(topic.id))
+                    }}
+                /> : null}
             </div>
             <div className={BOTTOM_AREA}>
                 <h3>Topics</h3>
@@ -82,7 +86,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
     openNewAttendee: () => dispatch(openNewAttendeeForm()),
     cancelOperation: () => dispatch(cancelOperation()),
     openNewTopic: () => dispatch(openNewTopicForm()),
-    updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map))
+    updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map)),
+    getSolution: ()=>dispatch(getSolution())
 
 });
 

@@ -10,7 +10,7 @@ export interface EventSummary{
 export interface EventMap{
     width: number,
     heigth:number,
-    availableSeats: Array<0|1|-1>
+    availableSeats: Array<0|1>
 }
 
 export interface Event{
@@ -31,7 +31,7 @@ export interface Attendee{
 export interface Topic{
     id: string,
     description: string,
-    weight: number,
+    weigth: number,
     name: string
 }
 
