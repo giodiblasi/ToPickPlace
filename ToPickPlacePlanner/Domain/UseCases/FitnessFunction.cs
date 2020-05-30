@@ -19,10 +19,10 @@ namespace Domain.UseCases{
                     var seatsMap = SeatsWithAttendees(map, availableSeats, solution);
                     var score =  0;
                     availableSeats.Where(seat=>seatsMap[seat.R, seat.C]>=0).ToList().ForEach(seat=>{
-                        var targetTopicIds = attendees.First(a=>a.Id == seatsMap[seat.R, seat.C]).TopicIds;
+                        var targetTopicIds = attendees.First(a=>a.IndividualId == seatsMap[seat.R, seat.C]).TopicIds;
                         var neighboors = GetValidAdjacent(seat.R, seat.C, seatsMap);
                         neighboors.ToList().ForEach(neighboor=>{
-                            var neigboorTopicIds = attendees.First(a=>a.Id == seatsMap[neighboor.R,neighboor.C]).TopicIds;
+                            var neigboorTopicIds = attendees.First(a=>a.IndividualId == seatsMap[neighboor.R,neighboor.C]).TopicIds;
                             var commondIds = targetTopicIds.Intersect(neigboorTopicIds);
                             score += topics.Where(topic=>commondIds.Contains(topic.Id)).Sum(t=>t.Weigth);
                          });

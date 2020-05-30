@@ -40,7 +40,7 @@ namespace Domain.UseCases{
             };
         }
         private IEnumerable<int> GetGenes(SeatsMap map, IEnumerable<Attendee> attendees){
-            var attendeesGenes = attendees.Select(attendee=>attendee.Id).ToList();
+            var attendeesGenes = attendees.Select(attendee=>attendee.IndividualId).ToList();
             
             var availableSeats = 0;
             for(int i=0; i<map.Rows; i++)

@@ -19,14 +19,14 @@ namespace Tests.Domain.UseCases{
 
             
             var topics = new List<Topic>(){
-                new Topic{Id = 1, Weigth = 5},
-                new Topic{Id = 2, Weigth = 2}
+                new Topic{Id = "1", Weigth = 5},
+                new Topic{Id = "2", Weigth = 2}
             };
 
             var attendees = new List<Attendee>(){
-                new Attendee(){Id = 111, TopicIds = new List<int>(){1}},
-                new Attendee(){Id = 222, TopicIds = new List<int>(){2}},
-                new Attendee(){Id = 333, TopicIds = new List<int>(){1,2}}
+                new Attendee(){IndividualId = 111, TopicIds = new List<string>(){"1"}},
+                new Attendee(){IndividualId = 222, TopicIds = new List<string>(){"2"}},
+                new Attendee(){IndividualId = 333, TopicIds = new List<string>(){"1","2"}}
             };
 
             return FitnessFunction.GetScoreFunction(seatsMap,attendees,topics);
