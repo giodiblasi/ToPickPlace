@@ -7,7 +7,6 @@ import { AppState } from '../../types';
 
 export const getSolution = (): ThunkAction<void, AppState, unknown, Action<string>> => async (dispatch: Dispatch<SolutionActionTypes>, getState) => {
   const state = getState();
-  console.log("get solutio")
   if (state.events.selectedEvent.eventMap) {
     const solution = await fetchSolution({
       map: {
@@ -25,9 +24,9 @@ export const getSolution = (): ThunkAction<void, AppState, unknown, Action<strin
       }))
     });
 
-    console.log(state.topics.availables.map(t=>t.weigth));
+    return dispatch({
+      type: GET_SOLUTION,
+      payload: solution
+    });
   }
-  return dispatch({
-    type: GET_SOLUTION
-  });
 }

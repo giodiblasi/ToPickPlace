@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout } from './eventContainerLayout';
-import { Event, Attendee, Topic, AppState, ModalState, EventMap } from "../../store/types";
+import { Event, Attendee, Topic, AppState, ModalState, EventMap, Solution } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
 import { selectAttendee, openNewAttendeeForm } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
@@ -12,6 +12,7 @@ import NewTopic from "../Topics/NewTopic";
 import MapBoard from "../Map/MapBoard";
 import { updateEventMap } from "../../store/actions/eventMap";
 import { getSolution } from "../../store/actions/solution";
+import SolutionBoard from "../Map/SolutionMap";
 
 
 type Props = {
@@ -27,7 +28,8 @@ type Props = {
     openNewTopic: typeof openNewTopicForm,
     cancelOperation: typeof cancelOperation,
     updateEventMap: typeof updateEventMap,
-    getSolution: typeof getSolution
+    getSolution: typeof getSolution,
+    solution: Solution
 }
 
 class EventContainer extends Component<Props>{
@@ -35,11 +37,12 @@ class EventContainer extends Component<Props>{
         const { currentEvent, attendees, topics,
             selectedAttendee, selectAttendee,
             selectedTopic, selectTopic,
-            openNewAttendee, openNewTopic, updateEventMap, getSolution } = this.props;
+            openNewAttendee, openNewTopic, updateEventMap, getSolution, solution } = this.props;
         return <div className="grid-container">
             <NewAttendee />
             <NewTopic />
             <div className={MAIN_AREA}>
+                <div>
                 <h3>Current Event: {currentEvent.name}</h3>
                 {currentEvent.eventMap
                     ? <MapBoard
@@ -48,6 +51,14 @@ class EventContainer extends Component<Props>{
                         getSolution={() => getSolution()} />
                     : null
                 }
+                </div>
+                <div>
+                    {currentEvent.eventMap
+                    ?<SolutionBoard attendee={attendees} map={currentEvent.eventMap} solution={solution}>
+
+                    </SolutionBoard>
+                    : null}
+                </div>
             </div>
             <div className={SIDE_AREA}>
                 <h3>attendees</h3>
@@ -77,7 +88,8 @@ const mapStateToProps = (state: AppState) => ({
     topics: state.topics.availables,
     selectedAttendee: getSelectedAttendee(state),
     selectedTopic: getSelectedTopic(state),
-    modalState: state.modal
+    modalState: state.modal,
+    solution: state.solution
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -88,6 +100,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
     openNewTopic: () => dispatch(openNewTopicForm()),
     updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map)),
     getSolution: ()=>dispatch(getSolution())
+    
 
 });
 

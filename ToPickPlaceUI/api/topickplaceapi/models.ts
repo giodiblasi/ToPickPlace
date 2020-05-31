@@ -50,6 +50,6 @@ export interface SolutionRequest {
 }
 
 export interface Solution{
-    solution: Array<number>,
+    solution: Array<string>,
     score: number
 }
