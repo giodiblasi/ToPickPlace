@@ -13,6 +13,8 @@ import MapBoard from "../Map/MapBoard";
 import { updateEventMap } from "../../store/actions/eventMap";
 import { getSolution } from "../../store/actions/solution";
 import SolutionBoard from "../Map/SolutionMap";
+import { Tabs, Tab } from "@blueprintjs/core";
+import MapTabs from "../Map/MapTabs";
 
 
 type Props = {
@@ -42,40 +44,49 @@ class EventContainer extends Component<Props>{
             <NewAttendee />
             <NewTopic />
             <div className={MAIN_AREA}>
-                <div>
-                <h3>Current Event: {currentEvent.name}</h3>
-                {currentEvent.eventMap
-                    ? <MapBoard
-                        map={currentEvent.eventMap}
-                        saveMap={(map) => updateEventMap(currentEvent.id, map)}
-                        getSolution={() => getSolution()} />
-                    : null
-                }
-                </div>
-                <div>
-                    {currentEvent.eventMap
-                    ?<SolutionBoard attendee={attendees} map={currentEvent.eventMap} solution={solution}>
+                <div className = "item">
+                    <MapTabs
+                        drawMapPanel={<div>
 
-                    </SolutionBoard>
-                    : null}
+                            {currentEvent.eventMap
+                                ? <MapBoard
+                                    map={currentEvent.eventMap}
+                                    saveMap={(map) => updateEventMap(currentEvent.id, map)} />
+                                : null
+                            }</div>}
+
+                        solutionMapPanel={<div>
+                            {currentEvent.eventMap
+                                ? <SolutionBoard
+                                    attendee={attendees}
+                                    map={currentEvent.eventMap}
+                                    solution={solution}
+                                    getSolution={() => getSolution()}>
+                                </SolutionBoard>
+                                : null}
+                        </div>}></MapTabs>
                 </div>
+
+
             </div>
             <div className={SIDE_AREA}>
-                <h3>attendees</h3>
-                <button onClick={() => openNewAttendee()}>Add Attendee</button>
-                {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
-                {selectedAttendee ? <AttendeeDetails
-                    attendee={{
-                        ...selectedAttendee,
-                        topics: topics.filter(topic => (selectedAttendee.topics || []).includes(topic.id))
-                    }}
-                /> : null}
-            </div>
-            <div className={BOTTOM_AREA}>
-                <h3>Topics</h3>
-                <button onClick={() => openNewTopic()}>Add Topic</button>
-                {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.name}</button>))}
-                {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
+                <div>
+                    <h3>attendees</h3>
+                    <button onClick={() => openNewAttendee()}>Add Attendee</button>
+                    {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
+                    {selectedAttendee ? <AttendeeDetails
+                        attendee={{
+                            ...selectedAttendee,
+                            topics: topics.filter(topic => (selectedAttendee.topics || []).includes(topic.id))
+                        }}
+                    /> : null}
+                </div>
+                <div>
+                    <h3>Topics</h3>
+                    <button onClick={() => openNewTopic()}>Add Topic</button>
+                    {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.name}</button>))}
+                    {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
+                </div>
             </div>
             <style jsx>{eventContainerLayout}</style>
         </div>
@@ -99,8 +110,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
     cancelOperation: () => dispatch(cancelOperation()),
     openNewTopic: () => dispatch(openNewTopicForm()),
     updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map)),
-    getSolution: ()=>dispatch(getSolution())
-    
+    getSolution: () => dispatch(getSolution())
+
 
 });
 

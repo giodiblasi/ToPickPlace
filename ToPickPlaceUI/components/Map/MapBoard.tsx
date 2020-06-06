@@ -5,8 +5,7 @@ import { Button } from "@blueprintjs/core";
 import { SAVE_MAP, printLabel, GET_SOLUTION } from "../../labels/events";
 type Props = {
     map: EventMap
-    saveMap: (map: EventMap) => void,
-    getSolution: () => void
+    saveMap: (map: EventMap) => void
 }
 type State = {
     map: EventMap
@@ -55,10 +54,8 @@ export default class MapBoard extends Component<Props, State>{
                         </tbody>
                     </table>
                     <Button
+                        intent = "primary"
                         onClick={() => this.props.saveMap(this.state.map)}>{printLabel(SAVE_MAP)}
-                    </Button>
-                    <Button
-                        onClick={() => this.props.getSolution()}>{printLabel(GET_SOLUTION)}
                     </Button>
                     <style jsx>{mapBoardLayout}</style>
                 </div>

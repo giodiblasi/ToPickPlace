@@ -23,6 +23,15 @@ const eventContainerLayout = css.global`{
       background-color: rgba(255, 255, 255, 1);
       padding: 5px 0;
     }
+
+    .item {
+      /* Center the contents of the grid items. Making each grid item a Flex Container */
+      display: flex;
+     
+      /* Horizontal and Vertical centering */
+      justify-content: center;
+      align-items: center;
+   }
 }`
 
 const MAIN_AREA = 'main';
