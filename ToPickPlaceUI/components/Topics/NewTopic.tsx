@@ -44,7 +44,7 @@ class NewTopic extends Component<Props, NewTopicState>{
     handleSumbmit(saveTopic: Function, event: FormEvent<HTMLFormElement>, eventId: string){
         saveTopic(eventId, {
             name: this.state.name,
-            weight: this.state.weigth,
+            weigth: this.state.weigth,
             description: this.state.description
         });
         event.preventDefault();

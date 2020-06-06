@@ -10,7 +10,7 @@ export interface EventSummary{
 export interface EventMap{
     width: number,
     heigth:number,
-    availableSeats: Array<0|1|-1>
+    availableSeats: Array<0|1>
 }
 
 export interface Event{
@@ -31,7 +31,7 @@ export interface Attendee{
 export interface Topic{
     id: string,
     description: string,
-    weight: number,
+    weigth: number,
     name: string
 }
 
@@ -40,9 +40,14 @@ export interface EventsState {
     selectedEvent: Event
 }
 
+export interface Solution {
+    seats: Array<string>
+}
+
 
 export type TopicsState = SelectableList<Topic, string>;
 export type AttendeesState  = SelectableList<Attendee, string>;
+export type SolutionState = Solution
 
 export enum MODALS{
     NEW_ATTENDEE,
@@ -58,5 +63,6 @@ export type AppState = {
     events: EventsState,
     attendees: AttendeesState,
     topics: TopicsState,
-    modal: ModalState
+    modal: ModalState,
+    solution: SolutionState
 }

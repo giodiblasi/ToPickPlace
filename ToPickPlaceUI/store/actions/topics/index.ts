@@ -17,7 +17,7 @@ export const openNewTopicForm = () => ({
 export const saveTopic = (eventId:string, topic:Omit<Topic,'id'>) => async (dispatch: Dispatch<TopicsActionTypes>) => {
   const savedTopic = await saveTopicApi(eventId, {
     description: topic.description,
-    weight: topic.weight,
+    weigth: topic.weigth,
     name: topic.name
   });
   

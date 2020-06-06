@@ -14,8 +14,8 @@ export function TopicsReducer(
     case SELECT_EVENT:
       return {
         availables: action.payload.topics.sort((topic1, topic2) => {
-          if (topic1.weight < topic2.weight) return 1;
-          if (topic1.weight > topic2.weight) return -1;
+          if (topic1.weigth < topic2.weigth) return 1;
+          if (topic1.weigth > topic2.weigth) return -1;
           return 0;
         }).map(t => ({ ...t, id: t.id ?? '' })),
         selectedId: undefined

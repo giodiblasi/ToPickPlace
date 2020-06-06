@@ -1,7 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Api.Models;
 using Domain.Models;
 using Domain.UseCases;
 using Microsoft.AspNetCore.Mvc;
+using ApiAssignSeatsRequest = Api.Models.AssignSeatsRequest;
+using ApiAssignSeatsResponse = Api.Models.AssignSeatsResponse;
 
 namespace api.Controllers
 {
@@ -10,12 +16,18 @@ namespace api.Controllers
     public class SeatsController : ControllerBase
     {
         private IFindSolution findSolution;
-        public SeatsController(IFindSolution findSolution){
+        public SeatsController(IFindSolution findSolution)
+        {
             this.findSolution = findSolution;
         }
 
         [HttpPut]
-        public async Task<ActionResult<AssignSeatsResponse>> AssignSeats([FromBody] AssignSeatsRequest request) =>
-                await findSolution.Execute(request);
+        public async Task<ActionResult<ApiAssignSeatsResponse>> AssignSeats([FromBody] ApiAssignSeatsRequest request)
+        {
+            var mapper = new ApiMapper(request);
+            var response = await findSolution.Execute(mapper.GetDomainRequest());
+            return mapper.GetApiResponse(response, "/");
+        }
     }
+
 }
