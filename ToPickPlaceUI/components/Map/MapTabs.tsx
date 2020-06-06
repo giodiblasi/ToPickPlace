@@ -24,7 +24,7 @@ export default class MapTabs extends Component<Props, State>{
 
     render(){
         return (
-            <Tabs id="mapSwitch" selectedTabId={this.state.activeTabId} onChange={(id:string)=>this.handleChangeTab(id)}>
+            <Tabs id="mapSwitch" vertical={false} selectedTabId={this.state.activeTabId} onChange={(id:string)=>this.handleChangeTab(id)}>
             <Tab id="drawMapContainer" title="Draw Map" panel={this.props.drawMapPanel}></Tab>
             <Tab id="solutionContainer" title="SolutionMap" panel={this.props.solutionMapPanel}></Tab>
         </Tabs>

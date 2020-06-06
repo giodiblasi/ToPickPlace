@@ -13,7 +13,6 @@ import MapBoard from "../Map/MapBoard";
 import { updateEventMap } from "../../store/actions/eventMap";
 import { getSolution } from "../../store/actions/solution";
 import SolutionBoard from "../Map/SolutionMap";
-import { Tabs, Tab } from "@blueprintjs/core";
 import MapTabs from "../Map/MapTabs";
 
 
