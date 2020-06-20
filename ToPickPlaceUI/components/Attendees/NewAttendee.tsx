@@ -91,12 +91,11 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
         const {modalState, cancelOperation, eventId, saveAttendee, topics} = this.props;
         return (
             <Modal
-                cancelOperation={() => cancelOperation()}
-                submitOperation={() => { }}
-                submitLabel="Save Attendee"
-                isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}>
+                title="New Attendee"
+                isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}
+                cancelOperation = {cancelOperation}>
+                
                 <Card>
-                    <h5>Add New Attendee</h5>
                     <div>
                         <Label>
                             Name
@@ -115,10 +114,11 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
                             tagInputProps={{
                                 onRemove: this.removeTopic,    
                             }}
+                            popoverProps={{position: "left"}}
                         />
                         <br/>
+                        <br/>
                         <Button intent="primary" onClick={()=>{this.handleSumbmit(saveAttendee, eventId)}}>Save</Button>
-                        <Button intent="danger" onClick={()=>{cancelOperation()}}>Cancel</Button>
                     </div>
                 </Card>
             </Modal>

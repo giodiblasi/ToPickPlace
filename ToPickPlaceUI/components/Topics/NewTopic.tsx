@@ -47,12 +47,10 @@ class NewTopic extends Component<Props, NewTopicState>{
         const {modalState, cancelOperation, eventId, saveTopic} = this.props;
         return (
             <Modal
-                cancelOperation={() => cancelOperation()}
-                submitOperation={() => { }}
-                submitLabel="Save Topic"
-                isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}>
+                title="New Topic"
+                isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}
+                cancelOperation={cancelOperation}>
                 <Card>
-                    <h5>Add new topic</h5>
                     <div>
                         <Label>
                             Name
@@ -63,7 +61,6 @@ class NewTopic extends Component<Props, NewTopicState>{
                             <input className={Classes.INPUT} onChange={this.handleDescriptionChange}/>
                         </Label>
                         <Button intent="primary" onClick={()=>{this.handleSumbmit(saveTopic, eventId)}}>Save</Button>
-                        <Button intent="danger" onClick={()=>{cancelOperation()}}>Cancel</Button>
                     </div>
                 </Card>
             </Modal>
