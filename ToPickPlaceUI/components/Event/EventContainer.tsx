@@ -14,6 +14,8 @@ import { updateEventMap } from "../../store/actions/eventMap";
 import { getSolution } from "../../store/actions/solution";
 import SolutionBoard from "../Map/SolutionMap";
 import MapTabs from "../Map/MapTabs";
+import ListSearch from "../ListSearch";
+import { Button } from "@blueprintjs/core";
 
 
 type Props = {
@@ -71,8 +73,12 @@ class EventContainer extends Component<Props>{
             <div className={SIDE_AREA}>
                 <div>
                     <h3>attendees</h3>
-                    <button onClick={() => openNewAttendee()}>Add Attendee</button>
-                    {attendees.map((attendee, index) => (<button key={`attendee${index}`} onClick={() => selectAttendee(attendee.id)}>{attendee.name}</button>))}
+                    <Button intent="primary" onClick={() => openNewAttendee()} icon="add"/>
+                    <ListSearch
+                        items={attendees.map(a=>({id: a.id, display: `${a.name} ${a.surname}`}))}
+                        onSelect={(attendeeId)=>selectAttendee(attendeeId.toString())}>
+                            <Button text={selectedAttendee? selectedAttendee.name : 'Select an attendee'} rightIcon="double-caret-vertical" />
+                        </ListSearch>
                     {selectedAttendee ? <AttendeeDetails
                         attendee={{
                             ...selectedAttendee,
@@ -82,8 +88,12 @@ class EventContainer extends Component<Props>{
                 </div>
                 <div>
                     <h3>Topics</h3>
-                    <button onClick={() => openNewTopic()}>Add Topic</button>
-                    {topics.map((topic, index) => (<button key={`topic${index}`} onClick={() => selectTopic(topic.id)}>{topic.name}</button>))}
+                    <Button intent="primary" onClick={() => openNewTopic()} icon="add"/>
+                    <ListSearch
+                        items={topics.map(topic=>({id: topic.id, display: topic.name}))}
+                        onSelect={(topicId)=>selectTopic(topicId.toString())}>
+                            <Button text={selectedTopic? selectedTopic.name : 'Select a topic'} rightIcon="double-caret-vertical" />
+                        </ListSearch>
                     {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
                 </div>
             </div>
