@@ -1,6 +1,6 @@
 import React, { Component, ChangeEvent, FormEvent } from "react";
 import Modal from "../../Modal";
-import { Label, Classes } from "@blueprintjs/core";
+import { Label, Classes, Button, Card } from "@blueprintjs/core";
 import { MODALS, ModalState, AppState, Topic } from "../../store/types";
 import { cancelOperation } from "../../store/actions/modal";
 import { connect } from "react-redux";
@@ -16,7 +16,6 @@ type Props = {
 
 type NewTopicState = {
     description: string,
-    weigth: number,
     name:string
 }
 
@@ -25,7 +24,6 @@ class NewTopic extends Component<Props, NewTopicState>{
         super(props);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleWeigthChange = this.handleWeigthChange.bind(this);
         this.handleSumbmit = this.handleSumbmit.bind(this);
     }
 
@@ -33,21 +31,16 @@ class NewTopic extends Component<Props, NewTopicState>{
         this.setState({name: event.target.value});
     }
 
-    handleWeigthChange(event: ChangeEvent<HTMLInputElement>) {
-        this.setState({weigth: parseInt(event.target.value)});
-    }
-
     handleDescriptionChange(event: ChangeEvent<HTMLInputElement>) {
         this.setState({description: event.target.value});
     }
 
-    handleSumbmit(saveTopic: Function, event: FormEvent<HTMLFormElement>, eventId: string){
+    handleSumbmit(saveTopic: Function, eventId: string){
         saveTopic(eventId, {
             name: this.state.name,
-            weigth: this.state.weigth,
+            weigth: 1,
             description: this.state.description
         });
-        event.preventDefault();
     }
 
     render(){
@@ -58,21 +51,21 @@ class NewTopic extends Component<Props, NewTopicState>{
                 submitOperation={() => { }}
                 submitLabel="Save Topic"
                 isOpened={modalState.opened && modalState.type==MODALS.NEW_TOPIC}>
-                <form onSubmit={(sumbitEvent)=>this.handleSumbmit(saveTopic, sumbitEvent, eventId)}>
-                    <Label>
-                        Name
-                        <input className={Classes.INPUT} onChange={this.handleNameChange}/>
-                    </Label>
-                    <Label>
-                        Description
-                        <input className={Classes.INPUT} onChange={this.handleDescriptionChange}/>
-                    </Label>
-                    <Label>
-                        Weight
-                        <input className={Classes.INPUT} type="number" onChange={this.handleWeigthChange}/>
-                    </Label>
-                    <input type="submit" value="Submit" />
-                </form>
+                <Card>
+                    <h5>Add new topic</h5>
+                    <div>
+                        <Label>
+                            Name
+                            <input className={Classes.INPUT} onChange={this.handleNameChange}/>
+                        </Label>
+                        <Label>
+                            Description
+                            <input className={Classes.INPUT} onChange={this.handleDescriptionChange}/>
+                        </Label>
+                        <Button intent="primary" onClick={()=>{this.handleSumbmit(saveTopic, eventId)}}>Save</Button>
+                        <Button intent="danger" onClick={()=>{cancelOperation()}}>Cancel</Button>
+                    </div>
+                </Card>
             </Modal>
         )
     }

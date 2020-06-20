@@ -1,6 +1,6 @@
 import React, { Component, ChangeEvent, FormEvent } from "react";
 import Modal from "../../Modal";
-import { Label, Classes, MenuItem } from "@blueprintjs/core";
+import { Label, Classes, MenuItem, Card, FormGroup, InputGroup, Button } from "@blueprintjs/core";
 import { MODALS, ModalState, AppState, Attendee, Topic } from "../../store/types";
 import { cancelOperation } from "../../store/actions/modal";
 import { connect } from "react-redux";
@@ -60,13 +60,12 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
         this.setState({surname: event.target.value});
     }
 
-    private handleSumbmit(saveAttendee: Function, event: FormEvent<HTMLFormElement>, eventId: string){
+    private handleSumbmit(saveAttendee: Function, eventId: string){
         saveAttendee(eventId, {
             name: this.state.name,
             surname: this.state.surname,
             topics: this.state.topics.map(t=>t.id)
         });
-        event.preventDefault();
     }
 
     private renderTopic: ItemRenderer<Topic> = (topic: Topic, renderProps: IItemRendererProps)=>{
@@ -96,28 +95,32 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
                 submitOperation={() => { }}
                 submitLabel="Save Attendee"
                 isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}>
-                <form onSubmit={(sumbitEvent)=>this.handleSumbmit(saveAttendee, sumbitEvent, eventId)}>
-                    <Label>
-                        Name
-                        <input className={Classes.INPUT} onChange={this.handleNameChange}/>
-                    </Label>
-                    <Label>
-                        Surname
-                        <input className={Classes.INPUT} onChange={this.handleSurnameChange}/>
-                    </Label>
-                    <TopicTagSelect
-                        items={topics}
-                        itemRenderer={this.renderTopic}
-                        tagRenderer = {topic=>topic.name}
-                        onItemSelect = {this.selectTopic}
-                        selectedItems = {this.state.topics}
-                        tagInputProps={{
-                            onRemove: this.removeTopic,
-                            
-                        }}
-                    />
-                    <input type="submit" value="Submit" />
-                </form>
+                <Card>
+                    <h5>Add New Attendee</h5>
+                    <div>
+                        <Label>
+                            Name
+                            <input className={Classes.INPUT} onChange={this.handleNameChange}/>
+                        </Label>
+                        <Label>
+                            Surname
+                            <input className={Classes.INPUT} onChange={this.handleSurnameChange}/>
+                        </Label>
+                        <TopicTagSelect
+                            items={topics}
+                            itemRenderer={this.renderTopic}
+                            tagRenderer = {topic=>topic.name}
+                            onItemSelect = {this.selectTopic}
+                            selectedItems = {this.state.topics}
+                            tagInputProps={{
+                                onRemove: this.removeTopic,    
+                            }}
+                        />
+                        <br/>
+                        <Button intent="primary" onClick={()=>{this.handleSumbmit(saveAttendee, eventId)}}>Save</Button>
+                        <Button intent="danger" onClick={()=>{cancelOperation()}}>Cancel</Button>
+                    </div>
+                </Card>
             </Modal>
         )
     }

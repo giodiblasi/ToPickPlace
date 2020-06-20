@@ -14,9 +14,8 @@ export default class Modal extends React.Component<Props>{
         return isOpened
             ? <Dialog isOpen={isOpened}>
                 {this.props.children}
-                <button onClick ={ ()=>submitOperation()}>{submitLabel}</button>
-                <button onClick ={ ()=>cancelOperation()}>Cancel</button>
                 </Dialog>
             : null;
     }
+    
 }
