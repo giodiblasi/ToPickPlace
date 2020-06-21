@@ -16,6 +16,7 @@ import SolutionBoard from "../Map/SolutionMap";
 import MapTabs from "../Map/MapTabs";
 import ListSearch from "../ListSearch";
 import { Button } from "@blueprintjs/core";
+import { TopicDetail } from "../Topics/TopicDetail";
 
 
 type Props = {
@@ -94,7 +95,7 @@ class EventContainer extends Component<Props>{
                         onSelect={(topicId)=>selectTopic(topicId.toString())}>
                             <Button text={selectedTopic? selectedTopic.name : 'Select a topic'} rightIcon="double-caret-vertical" />
                         </ListSearch>
-                    {selectedTopic ? <div>Selected {selectedTopic.description}</div> : null}
+                        <TopicDetail topic={selectedTopic} attendees={attendees}/>
                 </div>
             </div>
             <style jsx>{eventContainerLayout}</style>
