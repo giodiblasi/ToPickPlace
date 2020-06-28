@@ -2,13 +2,11 @@ import { loadEvents, selectEvent} from '../../store/actions/events';
 import {connect} from 'react-redux';
 import { Component } from 'react';
 import {NextPageContextWithStore} from '../../utils/nextTypes';
-import SelectionList from '../../components/SelectionList';
-import EventSummaryBox from '../../components/EventSummaryBox';
 import {printLabel,APP_TITLE } from '../../labels/events';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
-import { IItemRendererProps } from '@blueprintjs/select';
 import EventContainer from '../../components/Event/EventContainer';
-import { EventSummary, EventsState, AppState } from '../../store/types';
+import { EventsState, AppState } from '../../store/types';
+import ListSearch from '../../components/ListSearch';
 
 const mapStateToProps = (state: AppState) => ({
   events:state.events
@@ -36,9 +34,7 @@ class Events extends Component<Props> {
      }
     }
   }
-  renderEvent = (event:EventSummary, {handleClick}: IItemRendererProps) => (
-    <EventSummaryBox key={event.id} event={event} onClick={handleClick}></EventSummaryBox>
-  )
+
   render() {
     const { events, selectEvent } = this.props;
     return (
@@ -47,12 +43,11 @@ class Events extends Component<Props> {
         <Navbar.Group align={Alignment.LEFT}>
             <Navbar.Heading>{printLabel(APP_TITLE)}</Navbar.Heading>
             <Navbar.Divider/>
-            <SelectionList
-              onSelect={selectEvent}
-              eventsSummary={events.availableEvents}
-              renderEvent={this.renderEvent}>
-                <Button text={events.selectedEvent.name || 'Select an event'} rightIcon="double-caret-vertical" />
-            </SelectionList>
+            <ListSearch
+              items={events.availableEvents.map(e=>({id: e.id, display: e.name}))}
+              onSelect={(id)=>selectEvent(id.toString())}>
+              <Button text={events.selectedEvent.name || 'Select an event'} rightIcon="double-caret-vertical" />
+            </ListSearch>
         </Navbar.Group>
       </Navbar>
       <div>
