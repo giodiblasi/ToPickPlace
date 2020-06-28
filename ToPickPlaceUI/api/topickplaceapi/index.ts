@@ -60,3 +60,25 @@ export const getSolution = async (request: SolutionRequest): Promise<Solution> =
     }
   }).then(r => r.json());
 }
+
+export const updateTopic = async (eventId: string, topic: TopicApiModel): Promise<string> => {
+  return await fetch(`${getApiUrl()}/event/${eventId}/topic`,{
+    method:'PUT',
+    body: JSON.stringify(topic),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(r => r.text())
+}
+
+export const updateAttendee = async (eventId: string, attendee: AttendeeApiModel): Promise<string> => {
+  return await fetch(`${getApiUrl()}/event/${eventId}/attendee`,{
+    method:'PUT',
+    body: JSON.stringify(attendee),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(r => r.text())
+}

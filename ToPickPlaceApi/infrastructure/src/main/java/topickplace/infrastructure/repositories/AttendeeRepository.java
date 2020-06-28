@@ -45,4 +45,11 @@ public class AttendeeRepository implements IAttendeeRepository{
             .GetRepo(Attendee.class)
             .GetAll();
     }
+
+    public CompletableFuture<Either<String,String>> UpdateAttendee(String eventId, Attendee attendee) {
+        return firestoreRepoFactory
+            .FromDocument(Event.class, eventId)
+            .GetRepo(Attendee.class)
+            .Update(attendee.getId(), attendee);
+    }
 }

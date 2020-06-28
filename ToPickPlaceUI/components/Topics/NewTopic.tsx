@@ -37,6 +37,7 @@ class NewTopic extends Component<Props, NewTopicState>{
 
     handleSumbmit(saveTopic: Function, eventId: string){
         saveTopic(eventId, {
+            id: this.state.description,
             name: this.state.name,
             weigth: 1,
             description: this.state.description

@@ -18,10 +18,8 @@ const filterEvents:ItemListPredicate<SelectableItem> =
 
 
 const renderItem = (item:SelectableItem, {handleClick}: IItemRendererProps) => {
-    console.log(item)
     return(
         <div key={item.id+' itemId'}>
-            {console.log('ccc')}
             <div onClick={handleClick}>{item.display}</div>
         </div>
     )
@@ -31,7 +29,6 @@ const ListSearch: React.FunctionComponent<Props> = ({
     onSelect,
     children,
     items}) => {
-    console.log(items)
     return (
         <ItemSelect
             items={items}

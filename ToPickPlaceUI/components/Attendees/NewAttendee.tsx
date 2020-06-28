@@ -4,18 +4,22 @@ import { Label, Classes, MenuItem, Card, FormGroup, InputGroup, Button } from "@
 import { MODALS, ModalState, AppState, Attendee, Topic } from "../../store/types";
 import { cancelOperation } from "../../store/actions/modal";
 import { connect } from "react-redux";
-import { saveAttendee } from "../../store/actions/attendees";
+import { saveAttendee, updateAttendee } from "../../store/actions/attendees";
 import { MultiSelect, ItemRenderer, IItemRendererProps } from "@blueprintjs/select";
+import { getSelectedAttendee } from "../../store/selectors/selectAttendee";
 
 type Props = {
     modalState: ModalState,
     cancelOperation: typeof cancelOperation,
-    saveAttendee: typeof saveAttendee,
+    saveAttendee: (eventid: string, attendee: Attendee)=>void,
     eventId: string,
-    topics: Topic[]
+    topics: Topic[],
+    attendee?: Attendee,
+    modalType: MODALS
 }
 
 type NewAttendeeState = {
+    id?: string
     name: string,
     surname: string,
     topics: Topic[]
@@ -23,53 +27,62 @@ type NewAttendeeState = {
 
 const TopicTagSelect = MultiSelect.ofType<Topic>();
 
-class NewAttendee extends Component<Props, NewAttendeeState>{
-    constructor(props: Props){
+class AttendeeForm extends Component<Props, NewAttendeeState>{
+    constructor(props: Props) {
+
         super(props);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleSurnameChange = this.handleSurnameChange.bind(this);
         this.handleSumbmit = this.handleSumbmit.bind(this);
-        this.selectTopic= this.selectTopic.bind(this);
-        this.removeTopic= this.removeTopic.bind(this);
-        this.state={
-            name: '',
-            surname:'',
-            topics:[]
+        this.selectTopic = this.selectTopic.bind(this);
+        this.removeTopic = this.removeTopic.bind(this);
+        this.state = {
+            id: props.attendee?.id,
+            name: props.attendee?.name || '',
+            surname: props.attendee?.surname || '',
+            topics: (props.attendee?.topics || []).reduce((result: Topic[], attendeeTopic: string) => {
+                const topic = props.topics.find(x => x.id === attendeeTopic);
+                return topic
+                    ? result.concat(topic)
+                    : result;
+            }, [])
         }
         
+
     }
 
     private selectTopic(topic: Topic) {
-        const index = this.state.topics.findIndex(t=>t.id == topic.id);
-        if(index==-1)
-            this.setState({topics:[...this.state.topics, topic]});
-        else{
+        const index = this.state.topics.findIndex(t => t.id == topic.id);
+        if (index == -1)
+            this.setState({ topics: [...this.state.topics, topic] });
+        else {
             this.removeTopic("", index);
         }
     }
 
-    private removeTopic(tag: string, index:number) {
-        this.setState({topics: [...this.state.topics.slice(0,index),...this.state.topics.slice(index+1)]});
+    private removeTopic(tag: string, index: number) {
+        this.setState({ topics: [...this.state.topics.slice(0, index), ...this.state.topics.slice(index + 1)] });
     }
 
     private handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-        this.setState({name: event.target.value});
+        this.setState({ name: event.target.value });
     }
 
     private handleSurnameChange(event: ChangeEvent<HTMLInputElement>) {
-        this.setState({surname: event.target.value});
+        this.setState({ surname: event.target.value });
     }
 
-    private handleSumbmit(saveAttendee: Function, eventId: string){
+    private handleSumbmit(saveAttendee: Function, eventId: string) {
         saveAttendee(eventId, {
+            id: this.state.id,
             name: this.state.name,
             surname: this.state.surname,
-            topics: this.state.topics.map(t=>t.id)
+            topics: this.state.topics.map(t => t.id)
         });
     }
 
-    private renderTopic: ItemRenderer<Topic> = (topic: Topic, renderProps: IItemRendererProps)=>{
-        const {modifiers, handleClick} = renderProps;
+    private renderTopic: ItemRenderer<Topic> = (topic: Topic, renderProps: IItemRendererProps) => {
+        const { modifiers, handleClick } = renderProps;
         if (!modifiers.matchesPredicate) {
             return null;
         }
@@ -80,45 +93,46 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
                 onClick={handleClick}
                 text={topic.name}
                 shouldDismissPopover={false}
-                icon={this.state.topics.find(t=>t.id == topic.id) ? "tick" : "blank"}
+                icon={this.state.topics.find(t => t.id == topic.id) ? "tick" : "blank"}
             />
         );
     };
 
-    
 
-    render(){
-        const {modalState, cancelOperation, eventId, saveAttendee, topics} = this.props;
+
+    render() {
+        
+        const { modalState, cancelOperation, eventId, saveAttendee, topics, modalType, attendee } = this.props;
         return (
             <Modal
-                title="New Attendee"
-                isOpened={modalState.opened && modalState.type==MODALS.NEW_ATTENDEE}
-                cancelOperation = {cancelOperation}>
-                
+                title={"New Attendee"}
+                isOpened={modalState.opened && modalState.type == modalType}
+                cancelOperation={cancelOperation}>
+
                 <Card>
                     <div>
                         <Label>
                             Name
-                            <input className={Classes.INPUT} onChange={this.handleNameChange}/>
+                            <input className={Classes.INPUT} onChange={this.handleNameChange} value={this.state.name} />
                         </Label>
                         <Label>
                             Surname
-                            <input className={Classes.INPUT} onChange={this.handleSurnameChange}/>
+                            <input className={Classes.INPUT} onChange={this.handleSurnameChange} value={this.state.surname} />
                         </Label>
                         <TopicTagSelect
                             items={topics}
                             itemRenderer={this.renderTopic}
-                            tagRenderer = {topic=>topic.name}
-                            onItemSelect = {this.selectTopic}
-                            selectedItems = {this.state.topics}
+                            tagRenderer={topic => topic.name}
+                            onItemSelect={this.selectTopic}
+                            selectedItems={this.state.topics}
                             tagInputProps={{
-                                onRemove: this.removeTopic,    
+                                onRemove: this.removeTopic,
                             }}
-                            popoverProps={{position: "left"}}
+                            popoverProps={{ position: "left" }}
                         />
-                        <br/>
-                        <br/>
-                        <Button intent="primary" onClick={()=>{this.handleSumbmit(saveAttendee, eventId)}}>Save</Button>
+                        <br />
+                        <br />
+                        <Button intent="primary" onClick={() => { this.handleSumbmit(saveAttendee, eventId) }}>Save</Button>
                     </div>
                 </Card>
             </Modal>
@@ -127,17 +141,42 @@ class NewAttendee extends Component<Props, NewAttendeeState>{
 }
 
 
-    
-const mapStateToProps = (state: AppState) => ({
+
+
+const mapStateToPropsNewAttendee = (state: AppState) => ({
     modalState: state.modal,
     eventId: state.events.selectedEvent.id,
-    topics: state.topics.availables
+    topics: state.topics.availables,
+    modalType: MODALS.NEW_ATTENDEE
 });
 
-const mapDispatchToProps = (dispatch: Function) => ({
+const mapDispatchToPropsNewAttendee = (dispatch: Function) => ({
     cancelOperation: () => dispatch(cancelOperation()),
-    saveAttendee: (eventId: string, attendee: Omit<Attendee,'id'>) => dispatch(saveAttendee(eventId, attendee))
-
+    saveAttendee: (eventId: string, attendee: Omit<Attendee, 'id'>) => dispatch(saveAttendee(eventId, attendee))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewAttendee);
+
+
+export const NewAttendee = connect(mapStateToPropsNewAttendee, mapDispatchToPropsNewAttendee)(AttendeeForm);
+
+class UpdateAttendeeForm extends Component<Props, NewAttendeeState>{
+    constructor(props: Props) {
+        super(props);
+    }
+    render() {
+        return <AttendeeForm {...this.props} key={this.props.attendee?.id || '0'} />;
+    }
+}
+
+const mapStateToPropsUpdateAttendee = (state: AppState) => ({
+    ...mapStateToPropsNewAttendee(state),
+    attendee: getSelectedAttendee(state),
+    modalType: MODALS.UPDATE_ATTENDEE
+});
+
+const mapDispatchToPropsUpdateAttendee = (dispatch: Function) => ({
+    ...mapDispatchToPropsNewAttendee(dispatch),
+    saveAttendee: (eventId: string, attendee:Attendee) => dispatch(updateAttendee(eventId, attendee))
+});
+
+export const UpdateAttendee = connect(mapStateToPropsUpdateAttendee, mapDispatchToPropsUpdateAttendee)(UpdateAttendeeForm);

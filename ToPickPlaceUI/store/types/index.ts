@@ -51,7 +51,8 @@ export type SolutionState = Solution
 
 export enum MODALS{
     NEW_ATTENDEE,
-    NEW_TOPIC
+    NEW_TOPIC,
+    UPDATE_ATTENDEE
 }
 
 export type ModalState = {

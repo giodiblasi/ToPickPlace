@@ -63,4 +63,13 @@ public class AttendeeController{
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
+
+    @Async()
+    @RequestMapping(method = RequestMethod.PUT)
+    public Future<String> UpdateAttendee(@PathVariable("eventId") String eventId, @RequestBody Attendee attendee){
+        return attendeeRepository.UpdateAttendee(eventId, attendee)
+        .thenApply(
+            result->result.getOrElseThrow(
+                message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
+    }
 }

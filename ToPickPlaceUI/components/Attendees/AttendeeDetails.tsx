@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { Attendee, Topic } from "../../store/types";
-import { Card, Elevation, Tag } from "@blueprintjs/core";
+import { Card, Elevation, Tag, Button } from "@blueprintjs/core";
 
 type Props = {
-    attendee: AttendeeDetail
+    attendee: AttendeeDetail,
+    onEdit: () => void 
 }
 
 interface AttendeeDetail extends Omit<Attendee, 'topics'> {
@@ -12,9 +13,10 @@ interface AttendeeDetail extends Omit<Attendee, 'topics'> {
 
 export class AttendeeDetails extends Component<Props>{
     render(){
-        const {attendee} = this.props;
+        const {attendee, onEdit} = this.props;
         return  <Card interactive={true} elevation={Elevation.TWO}>
-                    <h5>{attendee.name} {attendee.surname}</h5>
+                    <h5>{attendee.name} {attendee.surname} <Button icon="edit" onClick={()=>onEdit()}></Button></h5>
+                    
                     {attendee.bio ? <p>{attendee.bio}</p> : null}
                     {attendee.topics
                         .map((topic)=>(

@@ -67,4 +67,13 @@ public class TopicController{
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
+
+    @Async()
+    @RequestMapping(method = RequestMethod.PUT)
+    public Future<Topic> UpdateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
+        return createTopic.Create(eventId, topic)
+        .thenApply(
+            result->result.getOrElseThrow(
+                message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
+    }
 }

@@ -41,6 +41,11 @@ public class TopicRepository implements ITopicRepository {
     public CompletableFuture<Either<String, String>> RemoveTopic(String eventId, String topicId) {
         return GetRepo(eventId).RemoveById(topicId);
     }
+    
+    @Override
+    public CompletableFuture<Either<String, String>> UpdateTopic(String eventId, Topic topic) {
+        return GetRepo(eventId).Update(eventId, topic);
+    }
 
     private IRepository<Topic> GetRepo(String eventId) {
         return repoFactory
