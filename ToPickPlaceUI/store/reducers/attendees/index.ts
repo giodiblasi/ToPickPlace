@@ -2,27 +2,12 @@ import { AttendeesState, Attendee } from "../../types"
 import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
 import { SELECT_ATTENDEE, AttendeesActionTypes, SAVED_ATTENDEE } from "../../actions/attendees/interfaces"
 import { AttendeeApiModel } from "../../../api/topickplaceapi/models"
-import { stat } from "fs"
+import { upsert } from "../../../utils/utils"
 
 const initialState: AttendeesState = {
     availables:[]
 }
 
-const upsertAttendee = (attendee: Attendee, attendees: Attendee[]) => {
-  let existing = false;
-  const result = [];
-  for(let i=0; i<attendees.length; i++){
-    if(attendees[i].id === attendee.id){
-      result.push(attendee);
-      existing = true;
-    }
-    else{
-      result.push(attendees[i]);
-    }
-  }
-  if(!existing) result.push(attendee);
-  return result;
-}
 
  const attendeesApiToModel = (attendees: Array<AttendeeApiModel>): Array<Attendee> => attendees.map(a=>({...a, id: a.id ?? ''}));
   
@@ -38,7 +23,7 @@ const upsertAttendee = (attendee: Attendee, attendees: Attendee[]) => {
       case SAVED_ATTENDEE:
         return{
           ...state,
-          availables: upsertAttendee(action.payload, state.availables)
+          availables: upsert(action.payload, state.availables)
         }
       default:
         return state

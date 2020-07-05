@@ -105,7 +105,7 @@ class AttendeeForm extends Component<Props, NewAttendeeState>{
         const { modalState, cancelOperation, eventId, saveAttendee, topics, modalType, attendee } = this.props;
         return (
             <Modal
-                title={"New Attendee"}
+                title={"Save Attendee"}
                 isOpened={modalState.opened && modalState.type == modalType}
                 cancelOperation={cancelOperation}>
 

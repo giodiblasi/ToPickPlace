@@ -1,18 +1,20 @@
 import { Component } from "react";
 import { Topic, Attendee } from "../../store/types";
+import { Button } from "@blueprintjs/core";
 
 type Props = {
     topic: Topic | undefined
-    attendees: Array<Attendee>
+    attendees: Array<Attendee>,
+    onEdit: (id: string)=>void
 }
 
 export class TopicDetail extends Component<Props>{
     render(){
-        const {topic, attendees} = this.props;
+        const {topic, attendees, onEdit} = this.props;
         if(!topic) return null;
         else{
            return <div>
-                <h3>{topic.name}</h3>
+                <h5>{topic.name}<Button icon="edit" onClick={()=>onEdit(topic.id)}></Button></h5>
                 <p>{topic.description}</p>
                 {attendees
                     .filter(attendee=>attendee.topics?.includes(topic.id))

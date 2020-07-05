@@ -15,6 +15,7 @@ import topickplace.core.models.Topic;
 import topickplace.core.services.topic.CreateTopic;
 import topickplace.core.services.topic.GetTopic;
 import topickplace.core.services.topic.RemoveTopic;
+import topickplace.core.services.topic.UpdateTopic;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,11 +27,14 @@ public class TopicController{
     @Autowired private final GetTopic getTopic;
     @Autowired private final CreateTopic createTopic;
     @Autowired private final RemoveTopic removeTopic;
+    @Autowired private final UpdateTopic updateTopic;
+    
 
-    public TopicController(GetTopic getTopic, CreateTopic createTopic, RemoveTopic removeTopic){
+    public TopicController(GetTopic getTopic, CreateTopic createTopic, RemoveTopic removeTopic, UpdateTopic updateTopic){
         this.getTopic = getTopic;
         this.createTopic = createTopic;
         this.removeTopic = removeTopic;
+        this.updateTopic = updateTopic;
     }
 
     @Async()
@@ -70,8 +74,8 @@ public class TopicController{
 
     @Async()
     @RequestMapping(method = RequestMethod.PUT)
-    public Future<Topic> UpdateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
-        return createTopic.Create(eventId, topic)
+    public Future<String> UpdateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
+        return updateTopic.Update(eventId, topic)
         .thenApply(
             result->result.getOrElseThrow(
                 message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));

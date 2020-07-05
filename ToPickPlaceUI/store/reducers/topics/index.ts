@@ -1,6 +1,7 @@
-import { TopicsState } from "../../types";
+import { TopicsState, Topic } from "../../types";
 import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
 import { TopicsActionTypes, SELECT_TOPIC, SAVED_TOPIC } from "../../actions/topics/interfaces";
+import { upsert } from "../../../utils/utils";
 
 const initialState: TopicsState = {
   availables: [],
@@ -25,7 +26,7 @@ export function TopicsReducer(
     case SAVED_TOPIC:
       return {
         ...state,
-        availables: [...state.availables, action.payload]
+        availables: upsert(action.payload, state.availables)
       };
     default:
       return state

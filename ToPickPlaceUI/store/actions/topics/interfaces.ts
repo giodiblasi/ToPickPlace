@@ -2,6 +2,7 @@ import { Topic } from "../../types";
 
 export const SELECT_TOPIC = 'SELECT_TOPIC';
 export const OPEN_NEW_TOPIC_FORM = 'OPEN_NEW_TOPIC_FORM';
+export const OPEN_UPDATE_TOPIC_FORM = 'OPEN_UPDATE_TOPIC_FORM';
 export const SAVED_TOPIC = 'SAVED_TOPIC';
 
 export type selectTopicAction = {
@@ -12,6 +13,9 @@ export type selectTopicAction = {
 export type openNewTopicFormAction = {
     type: typeof OPEN_NEW_TOPIC_FORM,
 };
+export type openUpdateTopicFormAction = {
+    type: typeof OPEN_UPDATE_TOPIC_FORM,
+};
 
 export type savedTopicAction = {
     type: typeof SAVED_TOPIC,
@@ -19,4 +23,4 @@ export type savedTopicAction = {
 }
 
 
-export type TopicsActionTypes =  selectTopicAction | openNewTopicFormAction | savedTopicAction;
+export type TopicsActionTypes =  selectTopicAction | openNewTopicFormAction | savedTopicAction | openUpdateTopicFormAction;
