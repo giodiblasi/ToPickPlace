@@ -19,6 +19,6 @@ to run tests type:
 > dotnet run
 ```
 
-A swagger documention page will be available at http://localhost:5000/swagger
+A swagger documention page will be available at http://localhost/api/swagger
 
 If you prefer run the application using docker, you can build an image using the Dockerfile

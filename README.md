@@ -1,8 +1,8 @@
-# ToPickPlace :construction: Work In Progress :construction:
+# ToPickPlace
 This is my Pet Project (A project where I can experiment with new tecnologies and methodologies)
 
 ## The idea :bulb:
-ToPickPlace assigns seats to all attendees for a given event.
+ToPickPlace assigns seats to all attendees for a given event using a genetic algorithm.
 The seats are assigned considering the topics which attendees are interesting to.
 
 ## Features
@@ -15,9 +15,16 @@ The user should be able to:
 
 ## Project Components
 ToPickPlace consists of three main components:
-- [ ] ToPickPlaceGUI: Single Page Application
-- [x] ToPickPlaceAPI: WebAPI to handle the events
-- [x] ToPickPlace Planner: a service to to assign seats based on a genetic algorithm
+- [x] ToPickPlaceGUI: Single Page Application in ( React + Redux + Typescript)
+- [x] ToPickPlaceAPI: WebAPI to handle the events (Java)
+- [x] ToPickPlacePlanner: A genetic alorithm that assign seats based on the topic which attendees are interesting to (C#)
+- [x] Edge Router (Traefik)
+- [x] Data Store: all data are stored in Cloud Firestore Colletions 
 
-## Infrastructure
-![infrastructure](Images/ToPickPlace-Main.svg)
+## Containers
+Each component runs on its container and they are orchestrated with  docker-compose.
+ ```dockerUp``` is a command-line tool to define which container start (it is useful in development).
+
+### Run :running:
+once you started all containers using ```dockerUp``` you go to:
+http://localhost/event to open the web app
