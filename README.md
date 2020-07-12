@@ -26,5 +26,5 @@ Each component runs on its container and they are orchestrated with  docker-comp
  ```dockerUp``` is a command-line tool to define which container start (it is useful in development).
 
 ### Run :running:
-once you started all containers using ```dockerUp``` you go to:
-http://localhost/event to open the web app
+once you started all containers using ```dockerUp``` you can open
+http://localhost/event in your browser to use the web app
