@@ -56,7 +56,7 @@ public class AttendeeController{
 
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public Future<String> RemoveTopic(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
+    public Future<String> RemoveAttendee(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
         return attendeeRepository
             .RemoveAttendee(eventId, id)
             .thenApply(

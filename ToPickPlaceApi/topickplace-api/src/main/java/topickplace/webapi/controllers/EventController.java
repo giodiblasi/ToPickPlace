@@ -20,28 +20,17 @@ import org.springframework.web.server.ResponseStatusException;
 import topickplace.core.models.Event;
 import topickplace.core.models.EventMap;
 import topickplace.core.models.EventSummary;
-import topickplace.core.services.event.CreateEvent;
-import topickplace.core.services.event.GetEvent;
-import topickplace.core.services.event.RemoveEvent;
+import topickplace.core.repositories.IEventRepository;
+
 import topickplace.core.validators.EventMapValidator;
 import topickplace.core.validators.EventValidator;
-import topickplace.core.services.event.UpdateEvent;
-import topickplace.core.services.event.UpdateEventMap;;
+
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
-
     @Autowired
-    private final CreateEvent createEvent;
-    @Autowired
-    private final GetEvent getEvent;
-    @Autowired
-    private final RemoveEvent removeEvent;
-    @Autowired
-    private final UpdateEvent updateEvent;
-    @Autowired
-    private final UpdateEventMap updateEventMap;
+    private final IEventRepository eventRepository;
 
     @InitBinder("event")
     protected void initBinder(WebDataBinder binder) {
@@ -53,54 +42,49 @@ public class EventController {
         binder.setValidator(new EventMapValidator());
     }
 
-    public EventController(CreateEvent createEvent, GetEvent getEvent, RemoveEvent removeEvent, UpdateEvent updateEvent,
-            UpdateEventMap updateEventMap) {
-        this.createEvent = createEvent;
-        this.getEvent = getEvent;
-        this.removeEvent = removeEvent;
-        this.updateEvent = updateEvent;
-        this.updateEventMap = updateEventMap;
+    public EventController(IEventRepository eventRepo) {
+        this.eventRepository = eventRepo;
     }
 
     @Async()
     @RequestMapping(method = RequestMethod.POST)
     public Future<Event> CreateEvent(@Valid @RequestBody Event event) {
-        return createEvent.Execute(event).thenApply(result -> result
+        return eventRepository.CreateEvent(event).thenApply(result -> result
                 .getOrElseThrow(message -> new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
     }
 
     @Async()
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Future<Event> GetEvent(@PathVariable("id") String id) {
-        return getEvent.GetEventById(id).thenApply(
+        return eventRepository.GetEvent(id).thenApply(
                 result -> result.getOrElseThrow(message -> new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
 
     @Async()
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Future<String> RemoveEvent(@PathVariable("id") String id) {
-        return removeEvent.Execute(id).thenApply(
+        return eventRepository.RemoveEvent(id).thenApply(
                 result -> result.getOrElseThrow(message -> new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
 
     @Async()
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Future<String> UpdateEvent(@PathVariable("id") String id, @RequestBody Event event) {
-        return updateEvent.Execute(id, event).thenApply(
+        return eventRepository.UpdateEvent(id, event).thenApply(
                 result -> result.getOrElseThrow(message -> new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
 
     @Async()
     @RequestMapping(value = "/{id}/map", method = RequestMethod.PUT)
     public Future<String> UpdateMap(@Valid @RequestBody EventMap eventMap, @PathVariable("id") String id) {
-        return updateEventMap.Execute(id, eventMap).thenApply(
+        return eventRepository.UpdatEventMap(id, eventMap).thenApply(
                 result -> result.getOrElseThrow(message -> new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
     }
 
     @Async()
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
     public Future<List<EventSummary>> GetSummary() {
-        return getEvent.GetSummary().thenApply(result -> result
+        return eventRepository.GetSummary().thenApply(result -> result
                 .getOrElseThrow(message -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, message)));
     }
 }
