@@ -12,4 +12,5 @@ public interface IAttendeeRepository{
     CompletableFuture<Either<String,String>> RemoveAttendee(String eventId, String id);
     CompletableFuture<Either<String,List<Attendee>>> GetAll(String eventId);
     CompletableFuture<Either<String,String>> UpdateAttendee(String eventId, Attendee attendee);
+    CompletableFuture<Either<String,List<Attendee>>> GetAttendeesWithTopic(String eventId, String topic);
 }

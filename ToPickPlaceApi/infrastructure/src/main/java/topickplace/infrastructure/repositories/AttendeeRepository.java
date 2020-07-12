@@ -46,10 +46,20 @@ public class AttendeeRepository implements IAttendeeRepository{
             .GetAll();
     }
 
+    @Override
+    public CompletableFuture<Either<String, List<Attendee>>> GetAttendeesWithTopic(String eventId, String topic) {
+        return firestoreRepoFactory
+            .FromDocument(Event.class, eventId)
+            .GetRepo(Attendee.class)
+            .GetAllContainingValueInArray("topics", topic);
+    }
+
     public CompletableFuture<Either<String,String>> UpdateAttendee(String eventId, Attendee attendee) {
         return firestoreRepoFactory
             .FromDocument(Event.class, eventId)
             .GetRepo(Attendee.class)
             .Update(attendee.getId(), attendee);
     }
+
+    
 }

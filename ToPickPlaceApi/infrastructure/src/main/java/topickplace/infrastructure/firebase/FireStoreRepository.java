@@ -1,6 +1,7 @@
 package topickplace.infrastructure.firebase;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -114,6 +115,21 @@ public  class  FireStoreRepository{
             try{
                 collection.document(id).update(field, data);
                 return Either.right(id);
+            }catch(Exception ex){
+                return Either.left(ex.getMessage());
+            }
+        });
+    }
+
+    @Async
+    public CompletableFuture<Either<String, List<DocumentSnapshot>>> DocumentsContainingValueInArray(String arrayField, String valueToSearch) {
+        return CompletableFuture.supplyAsync(() -> {
+            try{
+                var docsSnapshot = collection
+                        .whereArrayContains(arrayField, valueToSearch)
+                        .get().get()
+                        .getDocuments();
+                return Either.right(GetDocuments(docsSnapshot));
             }catch(Exception ex){
                 return Either.left(ex.getMessage());
             }
