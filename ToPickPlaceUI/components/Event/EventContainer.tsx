@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { MAIN_AREA, SIDE_AREA, BOTTOM_AREA, eventContainerLayout } from './eventContainerLayout';
 import { Event, Attendee, Topic, AppState, ModalState, EventMap, Solution } from "../../store/types";
 import { AttendeeDetails } from "../Attendees/AttendeeDetails";
-import { selectAttendee, openNewAttendeeForm, openUpdateAttendeeForm } from "../../store/actions/attendees";
+import { selectAttendee, openNewAttendeeForm, openUpdateAttendeeForm, deleteAttendee } from "../../store/actions/attendees";
 import { getSelectedAttendee, getSelectedTopic } from "../../store/selectors/selectAttendee";
-import { selectTopic, openNewTopicForm, openUpdateTopicForm } from "../../store/actions/topics";
+import { selectTopic, openNewTopicForm, openUpdateTopicForm, deleteTopic} from "../../store/actions/topics";
 import { cancelOperation } from "../../store/actions/modal";
 import {NewAttendee, UpdateAttendee} from "../Attendees/NewAttendee";
 import {NewTopic, UpdateTopic} from "../Topics/NewTopic";
@@ -35,7 +35,9 @@ type Props = {
     cancelOperation: typeof cancelOperation,
     updateEventMap: typeof updateEventMap,
     getSolution: typeof getSolution,
-    solution: Solution
+    solution: Solution,
+    deleteAttendee: typeof deleteAttendee,
+    deleteTopic: typeof deleteTopic,
 }
 
 class EventContainer extends Component<Props>{
@@ -47,7 +49,9 @@ class EventContainer extends Component<Props>{
             openNewTopic, openUpdateTopic,
             updateEventMap,
             getSolution,
-            solution } = this.props;
+            solution,
+            deleteAttendee,
+            deleteTopic} = this.props;
         return <div className="grid-container">
             <NewAttendee/>
             <NewTopic/>
@@ -90,6 +94,7 @@ class EventContainer extends Component<Props>{
                         </ListSearch>
                     {selectedAttendee ? <AttendeeDetails
                         onEdit={()=>openUpdateAttendee()}
+                        onDelete={()=>deleteAttendee(currentEvent.id, selectedAttendee.id)}
                         attendee={{
                             ...selectedAttendee,
                             topics: topics.filter(topic => (selectedAttendee.topics || []).includes(topic.id))
@@ -104,7 +109,12 @@ class EventContainer extends Component<Props>{
                         onSelect={(topicId)=>selectTopic(topicId.toString())}>
                             <Button text={selectedTopic? selectedTopic.name : 'Select a topic'} rightIcon="double-caret-vertical" />
                         </ListSearch>
-                        <TopicDetail onEdit = {()=>openUpdateTopic()} topic={selectedTopic} attendees={attendees}/>
+                        {selectedTopic ? <TopicDetail
+                            onEdit = {()=>openUpdateTopic()}
+                            onDelete = {()=>deleteTopic(currentEvent.id, selectedTopic.id)}
+                            topic={selectedTopic}
+                            attendees={attendees}/>
+                         : null }
                 </div>
             </div>
             <style jsx>{eventContainerLayout}</style>
@@ -131,7 +141,9 @@ const mapDispatchToProps = (dispatch: Function) => ({
     openNewTopic: () => dispatch(openNewTopicForm()),
     updateEventMap: (id: string, map: EventMap) => dispatch(updateEventMap(id, map)),
     getSolution: () => dispatch(getSolution()),
-    openUpdateTopic: ()=>dispatch(openUpdateTopicForm()) 
+    openUpdateTopic: ()=>dispatch(openUpdateTopicForm()),
+    deleteAttendee: (eventId: string, attendeeId: string)=>dispatch(deleteAttendee(eventId, attendeeId)),
+    deleteTopic: (eventId: string, topicId: string) => dispatch(deleteTopic(eventId, topicId))
 
 
 });

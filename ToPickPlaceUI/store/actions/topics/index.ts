@@ -1,6 +1,9 @@
-import { TopicsActionTypes, SELECT_TOPIC, OPEN_NEW_TOPIC_FORM, SAVED_TOPIC, OPEN_UPDATE_TOPIC_FORM } from './interfaces';
+import { TopicsActionTypes, SELECT_TOPIC, OPEN_NEW_TOPIC_FORM, SAVED_TOPIC, OPEN_UPDATE_TOPIC_FORM, DELETED_TOPIC } from './interfaces';
 import { Dispatch } from 'react';
-import { saveTopic as saveTopicApi, updateTopic as updateTopicApi } from '../../../api/topickplaceapi'
+import { saveTopic as saveTopicApi,
+        updateTopic as updateTopicApi,
+        deleteTopic as deleteTopicApi,
+        fetchAttendee as fetchAttendeeApi } from '../../../api/topickplaceapi'
 import { Topic } from '../../types';
 
 export const selectTopic = (id: string) => async (dispatch: Dispatch<TopicsActionTypes>) => {
@@ -45,5 +48,23 @@ export const updateTopic = (eventId: string, topic: Topic) => async (dispatch: D
   return dispatch({
     type: SAVED_TOPIC,
     payload: { ...topic }
+  });
+};
+
+export const deleteTopic = (eventId: string, topicId: string) => async (dispatch: Dispatch<TopicsActionTypes>) => {
+  await deleteTopicApi(eventId, topicId);
+  const updatedAttendees = await fetchAttendeeApi(eventId) || [];
+  return dispatch({
+    type: DELETED_TOPIC,
+    payload: {
+      topicId,
+      updatedAttendees: updatedAttendees.map(attendee=>({
+        id: attendee.id || '',
+        name: attendee.name,
+        surname: attendee.surname,
+        topics: attendee.topics,
+        bio: attendee.bio || ''
+      }))
+    }
   });
 };

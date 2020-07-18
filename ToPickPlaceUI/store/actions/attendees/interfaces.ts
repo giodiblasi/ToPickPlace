@@ -4,6 +4,7 @@ export const SELECT_ATTENDEE = 'SELECT_ATTENDEE';
 export const OPEN_NEW_ATTENDEE_FORM = 'OPEN_NEW_ATTENDEE_FORM';
 export const OPEN_UPDATE_ATTENDEE_FORM = 'OPEN_UPDATE_ATTENDEE_FORM';
 export const SAVED_ATTENDEE = 'SAVED_ATTENDEE';
+export const DELETED_ATTENDEE = 'DELETED_ATTENDEE';
 
 export type selectAttendeeAction = {
     type: typeof SELECT_ATTENDEE,
@@ -23,4 +24,12 @@ export type savedAttendeeAction = {
     payload: Attendee
 }
 
-export type AttendeesActionTypes =  selectAttendeeAction | openNewAttendeeFormAction | openUpdateAttendeeFormAction | savedAttendeeAction; 
+export type deletedAttendeeAction = {
+    type: typeof DELETED_ATTENDEE,
+    payload: string
+} 
+export type AttendeesActionTypes =  selectAttendeeAction
+                                | openNewAttendeeFormAction
+                                | openUpdateAttendeeFormAction
+                                | savedAttendeeAction
+                                | deletedAttendeeAction; 

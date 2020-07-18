@@ -1,7 +1,9 @@
-import { AttendeesActionTypes, SELECT_ATTENDEE, OPEN_NEW_ATTENDEE_FORM, SAVED_ATTENDEE, OPEN_UPDATE_ATTENDEE_FORM } from './interfaces';
+import { AttendeesActionTypes, SELECT_ATTENDEE, OPEN_NEW_ATTENDEE_FORM, SAVED_ATTENDEE, OPEN_UPDATE_ATTENDEE_FORM, DELETED_ATTENDEE } from './interfaces';
 import { Dispatch } from 'react';
 import { Attendee } from '../../types';
-import { saveAttendee as saveAttendeeApi, updateAttendee as updateAttendeeApi } from '../../../api/topickplaceapi';
+import { saveAttendee as saveAttendeeApi,
+        updateAttendee as updateAttendeeApi,
+        deleteAttendee as deleteAttendeeApi } from '../../../api/topickplaceapi';
 
 export const selectAttendee = (id: string) => async (dispatch: Dispatch<AttendeesActionTypes>) => {
   return dispatch({
@@ -48,4 +50,13 @@ export const updateAttendee = (eventId:string, attendee:Attendee) => async (disp
       ...attendee
     }
   })
+}
+
+export const deleteAttendee = (eventId:string, attendeeId:string) => async (dispatch: Dispatch<AttendeesActionTypes>) => {
+  await deleteAttendeeApi(eventId, attendeeId);
+  
+  return dispatch({
+    type: DELETED_ATTENDEE,
+    payload: attendeeId 
+  });
 }
