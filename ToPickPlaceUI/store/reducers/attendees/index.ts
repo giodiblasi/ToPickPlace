@@ -1,5 +1,5 @@
 import { AttendeesState, Attendee } from "../../types"
-import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
+import { EventsActionTypes, SELECT_EVENT, NEW_EVENT } from "../../actions/events/interfaces"
 import { SELECT_ATTENDEE, AttendeesActionTypes, SAVED_ATTENDEE, DELETED_ATTENDEE } from "../../actions/attendees/interfaces"
 import { AttendeeApiModel } from "../../../api/topickplaceapi/models"
 import { upsert } from "../../../utils/utils"
@@ -19,6 +19,7 @@ export function AttendeesReducer(
 ): AttendeesState {
   switch (action.type) {
     case SELECT_EVENT:
+    case NEW_EVENT:
       return {
         availables: attendeesApiToModel(action.payload.attendees),
         selectedId: undefined

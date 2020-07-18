@@ -1,5 +1,5 @@
 import { TopicsState, Topic } from "../../types";
-import { EventsActionTypes, SELECT_EVENT } from "../../actions/events/interfaces"
+import { EventsActionTypes, SELECT_EVENT, NEW_EVENT } from "../../actions/events/interfaces"
 import { TopicsActionTypes, SELECT_TOPIC, SAVED_TOPIC, DELETED_TOPIC } from "../../actions/topics/interfaces";
 import { upsert } from "../../../utils/utils";
 
@@ -13,6 +13,7 @@ export function TopicsReducer(
 ): TopicsState {
   switch (action.type) {
     case SELECT_EVENT:
+    case NEW_EVENT:
       return {
         availables: action.payload.topics.sort((topic1, topic2) => {
           if (topic1.weigth < topic2.weigth) return 1;
