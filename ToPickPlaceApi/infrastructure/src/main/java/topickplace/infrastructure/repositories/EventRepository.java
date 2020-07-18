@@ -13,7 +13,9 @@ import io.vavr.control.Either;
 import topickplace.core.models.Event;
 import topickplace.core.models.EventMap;
 import topickplace.core.models.EventSummary;
+import topickplace.core.repositories.IAttendeeRepository;
 import topickplace.core.repositories.IEventRepository;
+import topickplace.core.repositories.ITopicRepository;
 import topickplace.infrastructure.firebase.IFirestoreRepoFactory;
 import topickplace.infrastructure.firebase.IRepository;
 
@@ -22,6 +24,12 @@ public class EventRepository implements IEventRepository {
 
     @Autowired
     private IFirestoreRepoFactory firestoreRepoFactory;
+
+    @Autowired
+    private ITopicRepository topicRepository;
+
+    @Autowired
+    private IAttendeeRepository attendeeRepository;
 
     private IRepository<Event> repository;
 
@@ -35,7 +43,21 @@ public class EventRepository implements IEventRepository {
     }
 
     public CompletableFuture<Either<String, Event>> GetEvent(String id) {
-        return repository.GetById(id);
+        
+        
+        return repository.GetById(id).thenApply(result->
+            result.map(event->{
+                var topicsFuture = topicRepository.GetTopics(id);
+                var attendeesFuture = attendeeRepository.GetAll(id).thenApply(res -> res.get());
+                
+                CompletableFuture
+                    .allOf(topicsFuture, attendeesFuture)
+                    .thenAccept(res->{
+                        event.setTopics(topicsFuture.join());
+                        event.setAttendees(attendeesFuture.join());
+                    }).join();
+                return event;
+        }));
     }
 
     public CompletableFuture<Either<String, String>> RemoveEvent(String id) {
