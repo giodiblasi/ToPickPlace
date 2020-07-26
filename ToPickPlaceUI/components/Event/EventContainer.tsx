@@ -75,6 +75,7 @@ class EventContainer extends Component<Props>{
                                     attendee={attendees}
                                     map={currentEvent.eventMap}
                                     solution={solution}
+                                    selectedTopic = {selectedTopic}
                                     getSolution={() => getSolution()}>
                                 </SolutionBoard>
                                 : null}

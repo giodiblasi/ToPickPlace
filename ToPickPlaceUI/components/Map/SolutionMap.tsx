@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { EventMap, Solution, Attendee } from "../../store/types";
-import { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE } from "./mapBoardLayout";
+import { EventMap, Solution, Attendee, Topic } from "../../store/types";
+import { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE, SEAT_SELECTED_TOPIC } from "./mapBoardLayout";
 import { Button } from "@blueprintjs/core";
 import { printLabel, GET_SOLUTION } from "../../labels/events";
 type Props = {
     map: EventMap,
     solution: Solution,
     attendee: Array<Attendee>,
-    getSolution: () => void
+    getSolution: () => void,
+    selectedTopic?: Topic
 }
 type State = {
     map: EventMap
@@ -19,7 +20,14 @@ export default class SolutionBoard extends Component<Props, State>{
         super(props);
     }
 
-    drawTable() {
+    getSeatStyle(value: number, attendee:Attendee|undefined, selectedTopic: Topic|undefined){
+        if(attendee && selectedTopic && attendee.topics?.includes(selectedTopic.id)){
+            return SEAT_SELECTED_TOPIC;
+        }
+        return value == 1 ? SEAT_AVAILABLE_STYLE : SEAT_BLOCKED_STYLE;
+    }
+
+    drawTable(selectedTopic?: Topic) {
         var map = this.props.map;
         var rows = [];
         var currentAvailableSeat = 0;
@@ -29,17 +37,20 @@ export default class SolutionBoard extends Component<Props, State>{
                 const currentIndex = (i * map.width) + c;
                 const currentValue = map.availableSeats[currentIndex];
                 const _this = this;
+                
+                const attendee = function(){
+                    if(currentValue == 1){
+                    const id = _this.props.solution.seats[currentAvailableSeat]
+                    currentAvailableSeat++;
+                        return _this.props.attendee.find(x=>x.id==id);
+                    }
+                    return undefined;
+                }();
+                
                 columns.push((
-                    <td className={currentValue == 1 ? SEAT_AVAILABLE_STYLE : SEAT_BLOCKED_STYLE}
+                    <td className={this.getSeatStyle(currentValue, attendee, selectedTopic)}
                         key={currentIndex}>
-                            {function(){
-                                if(currentValue == 1){
-                                const id = _this.props.solution.seats[currentAvailableSeat]
-                                currentAvailableSeat++;
-                                    return _this.props.attendee.find(x=>x.id==id)?.name;
-                                }
-                                return '';
-                            }()}
+                            {attendee?.name}
                     </td>))
             }
             rows.push((
@@ -57,7 +68,7 @@ export default class SolutionBoard extends Component<Props, State>{
                 <div>
                     <table>
                         <tbody>
-                            {this.drawTable()}
+                            {this.drawTable(this.props.selectedTopic)}
                         </tbody>
                     </table>
                     <Button
