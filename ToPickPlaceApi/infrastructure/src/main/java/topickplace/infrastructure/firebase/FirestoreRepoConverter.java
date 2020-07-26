@@ -73,6 +73,14 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
     public <FieldType> CompletableFuture<Either<String, String>> UpdateField(String id, String field, FieldType data) {
         return innerRepo.UpdateField(id, field, ToDAO(data));
     }
+
+    @Override
+    public CompletableFuture<Either<String, List<T>>> GetAllContainingValueInArray(String arrayField,
+                                                                                      String valueToSearch) {
+        return innerRepo
+                .DocumentsContainingValueInArray(arrayField, valueToSearch)
+                .thenApply(result-> result.map(items->FromDAO(items)));
+    }
     
     
     public <U> Map<String,Object> ToDAO(U data){
@@ -97,4 +105,6 @@ public class FirestoreRepoConverter<T> implements IRepository<T>{
             .map(item->FromDAO(item))
             .collect(Collectors.toList());
     }
+
+    
 }

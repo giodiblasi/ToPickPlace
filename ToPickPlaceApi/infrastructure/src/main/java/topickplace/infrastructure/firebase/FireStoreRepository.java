@@ -120,4 +120,19 @@ public  class  FireStoreRepository{
         });
     }
 
+    @Async
+    public CompletableFuture<Either<String, List<DocumentSnapshot>>> DocumentsContainingValueInArray(String arrayField, String valueToSearch) {
+        return CompletableFuture.supplyAsync(() -> {
+            try{
+                var docsSnapshot = collection
+                        .whereArrayContains(arrayField, valueToSearch)
+                        .get().get()
+                        .getDocuments();
+                return Either.right(GetDocuments(docsSnapshot));
+            }catch(Exception ex){
+                return Either.left(ex.getMessage());
+            }
+        });
+    }
+
 }

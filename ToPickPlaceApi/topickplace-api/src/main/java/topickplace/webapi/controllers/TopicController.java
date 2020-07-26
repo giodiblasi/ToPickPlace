@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import topickplace.core.models.Topic;
-import topickplace.core.services.topic.CreateTopic;
-import topickplace.core.services.topic.GetTopic;
-import topickplace.core.services.topic.RemoveTopic;
+import topickplace.core.repositories.ITopicRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,26 +21,23 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/event/{eventId}/topic")
 public class TopicController{
     
-    @Autowired private final GetTopic getTopic;
-    @Autowired private final CreateTopic createTopic;
-    @Autowired private final RemoveTopic removeTopic;
+    @Autowired private final ITopicRepository topicRepo;
+    
 
-    public TopicController(GetTopic getTopic, CreateTopic createTopic, RemoveTopic removeTopic){
-        this.getTopic = getTopic;
-        this.createTopic = createTopic;
-        this.removeTopic = removeTopic;
+    public TopicController(ITopicRepository topicRepo){
+        this.topicRepo = topicRepo;
     }
 
     @Async()
     @RequestMapping(method = RequestMethod.GET)
     public Future<List<Topic>> GetTopics(@PathVariable("eventId") String eventId){
-        return getTopic.GetAll(eventId);
+        return topicRepo.GetTopics(eventId);
     }
 
     @Async()
     @RequestMapping(method = RequestMethod.POST)
     public Future<Topic> CreateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
-        return createTopic.Create(eventId, topic)
+        return topicRepo.CreateTopic(eventId, topic)
         .thenApply(
             result->result.getOrElseThrow(
                 message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
@@ -51,8 +46,8 @@ public class TopicController{
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Future<Topic> GetTopic(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
-        return getTopic
-            .GetTopicById(eventId, id)
+        return topicRepo
+            .GetTopic(eventId, id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
@@ -61,10 +56,19 @@ public class TopicController{
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public Future<String> RemoveTopic(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
-        return removeTopic
-            .Execute(eventId, id)
+        return topicRepo
+            .RemoveTopic(eventId, id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
+    }
+
+    @Async()
+    @RequestMapping(method = RequestMethod.PUT)
+    public Future<String> UpdateTopic(@PathVariable("eventId") String eventId,@RequestBody Topic topic){
+        return topicRepo.UpdateTopic(eventId, topic)
+        .thenApply(
+            result->result.getOrElseThrow(
+                message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
     }
 }

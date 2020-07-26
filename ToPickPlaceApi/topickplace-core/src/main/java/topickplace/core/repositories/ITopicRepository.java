@@ -11,4 +11,5 @@ public interface ITopicRepository {
     CompletableFuture<Either<String,Topic>> GetTopic(String eventID, String topicID);
     CompletableFuture<Either<String,Topic>> CreateTopic(String eventId, Topic event);
     CompletableFuture<Either<String,String>> RemoveTopic(String eventId, String id);
+    CompletableFuture<Either<String,String>> UpdateTopic(String eventId, Topic topic);
 }

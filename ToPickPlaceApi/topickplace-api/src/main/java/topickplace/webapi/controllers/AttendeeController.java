@@ -56,11 +56,20 @@ public class AttendeeController{
 
     @Async()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public Future<String> RemoveTopic(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
+    public Future<String> RemoveAttendee(@PathVariable("eventId") String eventId, @PathVariable("id") String id){
         return attendeeRepository
             .RemoveAttendee(eventId, id)
             .thenApply(
                 result->result.getOrElseThrow(
                     message->new ResponseStatusException(HttpStatus.NOT_FOUND, message)));
+    }
+
+    @Async()
+    @RequestMapping(method = RequestMethod.PUT)
+    public Future<String> UpdateAttendee(@PathVariable("eventId") String eventId, @RequestBody Attendee attendee){
+        return attendeeRepository.UpdateAttendee(eventId, attendee)
+        .thenApply(
+            result->result.getOrElseThrow(
+                message->new ResponseStatusException(HttpStatus.BAD_REQUEST, message)));
     }
 }
