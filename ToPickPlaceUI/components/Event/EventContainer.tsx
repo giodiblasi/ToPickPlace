@@ -65,7 +65,8 @@ class EventContainer extends Component<Props>{
                             {currentEvent.eventMap
                                 ? <MapBoard
                                     map={currentEvent.eventMap}
-                                    saveMap={(map) => updateEventMap(currentEvent.id, map)} />
+                                    saveMap={(map) => updateEventMap(currentEvent.id, map)}
+                                    key={currentEvent.id} />
                                 : null
                             }</div>}
 
