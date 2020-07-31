@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Attendee, Topic } from "../../store/types";
-import { Card, Elevation, Tag, Button } from "@blueprintjs/core";
+import { Card, Tag, Button } from "@blueprintjs/core";
 
 type Props = {
     attendee: AttendeeDetail,
@@ -15,18 +15,17 @@ interface AttendeeDetail extends Omit<Attendee, 'topics'> {
 export class AttendeeDetails extends Component<Props>{
     render() {
         const { attendee, onEdit, onDelete } = this.props;
-        return <Card interactive={true} elevation={Elevation.TWO}>
-            <h5>{attendee.name} {attendee.surname}
-                <Button icon="edit" onClick={() => onEdit()}></Button>
-                <Button icon="remove" onClick={() => onDelete()}></Button>
-            </h5>
-
-            {attendee.bio ? <p>{attendee.bio}</p> : null}
+        return <Card>
+            <h2>{attendee.name} {attendee.surname} <Button icon="edit" onClick={() => onEdit()}></Button></h2>
+            {attendee.bio ? <p>{attendee.bio}</p> : <p>No additional info</p>}
+            <h4>Topics</h4>
             {attendee.topics
                 .map((topic) => (
                     <Tag key={topic.id} round={true}>
                         {topic.name}
                     </Tag>))}
+            <br/>
+            <Button icon="trash" intent="danger" onClick={() => onDelete()}></Button>
         </Card>
     }
 }

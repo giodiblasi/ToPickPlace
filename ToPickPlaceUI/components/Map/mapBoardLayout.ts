@@ -43,10 +43,18 @@ const mapBoardLayout = css.global`{
       width: ${size}px;
       height: ${size}px;
     }
+
+    .seat-selected-topic {
+      background-color: rgba(255, 200, 0, 1);
+      padding: 5px 0;
+      width: ${size}px;
+      height: ${size}px;
+    } 
 }`
 
 const SEAT_AVAILABLE_STYLE = 'seat-available';
 const SEAT_BLOCKED_STYLE = 'seat-blocked';
+const SEAT_SELECTED_TOPIC = 'seat-selected-topic';
 const MAIN_AREA = 'main-map';
 const LEFT_AREA = 'left-map';
 const RIGHT_AREA = 'right-map';
@@ -54,4 +62,4 @@ const BOTTOM_AREA = 'bottom-map';
 const TOP_AREA = 'top-map';
 
 
-export { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE, MAIN_AREA, LEFT_AREA, RIGHT_AREA, TOP_AREA, BOTTOM_AREA};
+export { mapBoardLayout, SEAT_AVAILABLE_STYLE, SEAT_BLOCKED_STYLE, MAIN_AREA, LEFT_AREA, RIGHT_AREA, TOP_AREA, BOTTOM_AREA, SEAT_SELECTED_TOPIC};

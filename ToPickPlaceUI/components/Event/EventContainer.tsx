@@ -65,7 +65,8 @@ class EventContainer extends Component<Props>{
                             {currentEvent.eventMap
                                 ? <MapBoard
                                     map={currentEvent.eventMap}
-                                    saveMap={(map) => updateEventMap(currentEvent.id, map)} />
+                                    saveMap={(map) => updateEventMap(currentEvent.id, map)}
+                                    key={currentEvent.id} />
                                 : null
                             }</div>}
 
@@ -75,6 +76,7 @@ class EventContainer extends Component<Props>{
                                     attendee={attendees}
                                     map={currentEvent.eventMap}
                                     solution={solution}
+                                    selectedTopic = {selectedTopic}
                                     getSolution={() => getSolution()}>
                                 </SolutionBoard>
                                 : null}
@@ -85,13 +87,15 @@ class EventContainer extends Component<Props>{
             </div>
             <div className={SIDE_AREA}>
                 <div>
-                    <h3>attendees</h3>
-                    <Button intent="primary" onClick={() => openNewAttendee()} icon="add"/>
+                    <h3>Attendees
+                    
                     <ListSearch
                         items={attendees.map(a=>({id: a.id, display: `${a.name} ${a.surname}`}))}
                         onSelect={(attendeeId)=>selectAttendee(attendeeId.toString())}>
                             <Button text={selectedAttendee? selectedAttendee.name : 'Select an attendee'} rightIcon="double-caret-vertical" />
                         </ListSearch>
+                        <Button intent="primary" onClick={() => openNewAttendee()} icon="add"/>
+                    </h3>
                     {selectedAttendee ? <AttendeeDetails
                         onEdit={()=>openUpdateAttendee()}
                         onDelete={()=>deleteAttendee(currentEvent.id, selectedAttendee.id)}
@@ -102,13 +106,15 @@ class EventContainer extends Component<Props>{
                     /> : null}
                 </div>
                 <div>
-                    <h3>Topics</h3>
-                    <Button intent="primary" onClick={() => openNewTopic()} icon="add"/>
-                    <ListSearch
-                        items={topics.map(topic=>({id: topic.id, display: topic.name}))}
-                        onSelect={(topicId)=>selectTopic(topicId.toString())}>
-                            <Button text={selectedTopic? selectedTopic.name : 'Select a topic'} rightIcon="double-caret-vertical" />
+                    <h3>Topics
+                    
+                        <ListSearch
+                            items={topics.map(topic=>({id: topic.id, display: topic.name}))}
+                            onSelect={(topicId)=>selectTopic(topicId.toString())}>
+                                <Button text={selectedTopic? selectedTopic.name : 'Select a topic'} rightIcon="double-caret-vertical" />
                         </ListSearch>
+                        <Button intent="primary" onClick={() => openNewTopic()} icon="add"/>
+                    </h3>
                         {selectedTopic ? <TopicDetail
                             onEdit = {()=>openUpdateTopic()}
                             onDelete = {()=>deleteTopic(currentEvent.id, selectedTopic.id)}
