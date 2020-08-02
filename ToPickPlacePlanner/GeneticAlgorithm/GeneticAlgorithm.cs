@@ -56,11 +56,13 @@ namespace GeneticAlgorithm
 
             var  winner = generation.First();
             var maxScore = 0;
-
-
+            var solutionFound = false;
+            
+            
+            var compareScore = winner.Score;
+            
             
             do{
-                DiagnosticTimer.GetElapsedTime(()=>{ 
                 generationCount ++;
                 maxScore = winner.Score;
 
@@ -73,18 +75,21 @@ namespace GeneticAlgorithm
                 
                generation = elite
                                 .Union(offspring)
-                                .Union(Rescued(generation.Except(elite), populationSize - 2 * eliteSize))
+                                .Union(Rescued(generation.Except(elite).ToList(), populationSize -eliteSize-offspring.Count()))
                                 .OrderByDescending(individual=> individual.Score)
                                 .ToList();
                 winner  = elite.First();
-               },(time)=>Console.WriteLine($"{winner.Score} {time}"));
-                
-            }while( generationCount<maxGenerations);
+              
+             if(generationCount%100 == 0){
+                solutionFound = Math.Abs(compareScore-winner.Score)<solutionPrecision;
+                compareScore = winner.Score;
+             }
+            }while(!solutionFound &&  generationCount<maxGenerations);
             
             return winner.Value;
         }
 
-        private IEnumerable<Individual<T>> Rescued(IEnumerable<Individual<T>> individuals, int howMany){
+        private IEnumerable<Individual<T>> Rescued(List<Individual<T>> individuals, int howMany){
             var individualsToRescue = new List<Individual<T>>(individuals);
             var rescued = new List<Individual<T>>();
             for(int i = 0, individualToRescoueCount=individualsToRescue.Count(); i<howMany; i++, individualToRescoueCount--){

@@ -24,7 +24,7 @@ namespace Domain.UseCases{
                 .Factory
                 .WithMutationProbability(configuration.MutationProbability)
                 .WithPopulationSize(configuration.PopulationSize)
-                .WithEliteSize(configuration.PopulationSize)
+                .WithEliteSize(configuration.EliteSize)
                 .WithMaxGenerations(configuration.MaxGenerations)
                 .WithSolutionPrecision(configuration.SolutionPrecision)
                 .Create(
