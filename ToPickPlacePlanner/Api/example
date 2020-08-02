@@ -1,0 +1,54 @@
+/*
+curl 'http://topickplace.it/planner/api/seats' \
+  -X 'PUT' \
+  -H 'Connection: keep-alive' \
+  -H 'Pragma: no-cache' \
+  -H 'Cache-Control: no-cache' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: */*' \
+  -H 'Origin: http://topickplace.it' \
+  -H 'Referer: http://topickplace.it/event' \
+  -H 'Accept-Language: it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7' \
+  --data-binary '{"map":{"rows":7,"cols":10,"map":[0,1,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0]},"attendees":[{"id":"5gfbwh7WRVLapEQ7DkIg","topicIds":["qhWyfgJXGXkJI1x7Cz8b"]},{"id":"6o7horD5lXiH8zWeds0l","topicIds":["NSwi3XAlUdoNzu8KIQ00"]},{"id":"95R5FAK8vgSUqyBMa1aq","topicIds":["NSwi3XAlUdoNzu8KIQ00"]},{"id":"HXhBrML6mKi6yQhOQP1j","topicIds":["qhWyfgJXGXkJI1x7Cz8b"]},{"id":"MN1Oms0RT0HpY39bWqwB","topicIds":["qhWyfgJXGXkJI1x7Cz8b"]},{"id":"MvTDtNKABK8FA9IpolOO","topicIds":["ix6qFIdnbpSgoXjrhc6Q"]},{"id":"P29eyyn3Y7BAr67DG6bf","topicIds":["QTtO73dZNMf28Jj0Rv7F"]},{"id":"TErf38dRR1tFrJXpBQ4B","topicIds":["ix6qFIdnbpSgoXjrhc6Q"]},{"id":"aLbg3d1z8h8CMDCTskej","topicIds":["QTtO73dZNMf28Jj0Rv7F"]},{"id":"hQBnb5I7LoCexqDCEsfr","topicIds":["QTtO73dZNMf28Jj0Rv7F"]},{"id":"lIl9NfQ5LOZthUHEN7Sc","topicIds":["qhWyfgJXGXkJI1x7Cz8b"]},{"id":"q5ypnAy8yfziCYlAun6C","topicIds":["QTtO73dZNMf28Jj0Rv7F"]}],"topics":[{"id":"NSwi3XAlUdoNzu8KIQ00","weigth":1},{"id":"QTtO73dZNMf28Jj0Rv7F","weigth":1},{"id":"ix6qFIdnbpSgoXjrhc6Q","weigth":1},{"id":"qhWyfgJXGXkJI1x7Cz8b","weigth":1}]}' \
+  --compressed \
+  --insecure
+/*
+{
+  "map": {
+    "rows": 3,
+    "cols": 5,
+    "map": [
+      0,1,1,1,0,0,1,0,1,0,0,0,0,1,0
+    ]
+  },
+  "attendees": [
+    {
+      "id": "111",
+      "topicIds": [
+        "1"
+      ]
+    },
+   {
+      "id": "222",
+      "topicIds": [
+        "2"
+      ]
+    },{
+      "id": "333",
+      "topicIds": [
+        "1","2"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "1",
+      "weigth": 5
+    },{
+      "id": "2",
+      "weigth": 2
+    }
+  ]
+}
+*/

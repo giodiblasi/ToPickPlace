@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GeneticAlgorithm.GAComponents;
+using GeneticAlgorithm.Utils;
 
 namespace GeneticAlgorithm
 {
@@ -50,29 +51,35 @@ namespace GeneticAlgorithm
             var generation = populationCreator
                 .FirstPopulation(genes, populationSize)
                 .MakeIndividuals(fitnessFunction)
-                .OrderByDescending(individual=> individual.Score);
+                .OrderByDescending(individual=> individual.Score)
+                .ToList();
 
             var  winner = generation.First();
             var maxScore = 0;
+
+
             
             do{
+                DiagnosticTimer.GetElapsedTime(()=>{ 
                 generationCount ++;
                 maxScore = winner.Score;
 
                 var elite = generation.Take(eliteSize);
 
+                
                 var offspring = mutator
-                        .Mutate(crossOver.Cross(elite.Select(s=>s.Value)),mutationProbability)
+                        .Mutate(crossOver.Cross(elite.Select(s=>s.Value).ToList()),mutationProbability)
                         .MakeIndividuals(fitnessFunction);
                 
-                generation = elite
+               generation = elite
                                 .Union(offspring)
-                                .Union(Rescued(generation.Except(elite), populationSize - elite.Count() - offspring.Count()))
-                                .OrderByDescending(individual=> individual.Score);
-                
+                                .Union(Rescued(generation.Except(elite), populationSize - 2 * eliteSize))
+                                .OrderByDescending(individual=> individual.Score)
+                                .ToList();
                 winner  = elite.First();
-
-            }while(Math.Abs(maxScore-winner.Score) > solutionPrecision && generationCount<maxGenerations);
+               },(time)=>Console.WriteLine($"{winner.Score} {time}"));
+                
+            }while( generationCount<maxGenerations);
             
             return winner.Value;
         }
@@ -80,8 +87,8 @@ namespace GeneticAlgorithm
         private IEnumerable<Individual<T>> Rescued(IEnumerable<Individual<T>> individuals, int howMany){
             var individualsToRescue = new List<Individual<T>>(individuals);
             var rescued = new List<Individual<T>>();
-            for(int i = 0; i<howMany; i++){
-                var rescuedIndex = random.Next(individualsToRescue.Count());
+            for(int i = 0, individualToRescoueCount=individualsToRescue.Count(); i<howMany; i++, individualToRescoueCount--){
+                var rescuedIndex = random.Next(individualToRescoueCount);
                 rescued.Add(individualsToRescue.ElementAt(rescuedIndex));
                 individualsToRescue.RemoveAt(rescuedIndex);
             }
