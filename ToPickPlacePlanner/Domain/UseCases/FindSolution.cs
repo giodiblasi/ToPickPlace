@@ -29,7 +29,7 @@ namespace Domain.UseCases{
                 .WithSolutionPrecision(configuration.SolutionPrecision)
                 .Create(
                     new Mutator<int>(new RandonInvididualGenesPoint()),
-                    new OnePointCrossOver<int>(new RandonInvididualGenesPoint()),
+                    new DavisOrderCrossOver<int>(new RandonInvididualGenesPoint()),
                     new RandomPopulationCreator<int>(),
                     fitnessFunction)
                 .FindSolutionAsync(GetGenes(request.Map, request.Attendees).ToArray());

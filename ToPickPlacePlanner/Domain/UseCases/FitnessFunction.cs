@@ -28,7 +28,7 @@ namespace Domain.UseCases{
                                 var seatValue = seatsMap[neighboor.R,neighboor.C];
                                 
                                 if(seatValue == 0){
-                                    score -= 5;
+                                    score -= 1;
                                     
                                 }
                                 else {

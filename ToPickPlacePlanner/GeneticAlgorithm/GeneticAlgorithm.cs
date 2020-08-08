@@ -49,7 +49,7 @@ namespace GeneticAlgorithm
             var individualSize = genes.Length;
             var generationCount=0;
             var generation = populationCreator
-                .FirstPopulation(genes, populationSize)
+                .FirstGeneration(genes, populationSize)
                 .MakeIndividuals(fitnessFunction)
                 .OrderByDescending(individual=> individual.Score)
                 .ToList();
@@ -58,9 +58,7 @@ namespace GeneticAlgorithm
             var maxScore = 0;
             var solutionFound = false;
             
-            
             var compareScore = winner.Score;
-            
             
             do{
                 generationCount ++;
@@ -75,17 +73,16 @@ namespace GeneticAlgorithm
                 
                generation = elite
                                 .Union(offspring)
-                                .Union(Rescued(generation.Except(elite).ToList(), populationSize -eliteSize-offspring.Count()))
-                                .OrderByDescending(individual=> individual.Score)
+                                .Union(Rescued(generation.Except(elite).ToList(), populationSize - eliteSize - (eliteSize/2)))
+                                .OrderByDescending(individual => individual.Score)
                                 .ToList();
                 winner  = elite.First();
               
-             if(generationCount%100 == 0){
+             if(generationCount%200 == 0){
                 solutionFound = Math.Abs(compareScore-winner.Score)<solutionPrecision;
                 compareScore = winner.Score;
              }
             }while(!solutionFound &&  generationCount<maxGenerations);
-            
             return winner.Value;
         }
 
