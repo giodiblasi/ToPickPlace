@@ -18,14 +18,25 @@ namespace Domain.UseCases{
                 return (int[] solution)=>{
                     var seatsMap = SeatsWithAttendees(map, availableSeats, solution);
                     var score =  0;
-                    availableSeats.Where(seat=>seatsMap[seat.R, seat.C]>=0).ToList().ForEach(seat=>{
-                        var targetTopicIds = attendees.First(a=>a.IndividualId == seatsMap[seat.R, seat.C]).TopicIds;
-                        var neighboors = GetValidAdjacent(seat.R, seat.C, seatsMap);
-                        neighboors.ToList().ForEach(neighboor=>{
-                            var neigboorTopicIds = attendees.First(a=>a.IndividualId == seatsMap[neighboor.R,neighboor.C]).TopicIds;
-                            var commondIds = targetTopicIds.Intersect(neigboorTopicIds);
-                            score += topics.Where(topic=>commondIds.Contains(topic.Id)).Sum(t=>t.Weigth);
-                         });
+                    availableSeats
+                        .Where(seat=>seatsMap[seat.R, seat.C]>0)
+                        .ToList()
+                        .ForEach(seat=>{
+                            var targetTopicIds = attendees.First(a=>a.IndividualId == seatsMap[seat.R, seat.C]).TopicIds;
+                            var neighboors = GetValidAdjacent(seat.R, seat.C, seatsMap);
+                            neighboors.ToList().ForEach(neighboor=>{
+                                var seatValue = seatsMap[neighboor.R,neighboor.C];
+                                
+                                if(seatValue == 0){
+                                    score -= 1;
+                                    
+                                }
+                                else {
+                                    var neigboorTopicIds = attendees.First(a=>a.IndividualId == seatValue).TopicIds;
+                                    var commondIds = targetTopicIds.Intersect(neigboorTopicIds);
+                                    score += topics.Where(topic=>commondIds.Contains(topic.Id)).Sum(t=>1);
+                                }
+                            });
                     });
                     return score;
                 };
@@ -51,7 +62,7 @@ namespace Domain.UseCases{
         private static void OnAssignedSeat(int r, int c, int[,] map, Action<int,int> onAssignedSeat){
             var R=map.GetLength(0);
             var C=map.GetLength(1);
-            if(r>=0 && r<R && c>=0 && c<C && map[r,c]>0) onAssignedSeat(r,c);
+            if(r>=0 && r<R && c>=0 && c<C && map[r,c]>=0) onAssignedSeat(r,c);
         }
 
         private static int[,] SeatsWithAttendees(SeatsMap map, Seat[] availableSeats, int[] attendeeIds){

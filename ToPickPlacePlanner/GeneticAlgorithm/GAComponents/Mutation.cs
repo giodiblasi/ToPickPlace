@@ -20,9 +20,9 @@ namespace GeneticAlgorithm.GAComponents{
         
         public IEnumerable<T[]> Mutate(IEnumerable<T[]> individuals, double mutationProbability)
         {
-            var individualSize = individuals.First().Count();
+            var individualSize = individuals.First().Length;
             var mutated = new List<T[]>(individuals);
-            mutated.ToList().ForEach(individual=>{
+            mutated.ForEach(individual=>{
                 DoWithProbabiility(mutationProbability,
                     ()=>ExchangeGenes(individual,
                                 new Tuple<int,int>(genesPoint.GetPoint(individualSize-1),

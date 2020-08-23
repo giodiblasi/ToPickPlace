@@ -9,7 +9,7 @@ namespace Tests.GeneticAlgorithm.GAComponents{
         [Fact]
         public void ShouldGeneratePopulation(){
             sut = new RandomPopulationCreator<int>();
-            var population = sut.FirstPopulation(new int[]{1,2,3}, 10);
+            var population = sut.FirstGeneration(new int[]{1,2,3}, 10);
             Assert.Equal(10, population.Count());
             foreach (var individual in population)
             {

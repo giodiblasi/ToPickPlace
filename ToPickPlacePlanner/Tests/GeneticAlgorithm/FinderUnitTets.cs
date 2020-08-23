@@ -25,7 +25,7 @@ namespace Tests.GeneticAlgorithm{
                 .WithSolutionPrecision(0.01)
                 .Create(
                     new Mutator<int>(new RandonInvididualGenesPoint()),
-                    new OnePointCrossOver<int>(new RandonInvididualGenesPoint()),
+                    new DavisOrderCrossOver<int>(new RandonInvididualGenesPoint()),
                     new RandomPopulationCreator<int>(),fitnessFunction);
 
                 var result = finder.FindSolution(array);

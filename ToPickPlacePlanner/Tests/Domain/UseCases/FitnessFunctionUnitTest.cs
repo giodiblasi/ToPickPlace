@@ -33,6 +33,46 @@ namespace Tests.Domain.UseCases{
         }
 
         [Fact]
+        public void Should_Avoid_alone_attendee(){
+            var seatsMap = new SeatsMap(
+                3,5,
+                new int[]{0,1,1,1,0,0,1,0,1,0,0,0,0,1,0});
+
+            
+            var topics = new List<Topic>(){
+                new Topic{Id = "1", Weigth = 1},
+                new Topic{Id = "2", Weigth = 1},
+            };
+
+            var attendees = new List<Attendee>(){
+                new Attendee(){IndividualId = 111, TopicIds = new List<string>(){"1"}},
+                new Attendee(){IndividualId = 222, TopicIds = new List<string>(){"1"}},
+                new Attendee(){IndividualId = 333, TopicIds = new List<string>(){"2"}}
+            };
+
+            var getScore =  FitnessFunction.GetScoreFunction(seatsMap,attendees,topics);
+
+            /******Solution
+                {0, 111, 222, X,  0},
+                {0,  X,   0,  X,  0},
+                {0,  0,   0, 333, 0}
+            */
+
+            var aloneSolution = new int[]{111,222,-1,-1,-1,333};
+
+            /******Solution
+                {0, 111, 222, X, 0},
+                {0, 333,   0, X, 0},
+                {0,  0,   0,  X, 0}
+            */
+
+            var groupSolution = new int[]{111,222,333,-1,-1,-1};
+
+            Assert.True(getScore(groupSolution)>getScore(aloneSolution));
+        }
+
+
+        [Fact]
         public void ShouldGetRightScore(){
             /******Solution
                 {0, 333, 222, X, 0},

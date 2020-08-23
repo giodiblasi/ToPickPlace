@@ -18,7 +18,11 @@ namespace  GeneticAlgorithm
         private GeneticAlgorithmFactory<T> CloneAndUpdate(Action<GeneticAlgorithmFactory<T>> update){
             var factory =  new GeneticAlgorithmFactory<T>(){
                 MutationProbability = MutationProbability,
-                PopulationSize = PopulationSize
+                PopulationSize = PopulationSize,
+                eliteSize = eliteSize,
+                maxGenerations = maxGenerations,
+                solutionPrecision = solutionPrecision
+
             };
             update(factory);
             return factory;

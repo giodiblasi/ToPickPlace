@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GeneticAlgorithm.GAComponents;
+using GeneticAlgorithm.Utils;
 
 namespace GeneticAlgorithm
 {
@@ -48,12 +49,15 @@ namespace GeneticAlgorithm
             var individualSize = genes.Length;
             var generationCount=0;
             var generation = populationCreator
-                .FirstPopulation(genes, populationSize)
+                .FirstGeneration(genes, populationSize)
                 .MakeIndividuals(fitnessFunction)
-                .OrderByDescending(individual=> individual.Score);
+                .OrderByDescending(individual=> individual.Score)
+                .ToList();
 
             var  winner = generation.First();
             var maxScore = 0;
+            
+            var checkConvergence = new ConvergenceCriteria(winner.Score, this.solutionPrecision);
             
             do{
                 generationCount ++;
@@ -61,27 +65,29 @@ namespace GeneticAlgorithm
 
                 var elite = generation.Take(eliteSize);
 
+                
                 var offspring = mutator
-                        .Mutate(crossOver.Cross(elite.Select(s=>s.Value)),mutationProbability)
-                        .MakeIndividuals(fitnessFunction);
+                        .Mutate(crossOver.Cross(elite.Select(s=>s.Value).ToList()),mutationProbability)
+                        .MakeIndividuals(fitnessFunction).ToList();
                 
-                generation = elite
+               generation = elite
                                 .Union(offspring)
-                                .Union(Rescued(generation.Except(elite), populationSize - elite.Count() - offspring.Count()))
-                                .OrderByDescending(individual=> individual.Score);
-                
+                                .Union(Rescued(generation.Except(elite).ToList(), populationSize - eliteSize - (offspring.Count)))
+                                .OrderByDescending(individual => individual.Score)
+                                .ToList();
                 winner  = elite.First();
-
-            }while(Math.Abs(maxScore-winner.Score) > solutionPrecision && generationCount<maxGenerations);
+              
             
+             
+            }while(!checkConvergence.IsConvergent(winner.Score) &&  generationCount<maxGenerations);
             return winner.Value;
         }
 
-        private IEnumerable<Individual<T>> Rescued(IEnumerable<Individual<T>> individuals, int howMany){
+        private IEnumerable<Individual<T>> Rescued(List<Individual<T>> individuals, int howMany){
             var individualsToRescue = new List<Individual<T>>(individuals);
             var rescued = new List<Individual<T>>();
-            for(int i = 0; i<howMany; i++){
-                var rescuedIndex = random.Next(individualsToRescue.Count());
+            for(int i = 0, individualToRescoueCount=individualsToRescue.Count(); i<howMany; i++, individualToRescoueCount--){
+                var rescuedIndex = random.Next(individualToRescoueCount);
                 rescued.Add(individualsToRescue.ElementAt(rescuedIndex));
                 individualsToRescue.RemoveAt(rescuedIndex);
             }
