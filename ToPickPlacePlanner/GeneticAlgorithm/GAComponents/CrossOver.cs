@@ -12,6 +12,7 @@ namespace GeneticAlgorithm.GAComponents{
 
     /**
     * Davis Order CrossOver (OX1) implementation
+    * It produces n=parents/2 individuals
     **/
     public class DavisOrderCrossOver<T> : ICrossOver<T>
     {
@@ -49,5 +50,38 @@ namespace GeneticAlgorithm.GAComponents{
             }
             return offpsring;
         }
+    }
+
+    /**
+    * Single Point CrossOver (OX1) implementation
+    * It produces n=(parents) individuals
+    **/
+    public class OnePointCrossOver<T> : ICrossOver<T>
+    {
+        private IIndividualGenesPoint crossOverPointSelector;
+
+        public OnePointCrossOver(IIndividualGenesPoint crossOverPoint){
+            this.crossOverPointSelector = crossOverPoint;
+        }
+
+        public List<T[]> Cross(List<T[]> parents)
+        {
+            var offpsring = new List<T[]>();
+            var geneCount = parents.First().Count();
+            for(int i=0; i<parents.Count()-1; i+=2){
+                var pairParents = (parents.ElementAt(i), parents.ElementAt(i+1));
+                var crossOverIndex = crossOverPointSelector.GetPoint(geneCount-1);
+                
+                var individual = new List<T>(pairParents.Item1.Take(crossOverIndex));
+                for(int j=0;j<pairParents.Item2.Count(); j++){
+                    var gene = pairParents.Item2[j];
+                    if(!individual.Contains(gene)) individual.Add(gene);
+                }
+                
+                offpsring.Add(individual.ToArray());
+            }
+            return offpsring;
+        }
+
     }
 }

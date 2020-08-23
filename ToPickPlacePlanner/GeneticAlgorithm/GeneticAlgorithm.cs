@@ -69,11 +69,11 @@ namespace GeneticAlgorithm
                 
                 var offspring = mutator
                         .Mutate(crossOver.Cross(elite.Select(s=>s.Value).ToList()),mutationProbability)
-                        .MakeIndividuals(fitnessFunction);
+                        .MakeIndividuals(fitnessFunction).ToList();
                 
                generation = elite
                                 .Union(offspring)
-                                .Union(Rescued(generation.Except(elite).ToList(), populationSize - eliteSize - (eliteSize/2)))
+                                .Union(Rescued(generation.Except(elite).ToList(), populationSize - eliteSize - (offspring.Count)))
                                 .OrderByDescending(individual => individual.Score)
                                 .ToList();
                 winner  = elite.First();
@@ -82,6 +82,7 @@ namespace GeneticAlgorithm
                 solutionFound = Math.Abs(compareScore-winner.Score)<solutionPrecision;
                 compareScore = winner.Score;
              }
+             
             }while(!solutionFound &&  generationCount<maxGenerations);
             return winner.Value;
         }
