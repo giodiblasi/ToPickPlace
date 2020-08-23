@@ -56,9 +56,8 @@ namespace GeneticAlgorithm
 
             var  winner = generation.First();
             var maxScore = 0;
-            var solutionFound = false;
             
-            var compareScore = winner.Score;
+            var checkConvergence = new ConvergenceCriteria(winner.Score, this.solutionPrecision);
             
             do{
                 generationCount ++;
@@ -78,12 +77,9 @@ namespace GeneticAlgorithm
                                 .ToList();
                 winner  = elite.First();
               
-             if(generationCount%200 == 0){
-                solutionFound = Math.Abs(compareScore-winner.Score)<solutionPrecision;
-                compareScore = winner.Score;
-             }
+            
              
-            }while(!solutionFound &&  generationCount<maxGenerations);
+            }while(!checkConvergence.IsConvergent(winner.Score) &&  generationCount<maxGenerations);
             return winner.Value;
         }
 
