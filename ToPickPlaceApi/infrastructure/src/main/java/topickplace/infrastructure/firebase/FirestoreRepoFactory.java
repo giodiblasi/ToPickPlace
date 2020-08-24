@@ -12,20 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import topickplace.core.models.Attendee;
-import topickplace.core.models.Event;
-import topickplace.core.models.Topic;
-
 @Component
 @Scope("prototype")
 public class FirestoreRepoFactory implements IFirestoreRepoFactory{
     private Function<String, CollectionReference> getCollectionReference;
-
-    private final Map<Class<?>, String> collectionMap = Map.of(
-        Event.class, "Events",
-        Topic.class, "Topics",
-        Attendee.class, "Attendees"
-    );
 
     @Autowired private Firebase firebase;
     
@@ -42,13 +32,13 @@ public class FirestoreRepoFactory implements IFirestoreRepoFactory{
     }
 
     public  FirestoreRepoFactory FromDocument(Class<?> classType, String documentId){
-        var collection = collectionMap.get(classType);
+        var collection = CollectionMap.Get(classType);
         var doc = getCollectionReference.apply(collection).document(documentId);
         return new FirestoreRepoFactory(doc);
     }
 
     public <T> IRepository<T> GetRepo(Class<T> classType){
-        var collection = collectionMap.get(classType);
+        var collection = CollectionMap.Get(classType);
         var repo = new FireStoreRepository(getCollectionReference.apply(collection));
         return new FirestoreRepoConverter<T>(classType, repo);
     }
